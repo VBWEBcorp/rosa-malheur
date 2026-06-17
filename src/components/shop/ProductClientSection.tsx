@@ -20,6 +20,38 @@ interface ProductClientProps {
   variants: Variant[];
 }
 
+/** Noms de couleurs → code hex, pour afficher des pastilles plutôt que du texte. */
+const COLOR_MAP: Record<string, string> = {
+  noir: "#1A1A1A",
+  blanc: "#F4F1EA",
+  gris: "#9AA0A6",
+  beige: "#D8C3A5",
+  marron: "#7B4B2A",
+  rouge: "#C0392B",
+  bordeaux: "#6E1423",
+  orange: "#DC480F",
+  jaune: "#E3B341",
+  vert: "#3B7A57",
+  bleu: "#2E5BBA",
+  turquoise: "#2BB6A3",
+  rose: "#E1798A",
+  violet: "#7A5AA0",
+  argent: "#C7CBD1",
+  or: "#D4AF37",
+  dore: "#D4AF37",
+  bronze: "#B08D57",
+  cuivre: "#B87333",
+};
+
+function colorHex(value: string): string | null {
+  const key = value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .trim();
+  return COLOR_MAP[key] ?? null;
+}
+
 export default function ProductClientSection({
   productId,
   price,
@@ -74,30 +106,81 @@ export default function ProductClientSection({
       </div>
 
       {/* Variantes */}
-      {variants.map((variant) => (
-        <div key={variant.name} className="mt-6">
-          <label className="block font-display font-extrabold text-sm uppercase tracking-wide text-[var(--black)] mb-2.5">
-            {variant.name} <span className="text-[var(--orange)]">· {selectedVariants[variant.name]}</span>
-          </label>
-          <div className="flex flex-wrap gap-2">
-            {variant.options.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => setSelectedVariants((prev) => ({ ...prev, [variant.name]: option.value }))}
-                className={`px-4 py-2.5 rounded-full text-sm font-bold border-2 transition-all ${
-                  selectedVariants[variant.name] === option.value
-                    ? "border-[var(--black)] bg-[var(--black)] text-[var(--cream)]"
-                    : "border-[var(--black)]/25 text-[var(--black)] hover:border-[var(--black)]"
-                } ${option.stock === 0 ? "opacity-30 cursor-not-allowed line-through" : ""}`}
-                disabled={option.stock === 0}
-              >
-                {option.value}
-                {option.priceModifier > 0 && ` (+${formatPrice(option.priceModifier)})`}
-              </button>
-            ))}
+      {variants.map((variant) => {
+        const isColor =
+          /couleur/i.test(variant.name) && variant.options.every((o) => colorHex(o.value));
+        return (
+          <div key={variant.name} className="mt-7">
+            <label className="block font-display font-extrabold text-sm uppercase tracking-wide text-[var(--black)] mb-3">
+              {variant.name}{" "}
+              <span className="text-[var(--orange)]">· {selectedVariants[variant.name]}</span>
+            </label>
+
+            {isColor ? (
+              <div className="flex flex-wrap gap-3">
+                {variant.options.map((option) => {
+                  const selected = selectedVariants[variant.name] === option.value;
+                  const oos = option.stock === 0;
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      title={option.value}
+                      aria-label={option.value}
+                      disabled={oos}
+                      onClick={() =>
+                        setSelectedVariants((prev) => ({ ...prev, [variant.name]: option.value }))
+                      }
+                      className={`relative w-11 h-11 rounded-full border-2 border-[var(--black)] transition-transform ${
+                        selected
+                          ? "ring-[3px] ring-[var(--orange)] ring-offset-2 ring-offset-[var(--cream)] scale-110"
+                          : "hover:scale-105"
+                      } ${oos ? "opacity-30 cursor-not-allowed" : ""}`}
+                      style={{ background: colorHex(option.value) || "#ccc" }}
+                    >
+                      {oos && (
+                        <span className="absolute inset-0 flex items-center justify-center text-[var(--black)] font-bold">
+                          ×
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2.5">
+                {variant.options.map((option) => {
+                  const selected = selectedVariants[variant.name] === option.value;
+                  const oos = option.stock === 0;
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      disabled={oos}
+                      onClick={() =>
+                        setSelectedVariants((prev) => ({ ...prev, [variant.name]: option.value }))
+                      }
+                      className={`px-4 py-2.5 rounded-2xl text-sm font-bold border-2 transition-all ${
+                        selected
+                          ? "border-[var(--black)] bg-[var(--orange)] text-white shadow-[2px_2px_0_0_var(--black)]"
+                          : "border-[var(--black)]/20 bg-white text-[var(--black)] hover:border-[var(--black)]"
+                      } ${oos ? "opacity-30 cursor-not-allowed line-through" : ""}`}
+                    >
+                      {option.value}
+                      {option.priceModifier > 0 && (
+                        <span className={selected ? "text-white/80" : "text-[var(--black)]/45"}>
+                          {" "}
+                          +{formatPrice(option.priceModifier)}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       {/* Quantité + ajout panier */}
       <div className="mt-8 flex items-center gap-3">
@@ -124,7 +207,7 @@ export default function ProductClientSection({
       {/* Stock faible */}
       {stock > 0 && stock <= 5 && (
         <p className="mt-3 text-sm text-[var(--orange)] font-bold">
-          Plus que {stock} en stock — foncez !
+          Plus que {stock} en stock, foncez !
         </p>
       )}
 

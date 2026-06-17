@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import RetroStar from "./RetroStar";
+import Reassurance from "./Reassurance";
 import { getContent } from "@/lib/content";
 
 /**
@@ -49,11 +50,7 @@ export default async function HeroSection() {
         </div>
 
         {/* Réassurance */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[13px] font-bold text-[var(--black)]/70">
-          <span className="inline-flex items-center gap-2">♻️ Cordes recyclées</span>
-          <span className="inline-flex items-center gap-2">🐕 Bien-être animal</span>
-          <span className="inline-flex items-center gap-2">🇫🇷 Fait main en France</span>
-        </div>
+        <Reassurance className="mt-12" />
       </div>
     </section>
   );

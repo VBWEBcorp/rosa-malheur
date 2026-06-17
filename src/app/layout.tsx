@@ -3,6 +3,7 @@ import { Baloo_2, Nunito } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/shop/Providers";
 import Analytics from "@/components/shop/Analytics";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE, SITE_KEYWORDS } from "@/lib/seo";
 
 // Titres : Baloo 2 (rond, bubble, esprit sérigraphie 70s).
 const baloo = Baloo_2({
@@ -19,12 +20,30 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Rosa Malheur · Laisses pour chien artisanales",
+    default: "Rosa Malheur · Laisses pour chien en corde d'escalade recyclée",
     template: "%s | Rosa Malheur",
   },
-  description:
-    "Laisses pour chien faites main, simples ou multiposition, du 1,50 m au 5 m. Corde et mousqueton au choix.",
+  description: SITE_DESCRIPTION,
+  keywords: SITE_KEYWORDS,
+  applicationName: SITE_NAME,
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: "Rosa Malheur · Laisses pour chien en corde d'escalade recyclée",
+    description: SITE_DESCRIPTION,
+    images: [{ url: OG_IMAGE, alt: "Rosa Malheur — laisses pour chien" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rosa Malheur · Laisses pour chien en corde d'escalade recyclée",
+    description: SITE_DESCRIPTION,
+    images: [OG_IMAGE],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

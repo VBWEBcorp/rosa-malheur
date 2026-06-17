@@ -9,13 +9,15 @@ const AUTH_SECRET =
     : undefined);
 
 // ─────────────────────────────────────────────────────────────
-// Mode « coming soon » : tant que COMING_SOON n'est pas "false",
-// le public est renvoyé vers /coming-soon. On laisse passer le
-// back-office (/admin), la connexion, l'API et la page splash
-// elle-même. Aperçu privé du vrai site : ?preview=<COMING_SOON_BYPASS>.
-// Pour ouvrir la boutique : COMING_SOON=false (puis redeploy).
+// Mode « coming soon » : UNIQUEMENT en production (Netlify). En local
+// (npm run dev), le vrai site s'affiche toujours pour pouvoir travailler.
+// En prod, le public est renvoyé vers /coming-soon ; le back-office
+// (/admin), la connexion et l'API restent accessibles. Aperçu privé du
+// vrai site : ?preview=<COMING_SOON_BYPASS>.
+// Pour ouvrir la boutique le jour J : COMING_SOON=false sur Netlify.
 // ─────────────────────────────────────────────────────────────
-const COMING_SOON = process.env.COMING_SOON !== "false";
+const COMING_SOON =
+  process.env.NODE_ENV === "production" && process.env.COMING_SOON !== "false";
 const BYPASS_SECRET = process.env.COMING_SOON_BYPASS || "rosamalheur";
 const BYPASS_COOKIE = "rm_preview";
 

@@ -269,7 +269,7 @@ export default function GiftCardPurchasePage() {
                       setCustomAmount(e.target.value);
                       setAmountEuros(parseFloat(e.target.value) || 0);
                     }}
-                    placeholder={`${MIN} – ${MAX}`}
+                    placeholder={`${MIN} à ${MAX}`}
                     className={`w-full px-0 py-2.5 bg-transparent border-0 border-b text-[15px] text-gray-900 focus:ring-0 outline-none transition ${
                       isCustom ? "border-[var(--brand-gold)]" : "border-gray-200 focus:border-[var(--brand-gold)]"
                     }`}
@@ -322,7 +322,7 @@ export default function GiftCardPurchasePage() {
             <div className="card-rosa bg-white px-6 py-5 flex items-center justify-between">
               <span className="text-[12px] uppercase tracking-wide font-display font-extrabold text-[var(--black)]/60">Total</span>
               <span className="font-display font-extrabold text-2xl text-[var(--black)]">
-                {amountEuros > 0 ? formatPrice(Math.round(amountEuros * 100)) : "—"}
+                {amountEuros > 0 ? formatPrice(Math.round(amountEuros * 100)) : "0 €"}
               </span>
             </div>
 

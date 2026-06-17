@@ -13,7 +13,8 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Le Journal",
   description:
-    "Conseils chien, coulisses de fabrication et histoires de cordes d'escalade recyclées — le journal de Rosa Malheur.",
+    "Conseils chien, coulisses de fabrication et histoires de cordes d'escalade recyclées. Le journal de Rosa Malheur.",
+  alternates: { canonical: "/blog" },
 };
 
 export default async function BlogPage() {

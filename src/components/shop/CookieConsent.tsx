@@ -109,7 +109,7 @@ export default function CookieConsent() {
             <div className="space-y-3 mb-6">
               <ConsentRow
                 label="Nécessaires"
-                description="Panier, connexion, sécurité — toujours actifs."
+                description="Panier, connexion, sécurité : toujours actifs."
                 checked
                 disabled
               />

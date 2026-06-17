@@ -56,7 +56,7 @@ export const homePage: ContentPageDef = {
         { key: "home_matiere_eyebrow", type: "text", label: "Étiquette", default: "Notre matière" },
         { key: "home_matiere_title", type: "text", label: "Titre", default: "Des cordes d'escalade," },
         { key: "home_matiere_title_accent", type: "text", label: "Titre · mot en orange", default: "une seconde vie" },
-        { key: "home_matiere_text", type: "textarea", label: "Texte", default: "On récupère des cordes d'escalade déclassées — encore ultra-résistantes mais retirées des falaises — pour en faire des laisses qui en ont vu d'autres. Chaque modèle est noué à la main : la même corde qui assurait un grimpeur tient désormais votre chien. Solide, durable, et plein de caractère." },
+        { key: "home_matiere_text", type: "textarea", label: "Texte", default: "On récupère des cordes d'escalade déclassées, encore ultra-résistantes mais retirées des falaises, pour en faire des laisses qui en ont vu d'autres. Chaque modèle est noué à la main : la même corde qui assurait un grimpeur tient désormais votre chien. Solide, durable, et plein de caractère." },
         { key: "home_matiere_cta", type: "text", label: "Bouton", default: "En savoir plus" },
       ],
     },

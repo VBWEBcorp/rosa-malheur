@@ -1,5 +1,6 @@
 import BrandLogo from "@/components/shop/BrandLogo";
 import RetroStar from "@/components/shop/RetroStar";
+import Reassurance from "@/components/shop/Reassurance";
 
 export const metadata = {
   title: "Bientôt en ligne · Rosa Malheur",
@@ -39,7 +40,7 @@ export default function ComingSoonPage() {
         <p className="mt-7 max-w-md mx-auto text-[16px] md:text-[18px] text-[var(--black)]/80 leading-relaxed font-semibold">
           Des laisses pour chien faites main à partir de{" "}
           <span className="text-[var(--orange)] font-extrabold">cordes d&apos;escalade recyclées</span>.
-          On prépare tout ça avec soin — revenez très vite&nbsp;!
+          On prépare tout ça avec soin. Revenez très vite&nbsp;!
         </p>
 
         {/* Contact */}
@@ -50,11 +51,7 @@ export default function ComingSoonPage() {
         </div>
 
         {/* Réassurance */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[13px] font-bold text-[var(--black)]/70">
-          <span className="inline-flex items-center gap-2">♻️ Cordes recyclées</span>
-          <span className="inline-flex items-center gap-2">🐕 Bien-être animal</span>
-          <span className="inline-flex items-center gap-2">🇫🇷 Fait main en France</span>
-        </div>
+        <Reassurance className="mt-12" />
 
         <p className="mt-14 text-[12px] font-semibold text-[var(--black)]/45">
           © {year} Rosa Malheur · Fait main en France

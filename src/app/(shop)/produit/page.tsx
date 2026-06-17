@@ -4,13 +4,24 @@ import { connectDB } from "@/lib/db";
 import Product from "@/models/Product";
 import ProductClientSection from "@/components/shop/ProductClientSection";
 import RetroStar from "@/components/shop/RetroStar";
+import { Recycle } from "lucide-react";
+import { SITE_URL } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
+const PRODUIT_DESCRIPTION =
+  "Configurez votre laisse Rosa Malheur : simple ou multiposition, longueur 1,50 / 2 / 3 / 5 m, couleur de la corde et du mousqueton. Faite main en cordes d'escalade recyclées.";
+
 export const metadata = {
-  title: "La laisse — corde d'escalade recyclée",
-  description:
-    "Configurez votre laisse Rosa Malheur : simple ou multiposition, longueur 1,50 / 2 / 3 / 5 m, couleur de la corde et du mousqueton. Faite main en cordes d'escalade recyclées.",
+  title: "La laisse en corde d'escalade recyclée",
+  description: PRODUIT_DESCRIPTION,
+  alternates: { canonical: "/produit" },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/produit`,
+    title: "La laisse Rosa Malheur en corde d'escalade recyclée",
+    description: PRODUIT_DESCRIPTION,
+  },
 };
 
 export default async function ProduitPage() {
@@ -45,8 +56,39 @@ export default async function ProduitPage() {
     })),
   }));
 
+  const imageAbsolute = mainImage
+    ? mainImage.startsWith("http")
+      ? mainImage
+      : `${SITE_URL}${mainImage}`
+    : `${SITE_URL}/brand/rosa-malheur.png`;
+  const inStock = (p.stock ?? 0) > 0;
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: p.name,
+    description: p.shortDescription || PRODUIT_DESCRIPTION,
+    image: [imageAbsolute],
+    brand: { "@type": "Brand", name: "Rosa Malheur" },
+    category: "Laisse pour chien",
+    offers: {
+      "@type": "Offer",
+      url: `${SITE_URL}/produit`,
+      priceCurrency: "EUR",
+      price: (p.price / 100).toFixed(2),
+      availability: inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      seller: { "@type": "Organization", name: "Rosa Malheur" },
+    },
+  };
+
   return (
     <div className="bg-[var(--cream)]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-16">
         {/* Fil d'ariane */}
         <nav className="text-[12px] font-bold uppercase tracking-wide text-[var(--black)]/50 mb-8">
@@ -85,7 +127,7 @@ export default async function ProduitPage() {
           {/* Infos + configurateur */}
           <div>
             <span className="inline-flex items-center gap-2 pill-rosa bg-[var(--pink)] text-[var(--black)] px-4 py-1.5 text-[11px] font-display font-extrabold uppercase tracking-wide">
-              ♻️ Corde d&apos;escalade recyclée
+              <Recycle size={13} strokeWidth={2.5} /> Corde d&apos;escalade recyclée
             </span>
             <h1 className="mt-4 font-display font-extrabold text-4xl md:text-5xl leading-[0.95] text-[var(--black)]">
               {p.name}

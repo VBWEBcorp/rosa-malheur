@@ -1,10 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Recycle, PawPrint, Hand } from "lucide-react";
 import { connectDB } from "@/lib/db";
 import Product from "@/models/Product";
 import { formatPrice } from "@/lib/utils";
 import { getContent } from "@/lib/content";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/seo";
 import HeroSection from "@/components/shop/HeroSection";
 import RetroStar from "@/components/shop/RetroStar";
 
@@ -14,6 +15,7 @@ export const metadata = {
   title: "Rosa Malheur · Laisses pour chien artisanales",
   description:
     "Laisses pour chien faites main à partir de cordes d'escalade recyclées : simples ou multiposition, du 1,50 m au 5 m, corde et mousqueton au choix.",
+  alternates: { canonical: "/" },
 };
 
 export default async function HomePage() {
@@ -48,8 +50,32 @@ export default async function HomePage() {
     // ignore — affichage dégradé sans données produit
   }
 
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: `${SITE_URL}/brand/rosa-malheur.png`,
+      description: SITE_DESCRIPTION,
+      email: "contact@rosamalheur.fr",
+      areaServed: "FR",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: SITE_URL,
+      inLanguage: "fr-FR",
+    },
+  ];
+
   return (
     <div className="bg-[var(--cream)]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <HeroSection />
 
       {/* ── VALEURS ─────────────────────────────────────────────── */}
@@ -58,20 +84,20 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <ValueCard
               bg="var(--pink)"
-              emoji="♻️"
+              Icon={Recycle}
               title={t("home_val1_title")}
               text={t("home_val1_text")}
             />
             <ValueCard
               bg="var(--cream)"
-              emoji="🐕"
+              Icon={PawPrint}
               title={t("home_val2_title")}
               text={t("home_val2_text")}
             />
             <ValueCard
               bg="var(--orange)"
               color="#fff"
-              emoji="🇫🇷"
+              Icon={Hand}
               title={t("home_val3_title")}
               text={t("home_val3_text")}
             />
@@ -191,13 +217,13 @@ export default async function HomePage() {
 function ValueCard({
   bg,
   color = "var(--black)",
-  emoji,
+  Icon,
   title,
   text,
 }: {
   bg: string;
   color?: string;
-  emoji: string;
+  Icon: React.ElementType;
   title: string;
   text: string;
 }) {
@@ -206,7 +232,13 @@ function ValueCard({
       className="card-rosa p-7 text-center"
       style={{ background: bg, color, boxShadow: "5px 5px 0 0 var(--black)" }}
     >
-      <div className="text-4xl mb-3" aria-hidden>{emoji}</div>
+      <div
+        className="w-14 h-14 mx-auto mb-4 rounded-full border-[2.5px] flex items-center justify-center"
+        style={{ borderColor: color }}
+        aria-hidden
+      >
+        <Icon size={24} strokeWidth={2} />
+      </div>
       <h3 className="font-display font-extrabold text-xl mb-2">{title}</h3>
       <p className="text-[14px] leading-relaxed opacity-85">{text}</p>
     </div>

@@ -7,6 +7,7 @@ export const metadata = {
   title: "Contact",
   description:
     "Une question sur nos laisses, une commande sur-mesure ? Écrivez à Rosa Malheur, on vous répond sous 48h.",
+  alternates: { canonical: "/contact" },
 };
 
 const INFO = [
@@ -36,7 +37,7 @@ export default function ContactPage() {
           </h1>
           <p className="mt-6 text-[16px] text-[var(--black)]/75 leading-relaxed max-w-xl mx-auto font-semibold">
             Une question sur nos laisses, une commande sur-mesure, une collab&nbsp;? On adore
-            papoter chiens et cordes — réponse sous 48h.
+            papoter chiens et cordes. Réponse sous 48h.
           </p>
         </div>
       </section>
