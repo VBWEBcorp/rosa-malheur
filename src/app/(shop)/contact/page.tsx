@@ -1,77 +1,69 @@
-import Image from "next/image";
-import { Mail, MapPin, Clock } from "lucide-react";
+import { Mail, Clock, Sparkles } from "lucide-react";
 import ContactFormClient from "./ContactFormClient";
+import RetroStar from "@/components/shop/RetroStar";
+import BrandLogo from "@/components/shop/BrandLogo";
 
 export const metadata = {
   title: "Contact",
-  description: "Contactez Entre Maman et Moi pour vos questions, réservations ou demandes de devis.",
+  description:
+    "Une question sur nos laisses, une commande sur-mesure ? Écrivez à Rosa Malheur, on vous répond sous 48h.",
 };
 
 const INFO = [
   {
     Icon: Mail,
     label: "Email",
-    value: "entremamanetmoicook@gmail.com",
-    href: "mailto:entremamanetmoicook@gmail.com",
+    value: "fanny.rabu@hotmail.fr",
+    href: "mailto:fanny.rabu@hotmail.fr",
   },
-  { Icon: MapPin, label: "Lieu", value: "3 rue de la Libération, 35770 Vern-sur-Seiche" },
   { Icon: Clock, label: "Réponse", value: "Sous 48h en moyenne" },
+  { Icon: Sparkles, label: "Sur-mesure", value: "Une envie particulière ? Parlons-en !" },
 ];
 
 export default function ContactPage() {
   return (
-    <div className="bg-white">
+    <div className="bg-[var(--cream)]">
       {/* Hero */}
-      <section className="bg-[var(--brand-cream)]/40 py-14 md:py-20">
+      <section className="relative overflow-hidden border-b-[2.5px] border-[var(--black)] py-14 md:py-20">
+        <RetroStar points={8} className="absolute top-8 left-[8%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
+        <RetroStar points={8} className="absolute bottom-8 right-[10%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-[10px] uppercase tracking-[0.45em] text-[var(--brand-gold)] mb-5">
+          <span className="inline-flex items-center gap-2 pill-rosa bg-[var(--pink)] text-[var(--black)] px-5 py-2 text-[12px] font-display font-extrabold uppercase tracking-wide">
             Nous contacter
-          </p>
-          <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-gray-900 leading-[1.05] mb-7">
-            Écrivez-<span className="italic text-[var(--brand-gold)]">nous</span>
+          </span>
+          <h1 className="mt-6 font-display font-extrabold text-5xl md:text-6xl text-[var(--black)] leading-[0.9]">
+            Écrivez-<span className="text-[var(--orange)]">nous</span>
           </h1>
-          <div className="w-12 h-px bg-[var(--brand-gold)]/50 mx-auto mb-7" />
-          <p className="font-serif italic text-[15px] md:text-lg text-gray-600 leading-relaxed max-w-xl mx-auto">
-            Une question, une envie d&apos;atelier ou une demande de devis traiteur&nbsp;? Je vous réponds personnellement sous 48h.
+          <p className="mt-6 text-[16px] text-[var(--black)]/75 leading-relaxed max-w-xl mx-auto font-semibold">
+            Une question sur nos laisses, une commande sur-mesure, une collab&nbsp;? On adore
+            papoter chiens et cordes — réponse sous 48h.
           </p>
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
-        {/* Colonne gauche — visuel + infos */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+        {/* Colonne gauche — visuel de marque + infos */}
         <div className="md:col-span-5">
-          <div className="relative aspect-[4/5] overflow-hidden bg-[var(--brand-cream)] mb-10">
-            <Image
-              src="https://i.ibb.co/F4318X0S/Ourka-citron.jpg"
-              alt="Ourka au citron"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 40vw"
-            />
+          <div className="card-rosa bg-[var(--pink)] p-10 mb-10 flex items-center justify-center aspect-[4/5]" style={{ boxShadow: "6px 6px 0 0 var(--black)" }}>
+            <BrandLogo className="w-full max-w-[260px] h-auto" />
           </div>
 
-          <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-5">
-            Coordonnées
-          </p>
-          <ul className="space-y-6">
+          <ul className="space-y-5">
             {INFO.map(({ Icon, label, value, href }) => (
               <li key={label} className="flex items-start gap-4">
-                <span className="w-10 h-10 rounded-full border border-[var(--brand-gold)]/30 text-[var(--brand-gold)] flex items-center justify-center shrink-0">
-                  <Icon size={15} strokeWidth={1.5} />
+                <span className="w-11 h-11 rounded-full border-2 border-[var(--black)] text-[var(--black)] flex items-center justify-center shrink-0">
+                  <Icon size={16} strokeWidth={2} />
                 </span>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-1">
+                  <p className="text-[11px] uppercase tracking-wide font-display font-extrabold text-[var(--orange)] mb-0.5">
                     {label}
                   </p>
                   {href ? (
-                    <a
-                      href={href}
-                      className="font-serif text-[15px] text-gray-900 hover:text-[var(--brand-gold)] transition"
-                    >
+                    <a href={href} className="text-[15px] font-semibold text-[var(--black)] hover:text-[var(--orange)] transition">
                       {value}
                     </a>
                   ) : (
-                    <p className="font-serif text-[15px] text-gray-900">{value}</p>
+                    <p className="text-[15px] font-semibold text-[var(--black)]">{value}</p>
                   )}
                 </div>
               </li>
@@ -81,11 +73,8 @@ export default function ContactPage() {
 
         {/* Colonne droite — formulaire */}
         <div className="md:col-span-7">
-          <div className="bg-white border border-[var(--brand-gold)]/15 px-6 sm:px-8 py-8">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-2">
-              Formulaire
-            </p>
-            <h2 className="font-serif text-2xl text-gray-900 leading-none mb-8">
+          <div className="card-rosa bg-white px-6 sm:px-8 py-8" style={{ boxShadow: "6px 6px 0 0 var(--black)" }}>
+            <h2 className="font-display font-extrabold text-3xl text-[var(--black)] leading-none mb-7">
               Votre message
             </h2>
             <ContactFormClient />

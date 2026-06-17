@@ -128,7 +128,7 @@ export default function AboutPage() {
 
           <div className="mt-12 text-center">
             <Link
-              href="/kits/decouverte"
+              href="/produit"
               className="inline-flex items-center gap-3 bg-[var(--brand-gold)] text-white px-8 py-4 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition"
             >
               Voir les kits
@@ -204,17 +204,11 @@ export default function AboutPage() {
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <Link
-              href="/kits/decouverte"
+              href="/produit"
               className="inline-flex items-center gap-3 bg-[var(--brand-gold)] text-white px-8 py-4 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition"
             >
-              Découvrir les kits
+              Voir la laisse
               <ArrowRight size={13} />
-            </Link>
-            <Link
-              href="/ateliers/a-domicile"
-              className="inline-flex items-center gap-2 text-[var(--brand-gold)] text-[11px] uppercase tracking-[0.3em] border-b border-[var(--brand-gold)]/40 pb-1 hover:border-[var(--brand-gold)] transition"
-            >
-              Voir les ateliers
             </Link>
           </div>
         </div>

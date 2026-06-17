@@ -2,44 +2,39 @@ import type { ContentPageDef } from "../registry";
 
 /**
  * Pied de page — `src/components/shop/Footer.tsx`.
- * Les liens de navigation (colonnes Nos kits / S'initier) et les réseaux sociaux
- * restent gérés ailleurs (structure du site / Paramètres › réseaux). On expose ici
- * le texte éditorial et les coordonnées.
+ * Les liens des colonnes et les réseaux sociaux sont gérés ailleurs
+ * (structure du site / Paramètres › réseaux). On expose ici l'accroche,
+ * les titres de colonnes et la mention du bas.
  */
 export const footerComponent: ContentPageDef = {
   id: "footer",
   name: "Pied de page",
-  route: "Composant global",
+  route: "Bas de toutes les pages",
   icon: "Layout",
   category: "component",
-  description: "Logo, accroche, libellés de colonnes et coordonnées du footer",
+  description: "L'accroche, les titres des colonnes et la mention en bas de toutes les pages.",
   sections: [
     {
       id: "brand",
-      title: "Bloc de marque",
+      title: "Accroche",
       fields: [
-        { key: "footer_eyebrow", type: "text", label: "Surtitre", default: "À Vern-sur-Seiche · cuisine indienne maison" },
-        { key: "footer_logo", type: "image", label: "Logo", default: "https://i.ibb.co/5WWqVbC2/cropped-Entre-Maman-Et-Moi-1.png" },
-        { key: "footer_tagline", type: "text", label: "Accroche", default: "Voyagez au cœur de l'Inde, depuis votre cuisine." },
+        { key: "footer_tagline", type: "textarea", label: "Phrase d'accroche", default: "Laisses & jouets pour chiens, faits main à partir de cordes d'escalade recyclées. Vintage, costaud, éco-responsable." },
       ],
     },
     {
       id: "columns",
-      title: "Libellés des colonnes",
+      title: "Titres des colonnes",
       fields: [
-        { key: "footer_col1_label", type: "text", label: "Colonne 1", default: "Nos kits" },
-        { key: "footer_col2_label", type: "text", label: "Colonne 2", default: "S'initier" },
-        { key: "footer_col3_label", type: "text", label: "Colonne 3", default: "L'atelier" },
+        { key: "footer_col1_label", type: "text", label: "Colonne 1", default: "Boutique" },
+        { key: "footer_col2_label", type: "text", label: "Colonne 2", default: "La maison" },
+        { key: "footer_col3_label", type: "text", label: "Colonne 3", default: "Infos" },
       ],
     },
     {
-      id: "contact",
-      title: "Coordonnées",
+      id: "bottom",
+      title: "Bas de page",
       fields: [
-        { key: "footer_address", type: "textarea", label: "Adresse", default: "3 rue de la Libération\n35770 Vern-sur-Seiche · France" },
-        { key: "footer_email", type: "text", label: "Email", default: "entremamanetmoicook@gmail.com" },
-        { key: "footer_response", type: "text", label: "Délai de réponse", default: "Sous 48h en moyenne" },
-        { key: "footer_socials_label", type: "text", label: "Libellé réseaux", default: "Suivez-nous" },
+        { key: "footer_bottom_note", type: "text", label: "Mention (après le nom et l'année)", default: "Fait main en France" },
       ],
     },
   ],

@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import RetroStar from "@/components/shop/RetroStar";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -51,89 +52,47 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="bg-[var(--brand-cream)]/30 min-h-[80vh] py-20 md:py-28 px-4">
-      <div className="max-w-md mx-auto">
+    <div className="bg-[var(--cream)] min-h-[85vh] py-16 md:py-24 px-4 relative overflow-hidden">
+      <RetroStar points={8} className="absolute top-12 right-[10%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
+      <RetroStar points={10} className="absolute bottom-16 left-[12%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
+
+      <div className="max-w-md mx-auto relative">
         {/* Header */}
-        <div className="text-center mb-12">
-          <p className="text-[10px] uppercase tracking-[0.45em] text-gray-400 mb-5">
+        <div className="text-center mb-9">
+          <span className="inline-flex items-center gap-2 pill-rosa bg-[var(--pink)] text-[var(--black)] px-4 py-1.5 text-[11px] font-display font-extrabold uppercase tracking-wide">
             Espace client
-          </p>
-          <h1 className="font-serif text-4xl md:text-5xl text-gray-900 leading-[1.05]">
-            Créez votre<br />
-            <span className="italic text-[var(--brand-gold)]">compte</span>
+          </span>
+          <h1 className="mt-5 font-display font-extrabold text-4xl md:text-5xl text-[var(--black)] leading-[0.95]">
+            Créez votre <span className="text-[var(--orange)]">compte</span>
           </h1>
-          <div className="w-12 h-px bg-[var(--brand-gold)]/40 mx-auto mt-8" />
         </div>
 
         {/* Card */}
-        <div className="bg-white border border-[var(--brand-gold)]/15 px-6 sm:px-10 py-10 sm:py-12">
-          <p className="font-serif italic text-[14px] text-gray-600 text-center mb-9 leading-relaxed">
-            Pour commander, suivre vos achats<br />
-            et accéder à votre espace personnel.
+        <div className="card-rosa bg-white px-6 sm:px-9 py-9 sm:py-10" style={{ boxShadow: "6px 6px 0 0 var(--black)" }}>
+          <p className="text-[14px] text-[var(--black)]/60 font-semibold text-center mb-8 leading-relaxed">
+            Pour commander, suivre vos achats et accéder à votre espace.
           </p>
 
           {error && (
-            <div className="mb-6 px-4 py-3 border border-red-200 bg-red-50/50 text-red-700 text-[13px] font-serif italic text-center">
+            <div className="mb-6 px-4 py-3 rounded-2xl border-2 border-red-300 bg-red-50 text-red-700 text-[13px] font-bold text-center">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            <Field
-              id="name"
-              label="Nom complet"
-              type="text"
-              value={name}
-              onChange={setName}
-              autoComplete="name"
-              placeholder="Viji Tinot"
-              required
-            />
-            <Field
-              id="email"
-              label="Email"
-              type="email"
-              value={email}
-              onChange={setEmail}
-              autoComplete="email"
-              placeholder="vous@exemple.com"
-              required
-            />
-            <Field
-              id="password"
-              label="Mot de passe"
-              type="password"
-              value={password}
-              onChange={setPassword}
-              autoComplete="new-password"
-              placeholder="Au moins 8 caractères"
-              required
-              minLength={8}
-            />
-            <Field
-              id="confirmPassword"
-              label="Confirmer le mot de passe"
-              type="password"
-              value={confirmPassword}
-              onChange={setConfirmPassword}
-              autoComplete="new-password"
-              placeholder="••••••••"
-              required
-              minLength={8}
-            />
+            <Field id="name" label="Nom complet" type="text" value={name} onChange={setName} autoComplete="name" placeholder="Prénom Nom" required />
+            <Field id="email" label="Email" type="email" value={email} onChange={setEmail} autoComplete="email" placeholder="vous@exemple.com" required />
+            <Field id="password" label="Mot de passe" type="password" value={password} onChange={setPassword} autoComplete="new-password" placeholder="Au moins 8 caractères" required minLength={8} />
+            <Field id="confirmPassword" label="Confirmer le mot de passe" type="password" value={confirmPassword} onChange={setConfirmPassword} autoComplete="new-password" placeholder="••••••••" required minLength={8} />
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="mt-3 w-full flex items-center justify-center gap-3 bg-[var(--brand-gold)] text-white py-4 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {loading ? "Création en cours…" : <>Créer mon compte <ArrowRight size={13} /></>}
+            <button type="submit" disabled={loading} className="btn-rosa w-full disabled:opacity-60 disabled:cursor-not-allowed">
+              {loading ? "Création en cours…" : <>Créer mon compte <ArrowRight size={16} strokeWidth={2.5} /></>}
             </button>
           </form>
 
-          <p className="mt-8 text-[11px] text-gray-400 text-center leading-relaxed">
+          <p className="mt-7 text-[12px] text-[var(--black)]/50 text-center leading-relaxed">
             En créant un compte, vous acceptez nos{" "}
-            <Link href="/pages/cgv" className="underline underline-offset-2 hover:text-[var(--brand-gold)] transition">
+            <Link href="/pages/cgv" className="font-bold text-[var(--orange)] hover:opacity-70 transition">
               conditions d&apos;utilisation
             </Link>
             .
@@ -141,14 +100,9 @@ export default function RegisterPage() {
         </div>
 
         {/* Footer */}
-        <div className="mt-10 text-center">
-          <p className="font-serif italic text-[15px] text-gray-600">
-            Déjà un compte&nbsp;?
-          </p>
-          <Link
-            href="/login"
-            className="inline-flex items-center mt-3 text-[11px] uppercase tracking-[0.3em] text-[var(--brand-gold)] border-b border-[var(--brand-gold)]/40 pb-1 hover:border-[var(--brand-gold)] transition"
-          >
+        <div className="mt-8 text-center">
+          <p className="text-[14px] text-[var(--black)]/60 font-semibold">Déjà un compte&nbsp;?</p>
+          <Link href="/login" className="inline-block mt-2 text-[14px] font-display font-extrabold text-[var(--orange)] hover:opacity-70 transition">
             Se connecter
           </Link>
         </div>
@@ -180,10 +134,7 @@ function Field({
 }) {
   return (
     <div>
-      <label
-        htmlFor={id}
-        className="block text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-2"
-      >
+      <label htmlFor={id} className="block text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--black)] mb-2">
         {label}
       </label>
       <input
@@ -194,7 +145,7 @@ function Field({
         required={required}
         minLength={minLength}
         autoComplete={autoComplete}
-        className="w-full px-0 py-2.5 bg-transparent border-0 border-b border-gray-200 text-[14px] text-gray-900 focus:border-[var(--brand-gold)] focus:ring-0 outline-none transition placeholder:text-gray-300"
+        className="w-full px-4 py-3 bg-[var(--cream)]/40 rounded-2xl border-2 border-[var(--black)]/20 text-[15px] text-[var(--black)] focus:border-[var(--black)] focus:ring-0 outline-none transition placeholder:text-[var(--black)]/30"
         placeholder={placeholder}
       />
     </div>

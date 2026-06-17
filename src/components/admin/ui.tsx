@@ -1,12 +1,12 @@
 import Link from "next/link";
 
 /**
- * Kit d'UI partagé pour l'administration — charte « Entre Maman et Moi »
- * (or, crème, serif, angles nets). À réutiliser sur toutes les pages admin
- * pour garantir une cohérence visuelle totale.
+ * Kit d'UI partagé pour l'administration — charte Rosa Malheur
+ * (crème, noir, orange, rose, Baloo + contours nets arrondis).
+ * Réutilisé sur toutes les pages admin pour une cohérence totale.
  */
 
-/** En-tête de page : surtitre discret + titre serif + actions à droite. */
+/** En-tête de page : surtitre orange + titre display + actions à droite. */
 export function PageHeader({
   eyebrow,
   title,
@@ -22,15 +22,15 @@ export function PageHeader({
     <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7 sm:mb-9">
       <div className="min-w-0">
         {eyebrow && (
-          <p className="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-2">
+          <p className="text-[11px] font-display font-extrabold uppercase tracking-wide text-[var(--orange)] mb-1">
             {eyebrow}
           </p>
         )}
-        <h1 className="font-serif text-[28px] sm:text-4xl text-gray-900 leading-[1.1]">
+        <h1 className="font-display font-extrabold text-[28px] sm:text-4xl text-[var(--black)] leading-[1.05]">
           {title}
         </h1>
         {subtitle && (
-          <p className="text-[13px] text-gray-500 mt-2">{subtitle}</p>
+          <p className="text-[13px] text-[var(--black)]/55 mt-2">{subtitle}</p>
         )}
       </div>
       {children && (
@@ -40,7 +40,7 @@ export function PageHeader({
   );
 }
 
-/** Bouton CTA doré (action principale). Rendu <button> ou <Link>. */
+/** Bouton CTA principal — pilule orange à contour noir. Rendu <button> ou <Link>. */
 export function GoldButton({
   href,
   onClick,
@@ -57,7 +57,7 @@ export function GoldButton({
   children: React.ReactNode;
 }) {
   const cls =
-    "inline-flex items-center justify-center gap-2 bg-[var(--brand-gold)] text-white text-[11px] uppercase tracking-[0.25em] font-medium px-4 py-2.5 hover:bg-[var(--brand-gold-dark)] transition disabled:opacity-50 disabled:pointer-events-none " +
+    "inline-flex items-center justify-center gap-2 bg-[var(--orange)] text-white text-[12px] font-display font-extrabold uppercase tracking-wide px-4 py-2.5 rounded-full border-2 border-[var(--black)] hover:bg-[var(--pink)] hover:text-[var(--black)] transition disabled:opacity-50 disabled:pointer-events-none " +
     className;
   if (href) {
     return (
@@ -73,7 +73,7 @@ export function GoldButton({
   );
 }
 
-/** Bouton secondaire (contour). */
+/** Bouton secondaire (contour noir). */
 export function GhostButton({
   href,
   onClick,
@@ -90,7 +90,7 @@ export function GhostButton({
   children: React.ReactNode;
 }) {
   const cls =
-    "inline-flex items-center justify-center gap-2 border border-[var(--brand-gold)]/25 text-gray-600 text-[11px] uppercase tracking-[0.25em] font-medium px-4 py-2.5 hover:text-[var(--brand-gold)] hover:border-[var(--brand-gold)]/50 transition disabled:opacity-50 " +
+    "inline-flex items-center justify-center gap-2 border-2 border-[var(--black)]/25 text-[var(--black)] text-[12px] font-display font-extrabold uppercase tracking-wide px-4 py-2.5 rounded-full hover:border-[var(--black)] hover:bg-[var(--black)] hover:text-[var(--cream)] transition disabled:opacity-50 " +
     className;
   if (href) {
     return (
@@ -109,15 +109,15 @@ export function GhostButton({
 type Tone = "gold" | "green" | "amber" | "red" | "gray" | "blue";
 
 const toneStyles: Record<Tone, string> = {
-  gold: "border-[var(--brand-gold)]/30 text-[var(--brand-gold-dark)] bg-[var(--brand-cream)]/70",
-  green: "border-emerald-200 text-emerald-700 bg-emerald-50",
-  amber: "border-amber-200 text-amber-700 bg-amber-50",
-  red: "border-red-200 text-red-600 bg-red-50",
-  gray: "border-gray-200 text-gray-500 bg-gray-50",
-  blue: "border-blue-200 text-blue-700 bg-blue-50",
+  gold: "border-[var(--black)] text-[var(--black)] bg-[var(--pink)]",
+  green: "border-emerald-300 text-emerald-800 bg-emerald-100",
+  amber: "border-amber-300 text-amber-800 bg-amber-100",
+  red: "border-red-300 text-red-700 bg-red-100",
+  gray: "border-[var(--black)]/20 text-[var(--black)]/60 bg-[var(--cream)]",
+  blue: "border-blue-300 text-blue-800 bg-blue-100",
 };
 
-/** Pastille de statut, style éditorial (petites capitales). */
+/** Pastille de statut — pilule à petites capitales. */
 export function Badge({
   tone = "gray",
   children,
@@ -127,14 +127,14 @@ export function Badge({
 }) {
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] border ${toneStyles[tone]}`}
+      className={`inline-flex items-center px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] rounded-full border-2 ${toneStyles[tone]}`}
     >
       {children}
     </span>
   );
 }
 
-/** Carte / surface standard de l'admin (angles nets, liseré doré discret). */
+/** Carte / surface standard de l'admin (arrondie, contour noir discret). */
 export function Card({
   className = "",
   children,
@@ -143,13 +143,13 @@ export function Card({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`bg-white border border-[var(--brand-gold)]/15 ${className}`}>
+    <div className={`bg-white rounded-2xl border-2 border-[var(--black)]/12 ${className}`}>
       {children}
     </div>
   );
 }
 
-/** État vide centré (icône cerclée dorée + texte + CTA optionnel). */
+/** État vide centré (icône cerclée + texte + CTA optionnel). */
 export function EmptyState({
   icon,
   title,
@@ -163,11 +163,11 @@ export function EmptyState({
 }) {
   return (
     <div className="px-6 py-16 text-center">
-      <div className="w-14 h-14 rounded-full border border-[var(--brand-gold)]/30 text-[var(--brand-gold)] flex items-center justify-center mx-auto mb-5">
+      <div className="w-14 h-14 rounded-full border-2 border-[var(--black)] bg-[var(--pink)] text-[var(--black)] flex items-center justify-center mx-auto mb-5">
         {icon}
       </div>
-      <p className="font-serif italic text-xl sm:text-2xl text-gray-900 mb-2">{title}</p>
-      {description && <p className="text-[13px] text-gray-500">{description}</p>}
+      <p className="font-display font-extrabold text-xl sm:text-2xl text-[var(--black)] mb-2">{title}</p>
+      {description && <p className="text-[13px] text-[var(--black)]/55">{description}</p>}
       {action && <div className="mt-5 flex justify-center">{action}</div>}
     </div>
   );

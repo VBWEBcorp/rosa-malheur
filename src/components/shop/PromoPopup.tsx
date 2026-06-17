@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { getMarketing, type MarketingData } from "@/lib/marketingCache";
+import RetroStar from "./RetroStar";
 
 type PopupData = NonNullable<MarketingData["popup"]>;
 
@@ -35,19 +36,23 @@ export default function PromoPopup() {
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-[80] bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+        className="fixed inset-0 z-[80] bg-[var(--black)]/45 backdrop-blur-sm transition-opacity duration-300"
         onClick={close}
       />
 
       {/* Pop-up */}
       <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-md w-full relative transform transition-all duration-300 scale-100">
+        <div
+          className="card-rosa bg-[var(--cream)] overflow-hidden max-w-md w-full relative transform transition-all duration-300 scale-100"
+          style={{ boxShadow: "8px 8px 0 0 var(--black)" }}
+        >
           {/* Close */}
           <button
             onClick={close}
-            className="absolute top-3 right-3 z-10 w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-gray-500 hover:text-gray-900 shadow-sm transition"
+            aria-label="Fermer"
+            className="absolute top-3 right-3 z-10 w-9 h-9 bg-white border-2 border-[var(--black)] rounded-full flex items-center justify-center text-[var(--black)] hover:bg-[var(--pink)] transition"
           >
-            <X size={16} />
+            <X size={16} strokeWidth={2.5} />
           </button>
 
           {/* Image */}
@@ -56,24 +61,36 @@ export default function PromoPopup() {
             <img
               src={popup.image}
               alt={popup.title}
-              className="w-full h-52 object-cover"
+              className="w-full h-52 object-cover border-b-[2.5px] border-[var(--black)]"
             />
           )}
 
           {/* Contenu */}
-          <div className="p-7 text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">{popup.title}</h2>
-            <p className="text-sm text-gray-500 leading-relaxed mb-6">{popup.description}</p>
+          <div className="p-7 text-center relative">
+            {!popup.image && (
+              <RetroStar
+                points={8}
+                className="w-12 h-12 text-[var(--orange)] mx-auto mb-4"
+              />
+            )}
+            <h2 className="font-display font-extrabold text-2xl md:text-3xl text-[var(--black)] leading-tight mb-2">
+              {popup.title}
+            </h2>
+            {popup.description && (
+              <p className="text-[14px] text-[var(--black)]/70 leading-relaxed mb-6 font-semibold">
+                {popup.description}
+              </p>
+            )}
             <a
-              href={popup.buttonUrl || "/kits/decouverte"}
+              href={popup.buttonUrl || "/produit"}
               onClick={close}
-              className="block w-full bg-gray-900 text-white py-3.5 rounded-xl text-[15px] font-semibold hover:bg-gray-800 transition-colors text-center"
+              className="btn-rosa w-full"
             >
               {popup.buttonText || "En profiter"}
             </a>
             <button
               onClick={close}
-              className="mt-3 text-[13px] text-gray-400 hover:text-gray-600 transition"
+              className="mt-3 block mx-auto text-[13px] font-bold text-[var(--black)]/45 hover:text-[var(--black)] transition"
             >
               Non merci
             </button>

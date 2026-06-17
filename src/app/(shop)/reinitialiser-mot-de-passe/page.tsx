@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { usePageTitle } from "@/lib/use-page-title";
+import RetroStar from "@/components/shop/RetroStar";
 
 function ResetPasswordContent() {
   usePageTitle("Nouveau mot de passe");
@@ -67,7 +68,6 @@ function ResetPasswordContent() {
         return;
       }
 
-      // Connexion automatique avec le nouveau mot de passe
       if (data.email) {
         const result = await signIn("credentials", {
           email: data.email,
@@ -86,36 +86,37 @@ function ResetPasswordContent() {
     }
   }
 
+  const inputCls =
+    "w-full px-4 py-3 bg-[var(--cream)]/40 rounded-2xl border-2 border-[var(--black)]/20 text-[15px] text-[var(--black)] focus:border-[var(--black)] focus:ring-0 outline-none transition placeholder:text-[var(--black)]/30";
+  const labelCls = "block text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--black)] mb-2";
+
   return (
-    <div className="bg-[var(--brand-cream)]/30 min-h-[80vh] py-20 md:py-28 px-4">
-      <div className="max-w-md mx-auto">
-        <div className="text-center mb-12">
-          <p className="text-[10px] uppercase tracking-[0.45em] text-gray-400 mb-5">
+    <div className="bg-[var(--cream)] min-h-[85vh] py-16 md:py-24 px-4 relative overflow-hidden">
+      <RetroStar points={8} className="absolute top-12 right-[10%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
+      <RetroStar points={10} className="absolute bottom-16 left-[12%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
+
+      <div className="max-w-md mx-auto relative">
+        <div className="text-center mb-9">
+          <span className="inline-flex items-center gap-2 pill-rosa bg-[var(--pink)] text-[var(--black)] px-4 py-1.5 text-[11px] font-display font-extrabold uppercase tracking-wide">
             Espace client
-          </p>
-          <h1 className="font-serif text-4xl md:text-5xl text-gray-900 leading-[1.05]">
-            Nouveau<br />
-            <span className="italic text-[var(--brand-gold)]">mot de passe</span>
+          </span>
+          <h1 className="mt-5 font-display font-extrabold text-4xl md:text-5xl text-[var(--black)] leading-[0.95]">
+            Nouveau <span className="text-[var(--orange)]">mot de passe</span>
           </h1>
-          <div className="w-12 h-px bg-[var(--brand-gold)]/40 mx-auto mt-8" />
         </div>
 
-        <div className="bg-white border border-[var(--brand-gold)]/15 px-6 sm:px-10 py-10 sm:py-12">
+        <div className="card-rosa bg-white px-6 sm:px-9 py-9 sm:py-10" style={{ boxShadow: "6px 6px 0 0 var(--black)" }}>
           {tokenStatus === "checking" && (
-            <p className="font-serif italic text-center text-gray-500 text-[14px]">Vérification du lien…</p>
+            <p className="text-center text-[var(--black)]/55 font-semibold text-[14px]">Vérification du lien…</p>
           )}
 
           {tokenStatus === "invalid" && (
             <div className="text-center">
-              <p className="font-serif text-[15px] text-gray-700 leading-relaxed mb-7">
+              <p className="text-[15px] text-[var(--black)]/80 font-semibold leading-relaxed mb-7">
                 Ce lien est invalide ou a expiré. Demandez un nouveau lien de réinitialisation.
               </p>
-              <Link
-                href="/mot-de-passe-oublie"
-                className="inline-flex items-center gap-3 bg-[var(--brand-gold)] text-white px-7 py-3.5 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition"
-              >
-                Demander un nouveau lien
-                <ArrowRight size={13} />
+              <Link href="/mot-de-passe-oublie" className="btn-rosa">
+                Demander un nouveau lien <ArrowRight size={16} strokeWidth={2.5} />
               </Link>
             </div>
           )}
@@ -123,57 +124,29 @@ function ResetPasswordContent() {
           {tokenStatus === "valid" && (
             <>
               {email && (
-                <p className="font-serif italic text-[13px] text-gray-600 mb-7 leading-relaxed text-center">
-                  Pour le compte <span className="not-italic font-medium text-gray-900">{email}</span>
+                <p className="text-[14px] text-[var(--black)]/65 font-semibold mb-7 leading-relaxed text-center">
+                  Pour le compte <span className="text-[var(--black)] font-display font-extrabold">{email}</span>
                 </p>
               )}
 
               {error && (
-                <div className="mb-6 px-4 py-3 border border-red-200 bg-red-50/50 text-red-700 text-[13px] font-serif italic text-center">
+                <div className="mb-6 px-4 py-3 rounded-2xl border-2 border-red-300 bg-red-50 text-red-700 text-[13px] font-bold text-center">
                   {error}
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label htmlFor="password" className="block text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-2">
-                    Nouveau mot de passe
-                  </label>
-                  <input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    autoComplete="new-password"
-                    minLength={8}
-                    className="w-full px-0 py-2.5 bg-transparent border-0 border-b border-gray-200 text-[14px] text-gray-900 focus:border-[var(--brand-gold)] focus:ring-0 outline-none transition placeholder:text-gray-300"
-                    placeholder="••••••••"
-                  />
+                  <label htmlFor="password" className={labelCls}>Nouveau mot de passe</label>
+                  <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="new-password" minLength={8} className={inputCls} placeholder="••••••••" />
                 </div>
                 <div>
-                  <label htmlFor="confirm" className="block text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-2">
-                    Confirmer
-                  </label>
-                  <input
-                    id="confirm"
-                    type="password"
-                    value={confirm}
-                    onChange={(e) => setConfirm(e.target.value)}
-                    required
-                    autoComplete="new-password"
-                    minLength={8}
-                    className="w-full px-0 py-2.5 bg-transparent border-0 border-b border-gray-200 text-[14px] text-gray-900 focus:border-[var(--brand-gold)] focus:ring-0 outline-none transition placeholder:text-gray-300"
-                    placeholder="••••••••"
-                  />
+                  <label htmlFor="confirm" className={labelCls}>Confirmer</label>
+                  <input id="confirm" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required autoComplete="new-password" minLength={8} className={inputCls} placeholder="••••••••" />
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="mt-2 w-full flex items-center justify-center gap-3 bg-[var(--brand-gold)] text-white py-4 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {loading ? "Enregistrement…" : <>Définir le mot de passe <ArrowRight size={13} /></>}
+                <button type="submit" disabled={loading} className="btn-rosa w-full disabled:opacity-60 disabled:cursor-not-allowed">
+                  {loading ? "Enregistrement…" : <>Définir le mot de passe <ArrowRight size={16} strokeWidth={2.5} /></>}
                 </button>
               </form>
             </>
@@ -186,7 +159,13 @@ function ResetPasswordContent() {
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={<div className="bg-[var(--brand-cream)]/30 min-h-[80vh] flex items-center justify-center"><p className="font-serif italic text-gray-500">Chargement…</p></div>}>
+    <Suspense
+      fallback={
+        <div className="bg-[var(--cream)] min-h-[85vh] flex items-center justify-center">
+          <p className="text-[var(--black)]/55 font-semibold">Chargement…</p>
+        </div>
+      }
+    >
       <ResetPasswordContent />
     </Suspense>
   );

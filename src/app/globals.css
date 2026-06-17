@@ -1,34 +1,110 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #1f1d1a;
-  --brand-gold: #b8923c;
-  --brand-gold-dark: #9c7a2e;
-  --brand-olive: #9caf88;
-  --brand-cream: #faf7f1;
+  /* ───────── Palette Rosa Malheur — affiche sérigraphiée vintage 70s ───────── */
+  --cream: #F2D0AD;
+  --black: #0E0D0D;
+  --pink: #EBA0A4;
+  --pink-dark: #E1798A;
+  --orange: #DC480F;
+  --brown: #CF6536;
+
+  --background: var(--cream);
+  --foreground: var(--black);
+
+  /* Compat : les composants hérités utilisent --brand-* . On les remappe sur la
+     nouvelle charte pour que tout le site adopte l'identité d'un seul coup. */
+  --brand-gold: var(--orange);
+  --brand-gold-dark: #B23A0C;
+  --brand-olive: var(--brown);
+  --brand-cream: #F8E3C6;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-cream: var(--cream);
+  --color-ink: var(--black);
+  --color-pink: var(--pink);
+  --color-pink-dark: var(--pink-dark);
+  --color-orange: var(--orange);
+  --color-brown: var(--brown);
   --color-brand-gold: var(--brand-gold);
   --color-brand-gold-dark: var(--brand-gold-dark);
   --color-brand-olive: var(--brand-olive);
   --color-brand-cream: var(--brand-cream);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-serif);
+  --font-sans: var(--font-nunito);
+  --font-display: var(--font-baloo);
+  --font-serif: var(--font-baloo);
 }
 
-.font-serif { font-family: var(--font-serif), Georgia, serif; }
+.font-serif,
+.font-display { font-family: var(--font-baloo), "Baloo 2", system-ui, sans-serif; }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-nunito), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ───────── Rosa Malheur — composants de marque ───────── */
+
+/* Bouton principal : pilule orange, contour noir, ombre dure « sticker ». */
+.btn-rosa {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  background: var(--orange); color: #fff;
+  font-family: var(--font-baloo), system-ui, sans-serif; font-weight: 800;
+  border-radius: 999px; padding: 0.9rem 2rem; line-height: 1;
+  border: 2.5px solid var(--black);
+  box-shadow: 4px 4px 0 0 var(--black);
+  transition: transform .14s ease, background .14s ease, color .14s ease, box-shadow .14s ease;
+}
+.btn-rosa:hover { background: var(--pink); color: var(--black); transform: translate(-1px,-1px); box-shadow: 5px 5px 0 0 var(--black); }
+.btn-rosa:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 0 var(--black); }
+
+/* Bouton secondaire : contour seul. */
+.btn-rosa-outline {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  background: transparent; color: var(--black);
+  font-family: var(--font-baloo), system-ui, sans-serif; font-weight: 800;
+  border-radius: 999px; padding: 0.9rem 2rem; line-height: 1;
+  border: 2.5px solid var(--black);
+  transition: background .14s ease, color .14s ease;
+}
+.btn-rosa-outline:hover { background: var(--black); color: var(--cream); }
+
+/* Formes organiques imparfaites. */
+.blob   { border-radius: 45% 55% 50% 50% / 55% 45% 60% 40%; }
+.blob-2 { border-radius: 60% 40% 55% 45% / 45% 60% 40% 55%; }
+.blob-3 { border-radius: 42% 58% 62% 38% / 50% 44% 56% 50%; }
+
+/* Bloc / carte arrondie à contour noir (esprit sticker sérigraphié). */
+.card-rosa { border-radius: 28px; border: 2.5px solid var(--black); }
+.pill-rosa { border-radius: 999px; border: 2.5px solid var(--black); }
+
+/* ───────── Admin : arrondit les contrôles « carrés » hérités ─────────
+   Ne touche QUE les éléments sans arrondi explicite (`:not([class*="rounded"])`),
+   pour uniformiser l'admin avec le reste du site sans rien casser. */
+.admin-scope button:not([class*="rounded"]):not(.btn-rosa):not(.btn-rosa-outline),
+.admin-scope a[class*="bg-[var(--orange)]"]:not([class*="rounded"]),
+.admin-scope a[class*="bg-[var(--brand-gold)]"]:not([class*="rounded"]),
+.admin-scope a[class*="bg-[var(--black)]"]:not([class*="rounded"]) {
+  border-radius: 9999px;
+}
+.admin-scope input:not([type="checkbox"]):not([type="radio"]):not([class*="rounded"]),
+.admin-scope select:not([class*="rounded"]),
+.admin-scope textarea:not([class*="rounded"]) {
+  border-radius: 14px;
+}
+/* Panneaux / cartes blancs bordés mais carrés → coins arrondis. */
+.admin-scope div[class*="bg-white"][class*="border"]:not([class*="rounded"]) {
+  border-radius: 18px;
+}
+/* Vignettes / images carrées dans l'admin. */
+.admin-scope img[class*="object-cover"]:not([class*="rounded"]) {
+  border-radius: 12px;
 }
 
 /* Prose for blog/content */

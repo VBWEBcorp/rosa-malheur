@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingCart, Minus, Plus, Heart } from "lucide-react";
+import { ShoppingCart, Minus, Plus } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
-import { useSession } from "next-auth/react";
 import { formatPrice } from "@/lib/utils";
 import toast from "react-hot-toast";
 import ReviewSection from "./ReviewSection";
@@ -29,7 +28,6 @@ export default function ProductClientSection({
   variants,
 }: ProductClientProps) {
   const { addItem } = useCart();
-  const { data: session } = useSession();
   const [quantity, setQuantity] = useState(1);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>(() => {
     const defaults: Record<string, string> = {};
@@ -38,7 +36,6 @@ export default function ProductClientSection({
     });
     return defaults;
   });
-  const [wishlisted, setWishlisted] = useState(false);
 
   const currentPrice =
     price +
@@ -61,51 +58,36 @@ export default function ProductClientSection({
     }
   }
 
-  async function toggleWishlist() {
-    if (!session) {
-      toast.error("Connectez-vous pour ajouter aux favoris");
-      return;
-    }
-    const method = wishlisted ? "DELETE" : "POST";
-    await fetch("/api/wishlist", {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId }),
-    });
-    setWishlisted(!wishlisted);
-    toast.success(wishlisted ? "Retiré des favoris" : "Ajouté aux favoris");
-  }
-
   return (
     <>
-      {/* Price */}
-      <div className="mt-4 flex items-center gap-3">
-        <span className="text-3xl font-bold text-gray-900">{formatPrice(currentPrice)}</span>
+      {/* Prix */}
+      <div className="mt-6 flex items-center gap-3 flex-wrap">
+        <span className="font-display font-extrabold text-4xl text-[var(--black)]">{formatPrice(currentPrice)}</span>
         {compareAtPrice && compareAtPrice > currentPrice && (
-          <span className="text-lg text-gray-400 line-through">{formatPrice(compareAtPrice)}</span>
+          <span className="text-lg text-[var(--black)]/40 line-through">{formatPrice(compareAtPrice)}</span>
         )}
         {compareAtPrice && compareAtPrice > currentPrice && (
-          <span className="text-sm font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-lg">
+          <span className="font-display font-extrabold text-sm text-white bg-[var(--orange)] px-2.5 py-1 rounded-full border-2 border-[var(--black)]">
             -{Math.round(((compareAtPrice - currentPrice) / compareAtPrice) * 100)}%
           </span>
         )}
       </div>
 
-      {/* Variants */}
+      {/* Variantes */}
       {variants.map((variant) => (
         <div key={variant.name} className="mt-6">
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            {variant.name}: <span className="text-gray-500 font-normal">{selectedVariants[variant.name]}</span>
+          <label className="block font-display font-extrabold text-sm uppercase tracking-wide text-[var(--black)] mb-2.5">
+            {variant.name} <span className="text-[var(--orange)]">· {selectedVariants[variant.name]}</span>
           </label>
           <div className="flex flex-wrap gap-2">
             {variant.options.map((option) => (
               <button
                 key={option.value}
                 onClick={() => setSelectedVariants((prev) => ({ ...prev, [variant.name]: option.value }))}
-                className={`px-4 py-2.5 border rounded-xl text-sm font-medium transition-all ${
+                className={`px-4 py-2.5 rounded-full text-sm font-bold border-2 transition-all ${
                   selectedVariants[variant.name] === option.value
-                    ? "border-gray-900 bg-gray-900 text-white"
-                    : "border-gray-200 hover:border-gray-300 text-gray-700"
+                    ? "border-[var(--black)] bg-[var(--black)] text-[var(--cream)]"
+                    : "border-[var(--black)]/25 text-[var(--black)] hover:border-[var(--black)]"
                 } ${option.stock === 0 ? "opacity-30 cursor-not-allowed line-through" : ""}`}
                 disabled={option.stock === 0}
               >
@@ -117,47 +99,35 @@ export default function ProductClientSection({
         </div>
       ))}
 
-      {/* Quantity + Add to cart */}
+      {/* Quantité + ajout panier */}
       <div className="mt-8 flex items-center gap-3">
-        <div className="flex items-center border border-gray-200 rounded-xl">
-          <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-3 text-gray-500 hover:text-gray-900 transition">
-            <Minus size={16} />
+        <div className="flex items-center pill-rosa bg-white">
+          <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-3 text-[var(--black)] hover:text-[var(--orange)] transition" aria-label="Diminuer">
+            <Minus size={16} strokeWidth={2.5} />
           </button>
-          <span className="w-10 text-center font-semibold text-sm">{quantity}</span>
-          <button onClick={() => setQuantity(quantity + 1)} className="p-3 text-gray-500 hover:text-gray-900 transition">
-            <Plus size={16} />
+          <span className="w-9 text-center font-display font-extrabold">{quantity}</span>
+          <button onClick={() => setQuantity(quantity + 1)} className="p-3 text-[var(--black)] hover:text-[var(--orange)] transition" aria-label="Augmenter">
+            <Plus size={16} strokeWidth={2.5} />
           </button>
         </div>
 
         <button
           onClick={addToCart}
           disabled={stock === 0}
-          className="flex-1 flex items-center justify-center gap-2 bg-gray-900 text-white py-3.5 px-6 rounded-xl font-semibold text-[15px] hover:bg-gray-800 transition-all hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-rosa flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <ShoppingCart size={18} />
+          <ShoppingCart size={18} strokeWidth={2.5} />
           {stock === 0 ? "Rupture de stock" : "Ajouter au panier"}
-        </button>
-
-        <button
-          onClick={toggleWishlist}
-          className={`p-3.5 rounded-xl border transition-all ${
-            wishlisted
-              ? "border-red-200 bg-red-50 text-red-500"
-              : "border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-200"
-          }`}
-        >
-          <Heart size={18} className={wishlisted ? "fill-red-500" : ""} />
         </button>
       </div>
 
-      {/* Stock indicator */}
+      {/* Stock faible */}
       {stock > 0 && stock <= 5 && (
-        <p className="mt-3 text-sm text-amber-600 font-medium">
-          Plus que {stock} en stock. Commandez vite !
+        <p className="mt-3 text-sm text-[var(--orange)] font-bold">
+          Plus que {stock} en stock — foncez !
         </p>
       )}
 
-      {/* Reviews */}
       <ReviewSection productId={productId} />
     </>
   );

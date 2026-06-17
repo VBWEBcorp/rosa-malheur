@@ -193,15 +193,14 @@ export default function GiftCardPurchasePage() {
     <div className="bg-[var(--brand-cream)]/30 min-h-[80vh]">
       {/* Hero */}
       <section className="max-w-3xl mx-auto px-4 pt-16 pb-10 text-center">
-        <span className="inline-flex items-center justify-center w-14 h-14 rounded-full border border-[var(--brand-gold)]/30 text-[var(--brand-gold)] mb-6">
-          <Gift className="w-6 h-6" strokeWidth={1.25} />
+        <span className="inline-flex items-center justify-center w-14 h-14 rounded-full border-2 border-[var(--black)] bg-[var(--pink)] text-[var(--black)] mb-6">
+          <Gift className="w-6 h-6" strokeWidth={2} />
         </span>
-        <p className="text-[10px] uppercase tracking-[0.45em] text-gray-400 mb-4">Offrir</p>
-        <h1 className="font-serif text-4xl md:text-5xl text-gray-900 leading-[1.05]">
-          Une <span className="italic text-[var(--brand-gold)]">carte cadeau</span>
+        <h1 className="font-display font-extrabold text-5xl md:text-6xl text-[var(--black)] leading-[0.9]">
+          Une <span className="text-[var(--orange)]">carte cadeau</span>
         </h1>
-        <div className="w-12 h-px bg-[var(--brand-gold)]/40 mx-auto mt-7 mb-7" />
-        <p className="font-serif italic text-[15px] text-gray-600 leading-relaxed max-w-xl mx-auto">
+        <div className="w-12 h-1 rounded-full bg-[var(--orange)] mx-auto mt-6 mb-6" />
+        <p className="text-[15px] text-[var(--black)]/75 font-semibold leading-relaxed max-w-xl mx-auto">
           Le cadeau idéal&nbsp;: votre proche reçoit un code par email et choisit librement ce qui lui fait plaisir, au moment qui lui convient.
         </p>
       </section>
@@ -230,13 +229,13 @@ export default function GiftCardPurchasePage() {
                         setCustomAmount("");
                         setAmountEuros(p.amount / 100);
                       }}
-                      className={`relative py-5 px-2 text-center border transition ${
+                      className={`relative py-5 px-2 text-center rounded-2xl border-2 transition ${
                         selected
-                          ? "border-[var(--brand-gold)] bg-[var(--brand-gold)]/5"
-                          : "border-gray-200 hover:border-[var(--brand-gold)]/40"
+                          ? "border-[var(--black)] bg-[var(--pink)]"
+                          : "border-[var(--black)]/20 hover:border-[var(--black)]"
                       }`}
                     >
-                      <span className="block font-serif text-2xl text-gray-900">
+                      <span className="block font-display font-extrabold text-2xl text-[var(--black)]">
                         {formatPrice(p.amount)}
                       </span>
                       {p.label && (
@@ -320,9 +319,9 @@ export default function GiftCardPurchasePage() {
             </Card>
 
             {/* Récap + CTA */}
-            <div className="bg-white border border-[var(--brand-gold)]/15 px-6 py-5 flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-[0.4em] text-gray-400">Total</span>
-              <span className="font-serif text-2xl text-gray-900">
+            <div className="card-rosa bg-white px-6 py-5 flex items-center justify-between">
+              <span className="text-[12px] uppercase tracking-wide font-display font-extrabold text-[var(--black)]/60">Total</span>
+              <span className="font-display font-extrabold text-2xl text-[var(--black)]">
                 {amountEuros > 0 ? formatPrice(Math.round(amountEuros * 100)) : "—"}
               </span>
             </div>
@@ -330,9 +329,9 @@ export default function GiftCardPurchasePage() {
             <button
               onClick={() => void goToPayment()}
               disabled={loading || amountEuros < MIN}
-              className="w-full inline-flex items-center justify-center gap-3 bg-[var(--brand-gold)] text-white py-4 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition disabled:opacity-60 disabled:cursor-not-allowed"
+              className="btn-rosa w-full disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "Préparation du paiement…" : <>Continuer vers le paiement <ArrowRight size={13} /></>}
+              {loading ? "Préparation du paiement…" : <>Continuer vers le paiement <ArrowRight size={16} strokeWidth={2.5} /></>}
             </button>
           </div>
         )}
@@ -364,12 +363,12 @@ export default function GiftCardPurchasePage() {
                       appearance: {
                         theme: "flat",
                         variables: {
-                          colorPrimary: "#b8923c",
+                          colorPrimary: "#DC480F",
                           colorBackground: "#ffffff",
-                          colorText: "#111827",
+                          colorText: "#0E0D0D",
                           colorDanger: "#b91c1c",
                           fontFamily: "ui-sans-serif, system-ui, sans-serif",
-                          borderRadius: "0px",
+                          borderRadius: "12px",
                           spacingUnit: "4px",
                         },
                         rules: {
@@ -480,11 +479,8 @@ function Confirmation({ result, shopName, template }: { result: PurchaseResult; 
           </button>
         </div>
 
-        <Link
-          href="/"
-          className="inline-flex items-center gap-3 bg-[var(--brand-gold)] text-white px-7 py-3.5 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition"
-        >
-          Découvrir la boutique <ArrowRight size={13} />
+        <Link href="/produit" className="btn-rosa">
+          Voir la laisse <ArrowRight size={16} strokeWidth={2.5} />
         </Link>
       </div>
     </div>
@@ -540,16 +536,16 @@ function PaymentForm({
           type="button"
           onClick={onBack}
           disabled={submitting}
-          className="px-5 py-4 border border-[var(--brand-gold)]/30 text-[var(--brand-gold)] hover:bg-[var(--brand-gold)]/5 transition disabled:opacity-60"
+          className="btn-rosa-outline px-5 disabled:opacity-60"
         >
-          <ArrowLeft size={14} />
+          <ArrowLeft size={16} strokeWidth={2.5} />
         </button>
         <button
           type="submit"
           disabled={!stripe || submitting}
-          className="flex-1 inline-flex items-center justify-center gap-3 bg-[var(--brand-gold)] text-white py-4 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition disabled:opacity-60 disabled:cursor-not-allowed"
+          className="btn-rosa flex-1 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {submitting ? "Paiement en cours…" : <>Payer {formatPrice(amountCents)} <ArrowRight size={13} /></>}
+          {submitting ? "Paiement en cours…" : <>Payer {formatPrice(amountCents)} <ArrowRight size={16} strokeWidth={2.5} /></>}
         </button>
       </div>
     </form>
@@ -576,10 +572,10 @@ function StepDot({ label, active, done, number }: { label: string; active: boole
 
 function Card({ eyebrow, title, children }: { eyebrow: string; title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white border border-[var(--brand-gold)]/15 px-6 sm:px-8 py-7">
+    <div className="card-rosa bg-white px-6 sm:px-8 py-7" style={{ boxShadow: "5px 5px 0 0 var(--black)" }}>
       <div className="mb-7">
-        <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-2">{eyebrow}</p>
-        <h2 className="font-serif text-2xl text-gray-900 leading-none">{title}</h2>
+        <p className="text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--orange)] mb-1">{eyebrow}</p>
+        <h2 className="font-display font-extrabold text-2xl text-[var(--black)] leading-none">{title}</h2>
       </div>
       {children}
     </div>
@@ -603,9 +599,9 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-2">
+      <label className="block text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--black)] mb-2">
         {label}
-        {required && <span className="text-[var(--brand-gold)] ml-1">*</span>}
+        {required && <span className="text-[var(--orange)] ml-1">*</span>}
       </label>
       <input
         type={type}
@@ -613,7 +609,7 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         required={required}
         placeholder={placeholder}
-        className="w-full px-0 py-2.5 bg-transparent border-0 border-b border-gray-200 text-[14px] text-gray-900 focus:border-[var(--brand-gold)] focus:ring-0 outline-none transition placeholder:text-gray-300"
+        className="w-full px-4 py-3 bg-[var(--cream)]/40 rounded-2xl border-2 border-[var(--black)]/20 text-[15px] text-[var(--black)] focus:border-[var(--black)] focus:ring-0 outline-none transition placeholder:text-[var(--black)]/30"
       />
     </div>
   );

@@ -11,8 +11,9 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        // Bucket R2 Rosa Malheur (URL publique du bucket « rosamalheur »)
         protocol: "https",
-        hostname: "pub-64f8c999b05945dbb589cf704882488c.r2.dev",
+        hostname: "pub-3ee0e4f265924ced8d8db8bf19798ba5.r2.dev",
       },
       {
         // Cloudflare R2 public URLs (pattern: pub-<hash>.r2.dev) — couvre tous les buckets

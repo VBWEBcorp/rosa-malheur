@@ -1,19 +1,13 @@
 import Link from "next/link";
-import Image from "next/image";
 import SiteSettings from "@/models/SiteSettings";
 import { connectDB } from "@/lib/db";
 import { getContent } from "@/lib/content";
+import RetroStar from "./RetroStar";
 
 export default async function Footer() {
-  const t = await getContent();
   let settings: {
     shopName?: string;
-    social?: {
-      facebook?: string;
-      instagram?: string;
-      tiktok?: string;
-      youtube?: string;
-    };
+    social?: { facebook?: string; instagram?: string; tiktok?: string; youtube?: string };
   } | null = null;
   try {
     await connectDB();
@@ -22,151 +16,90 @@ export default async function Footer() {
     // ignore
   }
 
-  const shopName = settings?.shopName || "Entre Maman et Moi";
+  const t = await getContent();
+  const shopName = settings?.shopName || "Rosa Malheur";
   const year = new Date().getFullYear();
 
   const socials = [
-    { href: settings?.social?.facebook || "#", label: "Facebook", Icon: FacebookIcon },
-    { href: settings?.social?.instagram || "#", label: "Instagram", Icon: InstagramIcon },
-    { href: settings?.social?.tiktok || "#", label: "TikTok", Icon: TikTokIcon },
-    { href: settings?.social?.youtube || "#", label: "YouTube", Icon: YoutubeIcon },
-  ];
+    { href: settings?.social?.instagram, label: "Instagram", Icon: InstagramIcon },
+    { href: settings?.social?.facebook, label: "Facebook", Icon: FacebookIcon },
+    { href: settings?.social?.tiktok, label: "TikTok", Icon: TikTokIcon },
+    { href: settings?.social?.youtube, label: "YouTube", Icon: YoutubeIcon },
+  ].filter((s) => s.href);
 
   return (
-    <footer className="bg-[var(--brand-cream)]/60 mt-auto">
-      {/* Brand block + columns */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-20 md:pt-28 pb-14">
-        {/* Centered brand */}
-        <div className="text-center mb-16 md:mb-20">
-          <p className="text-[10px] uppercase tracking-[0.45em] text-gray-400 mb-6">
-            {t("footer_eyebrow")}
+    <footer className="mt-auto bg-[var(--black)] text-[var(--cream)] relative overflow-hidden">
+      {/* Étoiles décoratives */}
+      <RetroStar points={8} className="absolute -top-6 right-10 w-20 h-20 text-[var(--orange)] opacity-90" />
+      <RetroStar points={10} className="absolute top-24 left-6 w-12 h-12 text-[var(--pink)] opacity-80 hidden sm:block" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 md:pt-20 pb-12 relative">
+        {/* Marque + accroche */}
+        <div className="max-w-2xl">
+          <p className="font-display font-extrabold text-4xl md:text-5xl leading-none">
+            <span className="text-[var(--orange)]">Rosa</span> <span className="text-[var(--cream)]">Malheur</span>
           </p>
-          <Link href="/" className="inline-block" aria-label={shopName}>
-            <Image
-              src={t("footer_logo")}
-              alt={shopName}
-              width={280}
-              height={120}
-              className="h-24 sm:h-28 md:h-32 w-auto object-contain mx-auto"
-            />
-          </Link>
-          <div className="w-16 h-px bg-[var(--brand-gold)]/40 mx-auto mt-8" />
-          <p className="font-serif italic text-lg md:text-xl text-gray-600 mt-7">
+          <p className="mt-5 text-[15px] leading-relaxed text-[var(--cream)]/80 max-w-md">
             {t("footer_tagline")}
           </p>
-        </div>
 
-        {/* 3 columns: Découvrir / S'initier / Adresse */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 max-w-5xl mx-auto">
-          <FooterColumn
-            label={t("footer_col1_label")}
-            links={[
-              { href: "/kits/decouverte", label: "Kit Découverte" },
-              { href: "/kits/signature", label: "Kit Signature" },
-              { href: "/kits/familiale", label: "Kit Familiale" },
-            ]}
-          />
-
-          <FooterColumn
-            label={t("footer_col2_label")}
-            links={[
-              { href: "/ateliers/a-domicile", label: "Atelier à domicile" },
-              { href: "/ateliers/collectif", label: "Atelier collectif" },
-              { href: "/ateliers/chef-prive", label: "Cheffe privée à domicile" },
-              { href: "/traiteur/emporter", label: "Traiteur à emporter" },
-              { href: "/traiteur/evenementiel", label: "Traiteur événementiel" },
-            ]}
-          />
-
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-5">
-              {t("footer_col3_label")}
-            </p>
-            <div className="space-y-5 text-[13px] text-gray-700 leading-relaxed">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-1.5">
-                  Adresse
-                </p>
-                <p>
-                  {t("footer_address").split("\n").map((line, i, arr) => (
-                    <span key={i}>
-                      {line}
-                      {i < arr.length - 1 && <br />}
-                    </span>
-                  ))}
-                </p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-1.5">
-                  Email
-                </p>
+          {socials.length > 0 && (
+            <div className="mt-7 flex items-center gap-3">
+              {socials.map(({ href, label, Icon }) => (
                 <a
-                  href={`mailto:${t("footer_email")}`}
-                  className="hover:text-[var(--brand-gold)] transition border-b border-transparent hover:border-[var(--brand-gold)]/40"
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="w-11 h-11 rounded-full border-2 border-[var(--cream)]/40 text-[var(--cream)] flex items-center justify-center hover:bg-[var(--orange)] hover:border-[var(--orange)] hover:text-white transition"
                 >
-                  {t("footer_email")}
+                  <Icon size={16} />
                 </a>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-1.5">
-                  Réponse
-                </p>
-                <p>{t("footer_response")}</p>
-              </div>
+              ))}
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Socials — centered, refined */}
-        <div className="mt-16 md:mt-20 text-center">
-          <p className="text-[10px] uppercase tracking-[0.45em] text-gray-400 mb-6">
-            {t("footer_socials_label")}
-          </p>
-          <div className="flex items-center justify-center gap-3 sm:gap-4">
-            {socials.map(({ href, label, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-[var(--brand-gold)]/40 text-[var(--brand-gold)] flex items-center justify-center hover:bg-[var(--brand-gold)] hover:text-white hover:border-[var(--brand-gold)] transition"
-              >
-                <Icon size={14} />
-              </a>
-            ))}
-          </div>
+        {/* Colonnes de liens */}
+        <div className="mt-14 grid grid-cols-2 md:grid-cols-3 gap-10 max-w-3xl">
+          <FooterCol
+            title={t("footer_col1_label")}
+            links={[
+              { href: "/produit", label: "La laisse" },
+              { href: "/cartes-cadeaux", label: "Carte cadeau" },
+              { href: "/track", label: "Suivre ma commande" },
+            ]}
+          />
+          <FooterCol
+            title={t("footer_col2_label")}
+            links={[
+              { href: "/blog", label: "Journal" },
+              { href: "/pages/a-propos", label: "À propos" },
+              { href: "/contact", label: "Contact" },
+            ]}
+          />
+          <FooterCol
+            title={t("footer_col3_label")}
+            links={[
+              { href: "/pages/mentions-legales", label: "Mentions légales" },
+              { href: "/pages/cgv", label: "CGV" },
+              { href: "/pages/politique-confidentialite", label: "Confidentialité" },
+              { href: "/pages/politique-retour", label: "Retours" },
+            ]}
+          />
         </div>
       </div>
 
-      {/* Bottom strip */}
-      <div className="border-t border-[var(--brand-gold)]/15">
+      {/* Bas de page */}
+      <div className="border-t border-[var(--cream)]/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[11px] text-gray-500">
-            <span>© {year} {shopName}</span>
-            <Link href="/blog" className="hover:text-[var(--brand-gold)] transition">
-              Blog
-            </Link>
-            <Link href="/pages/mentions-legales" className="hover:text-[var(--brand-gold)] transition">
-              Mentions légales
-            </Link>
-            <Link href="/pages/cgv" className="hover:text-[var(--brand-gold)] transition">
-              CGV
-            </Link>
-            <Link href="/pages/politique-confidentialite" className="hover:text-[var(--brand-gold)] transition">
-              Confidentialité
-            </Link>
-            <Link href="/contact" className="hover:text-[var(--brand-gold)] transition">
-              Contact
-            </Link>
-          </div>
-          <div
-            aria-label="Moyens de paiement acceptés"
-            className="flex items-center gap-2"
-          >
+          <p className="text-[12px] text-[var(--cream)]/60">
+            © {year} {shopName} · {t("footer_bottom_note")}
+          </p>
+          <div aria-label="Moyens de paiement acceptés" className="flex items-center gap-2">
             <PaymentBadge label="Visa"><VisaMark /></PaymentBadge>
             <PaymentBadge label="Mastercard"><MastercardMark /></PaymentBadge>
-            <PaymentBadge label="Maestro"><MaestroMark /></PaymentBadge>
             <PaymentBadge label="Apple Pay"><ApplePayMark /></PaymentBadge>
           </div>
         </div>
@@ -175,24 +108,24 @@ export default async function Footer() {
   );
 }
 
-function FooterColumn({
-  label,
+function FooterCol({
+  title,
   links,
 }: {
-  label: string;
+  title: string;
   links: { href: string; label: string }[];
 }) {
   return (
     <div>
-      <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-5">
-        {label}
+      <p className="font-display font-extrabold text-[var(--pink)] text-sm uppercase tracking-wide mb-4">
+        {title}
       </p>
-      <ul className="space-y-3">
+      <ul className="space-y-2.5">
         {links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="text-[13px] text-gray-700 hover:text-[var(--brand-gold)] transition border-b border-transparent hover:border-[var(--brand-gold)]/40 pb-0.5"
+              className="text-[14px] text-[var(--cream)]/80 hover:text-[var(--orange)] transition"
             >
               {link.label}
             </Link>
@@ -203,18 +136,12 @@ function FooterColumn({
   );
 }
 
-function PaymentBadge({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
+function PaymentBadge({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <span
       aria-label={label}
       title={label}
-      className="inline-flex items-center justify-center w-10 h-7 border border-gray-200 rounded bg-white shrink-0"
+      className="inline-flex items-center justify-center w-10 h-7 border border-[var(--cream)]/25 rounded bg-[var(--cream)] shrink-0"
     >
       {children}
     </span>
@@ -222,75 +149,27 @@ function PaymentBadge({
 }
 
 /* ───────── Marques de paiement ───────── */
-
 function VisaMark() {
   return (
-    <svg
-      viewBox="0 0 64 22"
-      className="h-3 w-auto"
-      aria-hidden="true"
-    >
-      <text
-        x="32"
-        y="17"
-        textAnchor="middle"
-        fontFamily="Geist, Arial, sans-serif"
-        fontWeight="900"
-        fontStyle="italic"
-        fontSize="20"
-        letterSpacing="0.5"
-        fill="#1A1F71"
-      >
-        VISA
-      </text>
+    <svg viewBox="0 0 64 22" className="h-3 w-auto" aria-hidden="true">
+      <text x="32" y="17" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="900" fontStyle="italic" fontSize="20" fill="#1A1F71">VISA</text>
     </svg>
   );
 }
-
 function MastercardMark() {
   return (
     <svg viewBox="0 0 36 22" className="h-4 w-auto" aria-hidden="true">
       <circle cx="14" cy="11" r="8" fill="#EB001B" />
       <circle cx="22" cy="11" r="8" fill="#F79E1B" />
-      <path
-        d="M18 5.4a8 8 0 0 1 0 11.2 8 8 0 0 1 0-11.2Z"
-        fill="#FF5F00"
-      />
+      <path d="M18 5.4a8 8 0 0 1 0 11.2 8 8 0 0 1 0-11.2Z" fill="#FF5F00" />
     </svg>
   );
 }
-
-function MaestroMark() {
-  return (
-    <svg viewBox="0 0 36 22" className="h-4 w-auto" aria-hidden="true">
-      <circle cx="14" cy="11" r="8" fill="#0099DF" />
-      <circle cx="22" cy="11" r="8" fill="#ED0006" />
-      <path
-        d="M18 5.4a8 8 0 0 1 0 11.2 8 8 0 0 1 0-11.2Z"
-        fill="#6C6BBD"
-      />
-    </svg>
-  );
-}
-
 function ApplePayMark() {
   return (
     <svg viewBox="0 0 50 22" className="h-3.5 w-auto" aria-hidden="true">
-      {/* Apple logo */}
-      <path
-        d="M11.6 6.4c-.6.7-1.5 1.2-2.4 1.2-.1-.9.3-1.8.9-2.4.6-.7 1.5-1.2 2.3-1.3.1.9-.3 1.8-.8 2.5Zm.8.9c-1.3 0-2.4.7-3 .7-.7 0-1.6-.7-2.7-.7-1.4 0-2.7.8-3.4 2.1-1.4 2.4-.4 6 1 7.9.7.9 1.5 2 2.5 2 1 0 1.4-.6 2.6-.6 1.2 0 1.6.6 2.6.6 1.1 0 1.8-1 2.5-2 .8-1.1 1.1-2.2 1.1-2.3 0 0-2.1-.8-2.1-3.2 0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.8-1.5Z"
-        fill="#000"
-      />
-      <text
-        x="22"
-        y="15"
-        fontFamily="Geist, Arial, sans-serif"
-        fontWeight="600"
-        fontSize="11"
-        fill="#000"
-      >
-        Pay
-      </text>
+      <path d="M11.6 6.4c-.6.7-1.5 1.2-2.4 1.2-.1-.9.3-1.8.9-2.4.6-.7 1.5-1.2 2.3-1.3.1.9-.3 1.8-.8 2.5Zm.8.9c-1.3 0-2.4.7-3 .7-.7 0-1.6-.7-2.7-.7-1.4 0-2.7.8-3.4 2.1-1.4 2.4-.4 6 1 7.9.7.9 1.5 2 2.5 2 1 0 1.4-.6 2.6-.6 1.2 0 1.6.6 2.6.6 1.1 0 1.8-1 2.5-2 .8-1.1 1.1-2.2 1.1-2.3 0 0-2.1-.8-2.1-3.2 0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.8-1.5Z" fill="#000" />
+      <text x="22" y="15" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="11" fill="#000">Pay</text>
     </svg>
   );
 }
@@ -302,7 +181,6 @@ function FacebookIcon({ size = 14 }: { size?: number }) {
     </svg>
   );
 }
-
 function InstagramIcon({ size = 14 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -312,7 +190,6 @@ function InstagramIcon({ size = 14 }: { size?: number }) {
     </svg>
   );
 }
-
 function TikTokIcon({ size = 14 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -320,7 +197,6 @@ function TikTokIcon({ size = 14 }: { size?: number }) {
     </svg>
   );
 }
-
 function YoutubeIcon({ size = 14 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

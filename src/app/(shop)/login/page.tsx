@@ -5,6 +5,7 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { ArrowRight } from "lucide-react";
 import { usePageTitle } from "@/lib/use-page-title";
+import RetroStar from "@/components/shop/RetroStar";
 
 export default function LoginPage() {
   usePageTitle("Connexion");
@@ -62,31 +63,32 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="bg-[var(--brand-cream)]/30 min-h-[80vh] py-20 md:py-28 px-4">
-      <div className="max-w-md mx-auto">
+    <div className="bg-[var(--cream)] min-h-[85vh] py-16 md:py-24 px-4 relative overflow-hidden">
+      <RetroStar points={8} className="absolute top-12 left-[10%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
+      <RetroStar points={10} className="absolute bottom-16 right-[12%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
+
+      <div className="max-w-md mx-auto relative">
         {/* Header */}
-        <div className="text-center mb-12">
-          <p className="text-[10px] uppercase tracking-[0.45em] text-gray-400 mb-5">
+        <div className="text-center mb-9">
+          <span className="inline-flex items-center gap-2 pill-rosa bg-[var(--pink)] text-[var(--black)] px-4 py-1.5 text-[11px] font-display font-extrabold uppercase tracking-wide">
             Espace client
-          </p>
-          <h1 className="font-serif text-4xl md:text-5xl text-gray-900 leading-[1.05]">
-            Bonjour à<br />
-            <span className="italic text-[var(--brand-gold)]">nouveau</span>
+          </span>
+          <h1 className="mt-5 font-display font-extrabold text-4xl md:text-5xl text-[var(--black)] leading-[0.95]">
+            Content de vous <span className="text-[var(--orange)]">revoir</span>
           </h1>
-          <div className="w-12 h-px bg-[var(--brand-gold)]/40 mx-auto mt-8" />
         </div>
 
         {/* Card */}
-        <div className="bg-white border border-[var(--brand-gold)]/15 px-6 sm:px-10 py-10 sm:py-12">
+        <div className="card-rosa bg-white px-6 sm:px-9 py-9 sm:py-10" style={{ boxShadow: "6px 6px 0 0 var(--black)" }}>
           {error && (
-            <div className="mb-6 px-4 py-3 border border-red-200 bg-red-50/50 text-red-700 text-[13px] font-serif italic text-center">
+            <div className="mb-6 px-4 py-3 rounded-2xl border-2 border-red-300 bg-red-50 text-red-700 text-[13px] font-bold text-center">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-2">
+              <label htmlFor="email" className="block text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--black)] mb-2">
                 Email
               </label>
               <input
@@ -96,13 +98,13 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="w-full px-0 py-2.5 bg-transparent border-0 border-b border-gray-200 text-[14px] text-gray-900 focus:border-[var(--brand-gold)] focus:ring-0 outline-none transition placeholder:text-gray-300"
+                className="w-full px-4 py-3 bg-[var(--cream)]/40 rounded-2xl border-2 border-[var(--black)]/20 text-[15px] text-[var(--black)] focus:border-[var(--black)] focus:ring-0 outline-none transition placeholder:text-[var(--black)]/30"
                 placeholder="vous@exemple.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-2">
+              <label htmlFor="password" className="block text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--black)] mb-2">
                 Mot de passe
               </label>
               <input
@@ -112,35 +114,28 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className="w-full px-0 py-2.5 bg-transparent border-0 border-b border-gray-200 text-[14px] text-gray-900 focus:border-[var(--brand-gold)] focus:ring-0 outline-none transition placeholder:text-gray-300"
+                className="w-full px-4 py-3 bg-[var(--cream)]/40 rounded-2xl border-2 border-[var(--black)]/20 text-[15px] text-[var(--black)] focus:border-[var(--black)] focus:ring-0 outline-none transition placeholder:text-[var(--black)]/30"
                 placeholder="••••••••"
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="mt-2 w-full flex items-center justify-center gap-3 bg-[var(--brand-gold)] text-white py-4 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {loading ? "Connexion en cours…" : <>Se connecter <ArrowRight size={13} /></>}
+            <button type="submit" disabled={loading} className="btn-rosa w-full disabled:opacity-60 disabled:cursor-not-allowed">
+              {loading ? "Connexion en cours…" : <>Se connecter <ArrowRight size={16} strokeWidth={2.5} /></>}
             </button>
 
             <div className="text-center pt-1">
-              <Link
-                href="/mot-de-passe-oublie"
-                className="text-[11px] uppercase tracking-[0.3em] text-[var(--brand-gold)] border-b border-[var(--brand-gold)]/40 pb-0.5 hover:border-[var(--brand-gold)] transition"
-              >
+              <Link href="/mot-de-passe-oublie" className="text-[13px] font-bold text-[var(--orange)] hover:opacity-70 transition">
                 Mot de passe oublié&nbsp;?
               </Link>
             </div>
           </form>
         </div>
 
-        {/* Footer — pas de lien d'inscription : un compte est créé automatiquement à la commande */}
-        <div className="mt-10 text-center">
-          <p className="font-serif italic text-[13px] text-gray-500">
-            Pas encore de compte&nbsp;?<br />
-            Il sera créé automatiquement lors de votre première commande, et un email vous permettra de choisir votre mot de passe.
+        {/* Footer */}
+        <div className="mt-8 text-center">
+          <p className="text-[13px] text-[var(--black)]/60 font-semibold leading-relaxed">
+            Pas encore de compte&nbsp;? Il sera créé automatiquement lors de votre première commande,
+            avec un email pour choisir votre mot de passe.
           </p>
         </div>
       </div>

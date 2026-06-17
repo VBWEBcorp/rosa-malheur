@@ -40,7 +40,7 @@ const DEFAULT_TEMPLATES = [
     body: `<h2>Bienvenue, {{customerName}} !</h2>
 <p>Merci d'avoir créé votre compte.</p>
 <p>Vous pouvez désormais passer commande, suivre vos livraisons et gérer vos informations personnelles.</p>
-<p><a href="{{shopUrl}}/kits/decouverte">Découvrir nos kits</a></p>`,
+<p><a href="{{shopUrl}}/produit">Découvrir la laisse</a></p>`,
   },
   {
     key: "order_cancelled",

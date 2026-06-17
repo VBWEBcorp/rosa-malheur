@@ -47,25 +47,27 @@ export default async function BlogPostPage({
     .lean();
 
   return (
-    <div className="bg-white">
+    <div className="bg-[var(--cream)]">
       {/* Header */}
-      <section className="bg-[var(--brand-cream)]/40 py-14 md:py-20">
+      <section className="border-b-[2.5px] border-[var(--black)] py-14 md:py-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-[var(--brand-gold)] mb-8 hover:text-[var(--brand-gold-dark)] transition"
+            className="inline-flex items-center gap-2 text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--orange)] mb-8 hover:opacity-70 transition"
           >
-            <ArrowLeft size={12} /> Retour au carnet
+            <ArrowLeft size={14} strokeWidth={2.5} /> Retour au journal
           </Link>
           {post.category && (
-            <p className="text-[10px] uppercase tracking-[0.45em] text-[var(--brand-gold)] mb-5">
-              {post.category}
-            </p>
+            <div className="mb-5">
+              <span className="inline-block pill-rosa bg-[var(--orange)] text-white px-3 py-1 text-[11px] font-display font-extrabold uppercase tracking-wide">
+                {post.category}
+              </span>
+            </div>
           )}
-          <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl text-gray-900 leading-[1.05]">
+          <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl text-[var(--black)] leading-[0.95]">
             {post.title}
           </h1>
-          <div className="w-12 h-px bg-[var(--brand-gold)]/50 mx-auto mt-7 mb-6" />
+          <div className="w-12 h-1 rounded-full bg-[var(--orange)] mx-auto mt-7 mb-6" />
           <div className="flex items-center justify-center gap-3 text-[12px] font-serif italic text-gray-500">
             <span>{(post.author as unknown as { name: string })?.name}</span>
             <span className="text-[var(--brand-gold)]/60">·</span>
@@ -77,7 +79,7 @@ export default async function BlogPostPage({
       {/* Cover */}
       {post.coverImage && (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-8 md:-mt-12 mb-12 md:mb-16 relative z-10">
-          <div className="relative aspect-[16/9] bg-[var(--brand-cream)] overflow-hidden">
+          <div className="relative aspect-[16/9] card-rosa bg-[var(--pink)] overflow-hidden">
             <Image
               src={post.coverImage}
               alt={post.title}
@@ -118,15 +120,15 @@ export default async function BlogPostPage({
         />
 
         {post.tags && post.tags.length > 0 && (
-          <div className="mt-12 pt-8 border-t border-[var(--brand-gold)]/15">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-4">
+          <div className="mt-12 pt-8 border-t-2 border-[var(--black)]/10">
+            <p className="text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--orange)] mb-4">
               Tags
             </p>
             <div className="flex flex-wrap gap-2">
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-[11px] text-[var(--brand-gold)] border border-[var(--brand-gold)]/30 px-3 py-1.5"
+                  className="text-[12px] font-bold text-[var(--black)] pill-rosa px-3 py-1.5"
                 >
                   #{tag}
                 </span>
@@ -138,13 +140,10 @@ export default async function BlogPostPage({
 
       {/* Articles connexes */}
       {related.length > 0 && (
-        <section className="bg-[var(--brand-cream)]/40 py-16 md:py-20">
+        <section className="border-t-[2.5px] border-[var(--black)] py-16 md:py-20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-10">
-              <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-3">
-                Aller plus loin
-              </p>
-              <h2 className="font-serif text-2xl md:text-3xl text-gray-900">
+              <h2 className="font-display font-extrabold text-3xl md:text-4xl text-[var(--black)]">
                 Autres articles
               </h2>
             </div>
@@ -156,26 +155,26 @@ export default async function BlogPostPage({
                   className="group block"
                 >
                   {r.coverImage && (
-                    <div className="relative aspect-[16/10] overflow-hidden bg-[var(--brand-cream)] mb-5">
+                    <div className="relative aspect-[16/10] card-rosa overflow-hidden bg-[var(--pink)] mb-4">
                       <Image
                         src={r.coverImage}
                         alt={r.title}
                         fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-1000"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
                   )}
                   {r.category && (
-                    <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-2">
+                    <span className="inline-block pill-rosa bg-[var(--orange)] text-white px-3 py-1 text-[11px] font-display font-extrabold uppercase tracking-wide mb-2">
                       {r.category}
-                    </p>
+                    </span>
                   )}
-                  <h3 className="font-serif text-xl md:text-2xl text-gray-900 leading-tight mb-3 group-hover:text-[var(--brand-gold)] transition">
+                  <h3 className="font-display font-extrabold text-2xl text-[var(--black)] leading-tight mb-3 group-hover:text-[var(--orange)] transition">
                     {r.title}
                   </h3>
-                  <span className="text-[11px] uppercase tracking-[0.3em] text-[var(--brand-gold)] inline-flex items-center gap-2 group-hover:gap-3 transition-all">
-                    Lire <ArrowRight size={11} />
+                  <span className="text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--orange)] inline-flex items-center gap-2 group-hover:gap-3 transition-all">
+                    Lire <ArrowRight size={13} strokeWidth={2.5} />
                   </span>
                 </Link>
               ))}

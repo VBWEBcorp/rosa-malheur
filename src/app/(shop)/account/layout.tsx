@@ -3,19 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import {
-  LayoutDashboard,
-  Package,
-  Heart,
-  MapPin,
-  User,
-  LogOut,
-} from "lucide-react";
+import { LayoutDashboard, Package, MapPin, User, LogOut } from "lucide-react";
 
 const menuItems = [
   { href: "/account", label: "Tableau de bord", icon: LayoutDashboard, exact: true },
   { href: "/account/orders", label: "Mes commandes", icon: Package },
-  { href: "/account/wishlist", label: "Mes favoris", icon: Heart },
   { href: "/account/addresses", label: "Mes adresses", icon: MapPin },
   { href: "/account/profile", label: "Mes informations", icon: User },
 ];
@@ -26,45 +18,40 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
   const initial = session?.user?.name?.charAt(0)?.toUpperCase() || "?";
 
   return (
-    <div className="bg-[var(--brand-cream)]/30 min-h-[80vh]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-20">
-        {/* Mobile nav */}
+    <div className="bg-[var(--cream)] min-h-[85vh]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+        {/* Nav mobile */}
         <div className="lg:hidden mb-8">
-          <div className="flex items-end justify-between mb-6">
+          <div className="flex items-end justify-between mb-5">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-2">
+              <p className="text-[11px] font-display font-extrabold uppercase tracking-wide text-[var(--orange)] mb-1">
                 Espace client
               </p>
-              <h1 className="font-serif text-2xl text-gray-900 leading-tight">
+              <h1 className="font-display font-extrabold text-2xl text-[var(--black)] leading-tight">
                 {session?.user?.name || "Mon compte"}
               </h1>
-              <p className="text-[12px] text-gray-400 mt-1 truncate max-w-[80vw]">
-                {session?.user?.email}
-              </p>
             </div>
             <button
               onClick={() => signOut({ callbackUrl: "/" })}
-              className="text-[10px] uppercase tracking-[0.3em] text-[var(--brand-gold)] border-b border-[var(--brand-gold)]/40 pb-1 hover:border-[var(--brand-gold)] transition"
+              className="text-[12px] font-bold text-[var(--orange)] hover:opacity-70 transition"
             >
               Déconnexion
             </button>
           </div>
-          <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-hide -mx-4 px-4">
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide -mx-4 px-4">
             {menuItems.map((item) => {
-              const isActive = item.exact
-                ? pathname === item.href
-                : pathname.startsWith(item.href);
+              const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[11px] uppercase tracking-[0.2em] font-medium whitespace-nowrap transition ${
+                  className={`shrink-0 flex items-center gap-2 px-4 py-2.5 text-[12px] font-display font-extrabold uppercase tracking-wide rounded-full border-2 whitespace-nowrap transition ${
                     isActive
-                      ? "bg-[var(--brand-gold)] text-white"
-                      : "bg-white border border-[var(--brand-gold)]/20 text-gray-600 hover:border-[var(--brand-gold)]/40 hover:text-[var(--brand-gold)]"
+                      ? "bg-[var(--orange)] text-white border-[var(--black)]"
+                      : "bg-white border-[var(--black)]/20 text-[var(--black)] hover:border-[var(--black)]"
                   }`}
                 >
-                  <item.icon size={13} strokeWidth={1.5} />
+                  <item.icon size={14} strokeWidth={2} />
                   {item.label}
                 </Link>
               );
@@ -72,68 +59,55 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
           </div>
         </div>
 
-        <div className="flex gap-12">
-          {/* Desktop sidebar */}
+        <div className="flex gap-10">
+          {/* Sidebar desktop */}
           <aside className="hidden lg:block w-72 shrink-0">
-            <div className="sticky top-28">
-              {/* User block */}
-              <div className="text-center pb-8 border-b border-[var(--brand-gold)]/15">
-                <div className="w-16 h-16 rounded-full border border-[var(--brand-gold)]/40 text-[var(--brand-gold)] flex items-center justify-center mx-auto mb-4 font-serif text-2xl">
+            <div className="sticky top-28 card-rosa bg-white p-6" style={{ boxShadow: "5px 5px 0 0 var(--black)" }}>
+              <div className="text-center pb-6 border-b-2 border-[var(--black)]/10">
+                <div className="w-16 h-16 rounded-full bg-[var(--orange)] text-white flex items-center justify-center mx-auto mb-3 font-display font-extrabold text-2xl border-2 border-[var(--black)]">
                   {initial}
                 </div>
-                <p className="text-[10px] uppercase tracking-[0.45em] text-gray-400 mb-2">
-                  Espace client
-                </p>
-                <p className="font-serif text-xl text-gray-900 leading-tight truncate">
+                <p className="font-display font-extrabold text-lg text-[var(--black)] leading-tight truncate">
                   {session?.user?.name}
                 </p>
-                <p className="text-[11px] text-gray-400 mt-1 truncate font-serif italic">
+                <p className="text-[12px] text-[var(--black)]/50 mt-0.5 truncate">
                   {session?.user?.email}
                 </p>
               </div>
 
-              {/* Navigation */}
-              <nav className="py-6 space-y-px">
+              <nav className="py-5 space-y-1">
                 {menuItems.map((item) => {
-                  const isActive = item.exact
-                    ? pathname === item.href
-                    : pathname.startsWith(item.href);
+                  const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href);
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`group relative flex items-center gap-3 pl-4 pr-3 py-3 transition ${
+                      className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-[13px] font-bold transition ${
                         isActive
-                          ? "text-[var(--brand-gold)]"
-                          : "text-gray-600 hover:text-[var(--brand-gold)]"
+                          ? "bg-[var(--pink)] text-[var(--black)]"
+                          : "text-[var(--black)]/70 hover:text-[var(--orange)] hover:bg-[var(--cream)]"
                       }`}
                     >
-                      {isActive && (
-                        <span className="absolute left-0 top-2 bottom-2 w-px bg-[var(--brand-gold)]" />
-                      )}
-                      <item.icon size={15} strokeWidth={1.5} />
-                      <span className="text-[13px] uppercase tracking-[0.2em] font-medium">
-                        {item.label}
-                      </span>
+                      <item.icon size={16} strokeWidth={2} />
+                      {item.label}
                     </Link>
                   );
                 })}
               </nav>
 
-              {/* Logout */}
-              <div className="pt-6 border-t border-[var(--brand-gold)]/15">
+              <div className="pt-4 border-t-2 border-[var(--black)]/10">
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
-                  className="flex items-center gap-3 pl-4 pr-3 py-3 text-[13px] uppercase tracking-[0.2em] font-medium text-gray-400 hover:text-[var(--brand-gold)] transition w-full"
+                  className="flex items-center gap-3 px-4 py-2.5 text-[13px] font-bold text-[var(--black)]/50 hover:text-[var(--orange)] transition w-full"
                 >
-                  <LogOut size={15} strokeWidth={1.5} />
+                  <LogOut size={16} strokeWidth={2} />
                   Déconnexion
                 </button>
               </div>
             </div>
           </aside>
 
-          {/* Content */}
+          {/* Contenu */}
           <main className="flex-1 min-w-0">{children}</main>
         </div>
       </div>

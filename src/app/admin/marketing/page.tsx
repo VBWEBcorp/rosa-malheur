@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { Megaphone, Image as ImageIcon, Upload, X, Eye, Save, Check } from "lucide-react";
 import toast from "react-hot-toast";
 import { PageHeader, GoldButton } from "@/components/admin/ui";
+import RetroStar from "@/components/shop/RetroStar";
 
 const inputCls =
-  "w-full px-3 py-2.5 bg-white border border-[var(--brand-gold)]/20 text-sm focus:ring-2 focus:ring-[var(--brand-gold)]/15 focus:border-[var(--brand-gold)]/40 outline-none transition placeholder:text-gray-300";
-const labelCls = "block text-[12px] font-medium text-gray-600 mb-1.5";
+  "w-full px-3 py-2.5 bg-white border border-[var(--brand-gold)]/20 text-sm focus:ring-2 focus:ring-[var(--brand-gold)]/15 focus:border-[var(--brand-gold)]/40 outline-none transition placeholder:text-[var(--black)]/25";
+const labelCls = "block text-[12px] font-medium text-[var(--black)]/65 mb-1.5";
 
 interface MarketingData {
   popup: {
@@ -36,7 +37,7 @@ const defaultData: MarketingData = {
     title: "",
     description: "",
     buttonText: "En profiter",
-    buttonUrl: "/products",
+    buttonUrl: "/produit",
     delay: 5,
   },
   banner: {
@@ -128,7 +129,7 @@ export default function AdminMarketingPage() {
         <button
           onClick={() => setTab("popup")}
           className={`flex items-center gap-2 px-4 py-2 text-[13px] font-medium transition ${
-            tab === "popup" ? "bg-white text-[var(--brand-gold-dark)] shadow-sm" : "text-gray-500 hover:text-[var(--brand-gold)]"
+            tab === "popup" ? "bg-white text-[var(--brand-gold-dark)] shadow-sm" : "text-[var(--black)]/55 hover:text-[var(--brand-gold)]"
           }`}
         >
           <ImageIcon size={14} />
@@ -138,7 +139,7 @@ export default function AdminMarketingPage() {
         <button
           onClick={() => setTab("banner")}
           className={`flex items-center gap-2 px-4 py-2 text-[13px] font-medium transition ${
-            tab === "banner" ? "bg-white text-[var(--brand-gold-dark)] shadow-sm" : "text-gray-500 hover:text-[var(--brand-gold)]"
+            tab === "banner" ? "bg-white text-[var(--brand-gold-dark)] shadow-sm" : "text-[var(--black)]/55 hover:text-[var(--brand-gold)]"
           }`}
         >
           <Megaphone size={14} />
@@ -156,7 +157,7 @@ export default function AdminMarketingPage() {
           <div className="space-y-5">
             <div className="bg-white border border-[var(--brand-gold)]/15 p-5 sm:p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-serif text-lg sm:text-xl text-gray-900">Pop-up promotionnel</h2>
+                <h2 className="font-display font-extrabold text-lg sm:text-xl text-[var(--black)]">Pop-up promotionnel</h2>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
@@ -164,7 +165,7 @@ export default function AdminMarketingPage() {
                     onChange={(e) => setData({ ...data, popup: { ...data.popup, isActive: e.target.checked } })}
                     className="w-4 h-4 accent-[var(--brand-gold)]"
                   />
-                  <span className="text-sm text-gray-700">Actif</span>
+                  <span className="text-sm text-[var(--black)]/70">Actif</span>
                 </label>
               </div>
 
@@ -177,7 +178,7 @@ export default function AdminMarketingPage() {
                     <img src={data.popup.image} alt="Pop-up" className="max-h-48 border border-[var(--brand-gold)]/15 object-cover" />
                     <button
                       onClick={() => setData({ ...data, popup: { ...data.popup, image: "" } })}
-                      className="absolute top-2 right-2 bg-white/90 backdrop-blur p-1.5 text-gray-500 hover:text-red-500 shadow-sm"
+                      className="absolute top-2 right-2 bg-white/90 backdrop-blur p-1.5 text-[var(--black)]/55 hover:text-red-500 shadow-sm"
                     >
                       <X size={14} />
                     </button>
@@ -186,11 +187,11 @@ export default function AdminMarketingPage() {
                 <label className="flex items-center justify-center w-full h-24 border-2 border-dashed border-[var(--brand-gold)]/25 cursor-pointer hover:border-[var(--brand-gold)]/50 hover:bg-[var(--brand-cream)]/40 transition">
                   <div className="text-center">
                     {uploading ? (
-                      <p className="text-[12px] text-gray-400">Upload...</p>
+                      <p className="text-[12px] text-[var(--black)]/40">Upload...</p>
                     ) : (
                       <>
                         <Upload size={20} className="mx-auto text-[var(--brand-gold)]/50 mb-1" />
-                        <p className="text-[12px] text-gray-400">600x400px recommandé</p>
+                        <p className="text-[12px] text-[var(--black)]/40">600x400px recommandé</p>
                       </>
                     )}
                   </div>
@@ -239,7 +240,7 @@ export default function AdminMarketingPage() {
                     type="text"
                     value={data.popup.buttonUrl}
                     onChange={(e) => setData({ ...data, popup: { ...data.popup, buttonUrl: e.target.value } })}
-                    placeholder="/products"
+                    placeholder="/produit"
                     className={inputCls}
                   />
                 </div>
@@ -258,7 +259,7 @@ export default function AdminMarketingPage() {
                   onChange={(e) => setData({ ...data, popup: { ...data.popup, delay: parseInt(e.target.value) } })}
                   className="w-full accent-[var(--brand-gold)]"
                 />
-                <div className="flex justify-between text-[11px] text-gray-400">
+                <div className="flex justify-between text-[11px] text-[var(--black)]/40">
                   <span>1s</span>
                   <span>30s</span>
                 </div>
@@ -266,28 +267,38 @@ export default function AdminMarketingPage() {
             </div>
           </div>
 
-          {/* Aperçu pop-up */}
+          {/* Aperçu pop-up — fidèle au pop-up réel du site */}
           <div>
-            <label className="flex items-center gap-1.5 text-[12px] font-medium text-gray-600 mb-3">
-              <Eye size={13} className="text-[var(--brand-gold)]" /> Aperçu
+            <label className="flex items-center gap-1.5 text-[12px] font-bold text-[var(--black)]/65 mb-3">
+              <Eye size={13} className="text-[var(--orange)]" /> Aperçu (tel qu'il apparaîtra sur le site)
             </label>
-            <div className="bg-[var(--brand-cream)]/50 border border-[var(--brand-gold)]/15 p-8 flex items-center justify-center min-h-[400px]">
-              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-sm w-full">
+            <div className="bg-[var(--cream)]/50 rounded-2xl border-2 border-[var(--black)]/10 p-8 flex items-center justify-center min-h-[400px]">
+              <div
+                className="card-rosa bg-[var(--cream)] overflow-hidden max-w-sm w-full"
+                style={{ boxShadow: "8px 8px 0 0 var(--black)" }}
+              >
                 {data.popup.image && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={data.popup.image} alt="" className="w-full h-48 object-cover" />
+                  <img
+                    src={data.popup.image}
+                    alt=""
+                    className="w-full h-44 object-cover border-b-[2.5px] border-[var(--black)]"
+                  />
                 )}
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <div className="p-7 text-center">
+                  {!data.popup.image && (
+                    <RetroStar points={8} className="w-11 h-11 text-[var(--orange)] mx-auto mb-3" />
+                  )}
+                  <h3 className="font-display font-extrabold text-2xl text-[var(--black)] leading-tight mb-2">
                     {data.popup.title || "Titre de votre pop-up"}
                   </h3>
-                  <p className="text-sm text-gray-500 mb-6">
+                  <p className="text-[14px] font-semibold text-[var(--black)]/70 mb-6">
                     {data.popup.description || "Description de votre offre promotionnelle..."}
                   </p>
-                  <button className="w-full bg-gray-900 text-white py-3 rounded-xl text-sm font-semibold">
+                  <span className="btn-rosa w-full">
                     {data.popup.buttonText || "En profiter"}
-                  </button>
-                  <button className="mt-3 text-xs text-gray-400">Non merci</button>
+                  </span>
+                  <p className="mt-3 text-[13px] font-bold text-[var(--black)]/45">Non merci</p>
                 </div>
               </div>
             </div>
@@ -302,7 +313,7 @@ export default function AdminMarketingPage() {
         <div className="space-y-6">
           <div className="bg-white border border-[var(--brand-gold)]/15 p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-serif text-lg sm:text-xl text-gray-900">Bannière promotionnelle</h2>
+              <h2 className="font-display font-extrabold text-lg sm:text-xl text-[var(--black)]">Bannière promotionnelle</h2>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -310,11 +321,11 @@ export default function AdminMarketingPage() {
                   onChange={(e) => setData({ ...data, banner: { ...data.banner, isActive: e.target.checked } })}
                   className="w-4 h-4 accent-[var(--brand-gold)]"
                 />
-                <span className="text-sm text-gray-700">Active</span>
+                <span className="text-sm text-[var(--black)]/70">Active</span>
               </label>
             </div>
 
-            <p className="text-[12px] text-gray-400">
+            <p className="text-[12px] text-[var(--black)]/40">
               La bannière s&apos;affiche au-dessus du header avec un texte qui défile. Idéal pour les promotions, les codes promo, les annonces importantes.
             </p>
 
@@ -379,7 +390,7 @@ export default function AdminMarketingPage() {
                 type="text"
                 value={data.banner.linkUrl}
                 onChange={(e) => setData({ ...data, banner: { ...data.banner, linkUrl: e.target.value } })}
-                placeholder="/products?promo=true"
+                placeholder="/produit?promo=true"
                 className={inputCls}
               />
             </div>
@@ -397,7 +408,7 @@ export default function AdminMarketingPage() {
                 onChange={(e) => setData({ ...data, banner: { ...data.banner, speed: parseInt(e.target.value) } })}
                 className="w-full accent-[var(--brand-gold)]"
               />
-              <div className="flex justify-between text-[11px] text-gray-400">
+              <div className="flex justify-between text-[11px] text-[var(--black)]/40">
                 <span>Rapide</span>
                 <span>Lent</span>
               </div>
@@ -406,7 +417,7 @@ export default function AdminMarketingPage() {
 
           {/* Aperçu bannière */}
           <div>
-            <label className="flex items-center gap-1.5 text-[12px] font-medium text-gray-600 mb-3">
+            <label className="flex items-center gap-1.5 text-[12px] font-medium text-[var(--black)]/65 mb-3">
               <Eye size={13} className="text-[var(--brand-gold)]" /> Aperçu de la bannière
             </label>
             <div className="overflow-hidden border border-[var(--brand-gold)]/20">
@@ -430,9 +441,11 @@ export default function AdminMarketingPage() {
                 </div>
               </div>
               {/* Faux header en dessous */}
-              <div className="bg-white border-t border-[var(--brand-gold)]/10 px-6 py-3 flex items-center justify-between">
-                <span className="font-serif text-sm text-gray-900">Entre Maman et Moi</span>
-                <span className="text-xs text-gray-400">← le header sera ici</span>
+              <div className="bg-white border-t border-[var(--black)]/10 px-6 py-3 flex items-center justify-between">
+                <span className="font-display font-extrabold text-sm text-[var(--black)]">
+                  <span className="text-[var(--orange)]">Rosa</span> Malheur
+                </span>
+                <span className="text-xs text-[var(--black)]/40">← le header sera ici</span>
               </div>
             </div>
           </div>

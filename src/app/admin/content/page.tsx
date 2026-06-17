@@ -42,13 +42,12 @@ const ICONS: Record<string, React.ElementType> = {
 };
 
 const inputCls =
-  "w-full px-3 py-2.5 bg-white border border-[var(--brand-gold)]/20 text-sm focus:ring-2 focus:ring-[var(--brand-gold)]/15 focus:border-[var(--brand-gold)]/40 outline-none transition placeholder:text-gray-300";
+  "w-full px-3 py-2.5 bg-white border border-[var(--brand-gold)]/20 text-sm focus:ring-2 focus:ring-[var(--brand-gold)]/15 focus:border-[var(--brand-gold)]/40 outline-none transition placeholder:text-[var(--black)]/25";
 
 const FILTERS: { id: "all" | ContentCategory; label: string }[] = [
   { id: "all", label: "Tout" },
   { id: "page", label: "Pages" },
-  { id: "component", label: "Composants" },
-  { id: "legal", label: "Légal" },
+  { id: "component", label: "Blocs du site" },
 ];
 
 // Le modèle Content n'accepte que text/html/image/banner.
@@ -197,20 +196,20 @@ export default function AdminContentPage() {
       <PageHeader
         eyebrow="Site"
         title="Contenu du site"
-        subtitle="Choisissez une page, modifiez ses textes, images et vidéos, puis enregistrez."
+        subtitle="Choisissez une page à gauche, modifiez ses textes et images, puis cliquez sur Enregistrer."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4 lg:gap-6">
         {/* ============== SIDEBAR : choix de la page ============== */}
         <aside className="space-y-3">
           <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--black)]/40" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Rechercher une page…"
-              className="w-full pl-9 pr-4 py-2.5 bg-white border border-[var(--brand-gold)]/20 text-[13px] focus:ring-2 focus:ring-[var(--brand-gold)]/15 focus:border-[var(--brand-gold)]/40 outline-none transition placeholder:text-gray-300"
+              className="w-full pl-9 pr-4 py-2.5 bg-white border border-[var(--brand-gold)]/20 text-[13px] focus:ring-2 focus:ring-[var(--brand-gold)]/15 focus:border-[var(--brand-gold)]/40 outline-none transition placeholder:text-[var(--black)]/25"
             />
           </div>
 
@@ -222,7 +221,7 @@ export default function AdminContentPage() {
                 className={`flex-1 min-w-fit px-2.5 py-1.5 text-[12px] font-medium transition whitespace-nowrap ${
                   filter === f.id
                     ? "bg-white text-[var(--brand-gold-dark)] shadow-sm"
-                    : "text-gray-500 hover:text-[var(--brand-gold)]"
+                    : "text-[var(--black)]/55 hover:text-[var(--brand-gold)]"
                 }`}
               >
                 {f.label}
@@ -232,7 +231,7 @@ export default function AdminContentPage() {
 
           <div className="bg-white border border-[var(--brand-gold)]/15 p-2 space-y-0.5 max-h-72 lg:max-h-[70vh] overflow-y-auto">
             {filteredPages.length === 0 && (
-              <p className="text-[12px] text-gray-400 text-center py-6">Aucune page trouvée</p>
+              <p className="text-[12px] text-[var(--black)]/40 text-center py-6">Aucune page trouvée</p>
             )}
             {filteredPages.map((page) => {
               const isSelected = page.id === selectedId;
@@ -256,7 +255,7 @@ export default function AdminContentPage() {
                   className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors ${
                     isSelected
                       ? "bg-[var(--brand-gold)] text-white"
-                      : "hover:bg-[var(--brand-cream)]/40 text-gray-700"
+                      : "hover:bg-[var(--brand-cream)]/40 text-[var(--black)]/70"
                   }`}
                 >
                   <div
@@ -269,9 +268,9 @@ export default function AdminContentPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5">
                       <p className="text-[13px] font-medium truncate">{page.name}</p>
-                      {pageModified && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />}
+                      {pageModified && <span className="w-1.5 h-1.5 rounded-full bg-[var(--orange)] shrink-0" />}
                     </div>
-                    <p className={`text-[11px] truncate ${isSelected ? "text-white/70" : "text-gray-400"}`}>
+                    <p className={`text-[11px] truncate ${isSelected ? "text-white/70" : "text-[var(--black)]/40"}`}>
                       {page.route}
                     </p>
                   </div>
@@ -291,8 +290,8 @@ export default function AdminContentPage() {
                   <SelectedIcon size={18} className="text-[var(--brand-gold)]" />
                 </div>
                 <div className="min-w-0">
-                  <h2 className="font-serif text-lg sm:text-xl text-gray-900 truncate">{selected.name}</h2>
-                  <p className="text-[12px] text-gray-400 truncate">{selected.description}</p>
+                  <h2 className="font-serif text-lg sm:text-xl text-[var(--black)] truncate">{selected.name}</h2>
+                  <p className="text-[12px] text-[var(--black)]/40 truncate">{selected.description}</p>
                 </div>
               </div>
               {selectedModifiedCount > 0 && (
@@ -320,12 +319,12 @@ export default function AdminContentPage() {
                         <div key={field.key}>
                           <div className="flex items-start justify-between gap-3 mb-1.5">
                             <div className="min-w-0">
-                              <label className="flex items-center gap-1.5 text-[12px] font-medium text-gray-600">
+                              <label className="flex items-center gap-1.5 text-[12px] font-medium text-[var(--black)]/65">
                                 <FieldIcon size={13} className="text-[var(--brand-gold)] shrink-0" />
                                 {field.label}
                               </label>
                               {field.help && (
-                                <p className="text-[11px] text-gray-400 mt-0.5 ml-[18px]">{field.help}</p>
+                                <p className="text-[11px] text-[var(--black)]/40 mt-0.5 ml-[18px]">{field.help}</p>
                               )}
                             </div>
                             {modified[field.key] && (
@@ -355,7 +354,7 @@ export default function AdminContentPage() {
                                 </div>
                               )}
                               <div className="flex flex-col sm:flex-row gap-2">
-                                <label className="flex items-center justify-center sm:w-48 h-11 border border-dashed border-[var(--brand-gold)]/30 cursor-pointer hover:border-[var(--brand-gold)]/60 hover:bg-[var(--brand-cream)]/40 transition text-[12px] text-gray-500 gap-2 shrink-0">
+                                <label className="flex items-center justify-center sm:w-48 h-11 border border-dashed border-[var(--brand-gold)]/30 cursor-pointer hover:border-[var(--brand-gold)]/60 hover:bg-[var(--brand-cream)]/40 transition text-[12px] text-[var(--black)]/55 gap-2 shrink-0">
                                   <ImageIcon size={14} className="text-[var(--brand-gold)]/60" />
                                   {uploading === field.key ? "Import…" : "Importer une image"}
                                   <input

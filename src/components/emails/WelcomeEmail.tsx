@@ -40,7 +40,7 @@ export function generateWelcomeEmail({
     </table>
 
     <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td>
-      ${emailButton(`${appUrl}/kits/decouverte`, "Découvrir nos box")}
+      ${emailButton(`${appUrl}/produit`, "Découvrir la laisse")}
     </td></tr></table>
   `;
 

@@ -1,32 +1,30 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
+import { Baloo_2, Nunito } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/shop/Providers";
 import Analytics from "@/components/shop/Analytics";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Titres : Baloo 2 (rond, bubble, esprit sérigraphie 70s).
+const baloo = Baloo_2({
+  variable: "--font-baloo",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Texte courant : Nunito (chaleureux, lisible).
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
-});
-
-const cormorant = Cormorant_Garamond({
-  variable: "--font-serif",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Entre Maman et Moi · Box culinaires indiennes & ateliers",
-    template: "%s | Entre Maman et Moi",
+    default: "Rosa Malheur · Laisses pour chien artisanales",
+    template: "%s | Rosa Malheur",
   },
   description:
-    "Boxes culinaires indiennes et ateliers de cuisine. Voyagez au cœur de l'Inde depuis votre cuisine.",
+    "Laisses pour chien faites main, simples ou multiposition, du 1,50 m au 5 m. Corde et mousqueton au choix.",
 };
 
 export default function RootLayout({
@@ -38,7 +36,7 @@ export default function RootLayout({
     <html
       lang="fr"
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${baloo.variable} ${nunito.variable} h-full antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://i.ibb.co" crossOrigin="" />
