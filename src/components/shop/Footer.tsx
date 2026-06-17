@@ -68,7 +68,6 @@ export default async function Footer() {
             links={[
               { href: "/produit", label: "La laisse" },
               { href: "/cartes-cadeaux", label: "Carte cadeau" },
-              { href: "/track", label: "Suivre ma commande" },
             ]}
           />
           <FooterCol

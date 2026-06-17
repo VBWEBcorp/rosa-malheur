@@ -243,10 +243,10 @@ export default function OrderDetailPage() {
               Un probleme avec votre commande ? Contactez-nous.
             </p>
             <Link
-              href={`/track`}
+              href="/contact"
               className="text-[13px] text-gray-700 font-medium hover:underline"
             >
-              Suivre ma commande
+              Nous contacter
             </Link>
           </div>
         </div>

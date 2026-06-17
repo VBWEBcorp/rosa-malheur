@@ -72,11 +72,11 @@ export default function CheckoutPage() {
   });
 
   const [pickupPoint, setPickupPoint] = useState<MondialRelayPoint | null>(null);
-  // Code Client Mondial Relay (utilisé uniquement par le widget de carte côté client).
-  // Lu depuis NEXT_PUBLIC_MONDIAL_RELAY_BRAND, ou fallback sur le code de Viji,
-  // ou écrasé par les réglages admin si configurés.
+  // Code Enseigne Mondial Relay (utilisé uniquement par le widget de carte côté client).
+  // Lu depuis NEXT_PUBLIC_MONDIAL_RELAY_BRAND, sinon code de démonstration officiel
+  // BDTEST13, ou écrasé par les réglages admin (apiKeys.mondialRelayBrandCode) si configuré.
   const [mondialRelayBrandCode, setMondialRelayBrandCode] = useState<string>(
-    process.env.NEXT_PUBLIC_MONDIAL_RELAY_BRAND || "CC23RXDD"
+    process.env.NEXT_PUBLIC_MONDIAL_RELAY_BRAND || "BDTEST13"
   );
 
   const [shippingRates, setShippingRates] = useState({
