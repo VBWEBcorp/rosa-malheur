@@ -7,6 +7,7 @@ import { ShoppingBag, User, Menu, X, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useCart } from "@/contexts/CartContext";
+import BrandLogo from "./BrandLogo";
 
 const NAV_LINKS = [
   { href: "/", label: "Accueil" },
@@ -15,16 +16,6 @@ const NAV_LINKS = [
   { href: "/blog", label: "Journal" },
   { href: "/contact", label: "Contact" },
 ];
-
-/** Logo mot — « Rosa » orange / « Malheur » noir, esprit affiche. */
-function Wordmark({ className = "" }: { className?: string }) {
-  return (
-    <span className={`font-display font-extrabold leading-[0.82] tracking-tight ${className}`}>
-      <span className="text-[var(--orange)]">Rosa</span>{" "}
-      <span className="text-[var(--black)]">Malheur</span>
-    </span>
-  );
-}
 
 export default function Header() {
   const { data: session } = useSession();
@@ -63,10 +54,10 @@ export default function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0"
+            className="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 shrink-0"
             aria-label="Rosa Malheur — accueil"
           >
-            <Wordmark className="text-2xl sm:text-[26px]" />
+            <BrandLogo priority className="h-12 sm:h-14 lg:h-16 w-auto" />
           </Link>
 
           {/* Nav desktop */}
@@ -171,7 +162,7 @@ function MobileDrawer({
       >
         <div className="px-6 pt-7 pb-5 border-b-[2.5px] border-[var(--black)] flex items-center justify-between">
           <Link href="/" onClick={onClose}>
-            <Wordmark className="text-2xl" />
+            <BrandLogo className="h-11 w-auto" />
           </Link>
           <button onClick={onClose} className="p-2 -mr-2 text-[var(--black)]" aria-label="Fermer">
             <X size={24} strokeWidth={2.5} />

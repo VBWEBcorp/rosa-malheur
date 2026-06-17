@@ -21,8 +21,10 @@ export const homePage: ContentPageDef = {
       id: "hero",
       title: "Haut de page (sous le logo)",
       fields: [
-        { key: "home_hero_eyebrow", type: "text", label: "Petit bandeau au-dessus du logo", default: "Vente éphémère · laisses & jouets pour chiens" },
-        { key: "home_hero_tagline", type: "textarea", label: "Phrase d'accroche (sous le logo)", default: "Des laisses faites main à partir de cordes d'escalade recyclées. Solides, colorées, pensées pour durer." },
+        { key: "home_hero_eyebrow", type: "text", label: "Petit bandeau (tout en haut)", default: "Vente éphémère · laisses & jouets pour chiens" },
+        { key: "home_hero_title", type: "text", label: "Grand titre · 1ʳᵉ ligne", default: "Une seconde vie" },
+        { key: "home_hero_title_accent", type: "text", label: "Grand titre · 2ᵉ ligne (en orange)", default: "au bout de la laisse" },
+        { key: "home_hero_tagline", type: "textarea", label: "Phrase d'accroche (sous le titre)", default: "Des laisses faites main à partir de cordes d'escalade recyclées. Solides, colorées, pensées pour durer." },
         { key: "home_hero_cta_primary", type: "text", label: "Bouton principal", default: "Configurer ma laisse" },
         { key: "home_hero_cta_secondary", type: "text", label: "Bouton secondaire", default: "Notre histoire" },
       ],

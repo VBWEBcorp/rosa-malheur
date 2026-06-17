@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import RetroStar from "./RetroStar";
-import BrandLogo from "./BrandLogo";
 import { getContent } from "@/lib/content";
 
 /**
@@ -27,9 +26,10 @@ export default async function HeroSection() {
           {t("home_hero_eyebrow")}
         </span>
 
-        {/* Logo centerpiece (h1) */}
-        <h1 className="mt-8 flex justify-center">
-          <BrandLogo priority className="w-full max-w-[440px] md:max-w-[520px] h-auto" />
+        {/* Titre principal */}
+        <h1 className="mt-7 font-display font-extrabold text-[2.75rem] leading-[0.9] sm:text-6xl md:text-7xl text-[var(--black)]">
+          {t("home_hero_title")}
+          <span className="block text-[var(--orange)]">{t("home_hero_title_accent")}</span>
         </h1>
 
         {/* Slogan */}

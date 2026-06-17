@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { X } from "lucide-react";
+import BrandLogo from "./BrandLogo";
+import RetroStar from "./RetroStar";
 
 type ConsentState = {
   necessary: boolean;
@@ -12,7 +13,6 @@ type ConsentState = {
 };
 
 const COOKIE_NAME = "cookie_consent";
-const LOGO_SRC = "https://i.ibb.co/5WWqVbC2/cropped-Entre-Maman-Et-Moi-1.png";
 
 function getConsent(): ConsentState | null {
   if (typeof window === "undefined") return null;
@@ -72,35 +72,35 @@ export default function CookieConsent() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[100] p-4 sm:p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="max-w-2xl mx-auto bg-white border border-[var(--brand-gold)]/20 shadow-2xl shadow-black/15">
+      <div
+        className="max-w-2xl mx-auto card-rosa bg-[var(--cream)] overflow-hidden"
+        style={{ boxShadow: "6px 6px 0 0 var(--black)" }}
+      >
         {/* En-tête avec logo */}
-        <div className="relative px-6 sm:px-8 pt-7 pb-5 border-b border-[var(--brand-gold)]/15 text-center">
+        <div className="relative px-6 sm:px-8 pt-7 pb-5 border-b-[2.5px] border-[var(--black)] text-center">
           <button
             onClick={rejectAll}
             aria-label="Fermer (refuser tout)"
-            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[var(--brand-gold)] transition"
+            className="absolute top-3.5 right-3.5 w-8 h-8 flex items-center justify-center rounded-full bg-white border-2 border-[var(--black)] text-[var(--black)] hover:bg-[var(--pink)] transition"
           >
-            <X size={16} strokeWidth={1.5} />
+            <X size={15} strokeWidth={2.5} />
           </button>
 
-          <Image
-            src={LOGO_SRC}
-            alt="Entre Maman et Moi"
-            width={140}
-            height={56}
-            className="h-12 sm:h-14 w-auto object-contain mx-auto mb-4"
-          />
-          <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-2">
+          {/* Logo en petit */}
+          <BrandLogo className="h-11 sm:h-12 w-auto object-contain mx-auto mb-4" />
+
+          <p className="inline-flex items-center gap-1.5 text-[11px] font-display font-extrabold uppercase tracking-wide text-[var(--orange)] mb-1.5">
+            <RetroStar points={8} className="w-3 h-3 text-[var(--orange)]" />
             Vie privée
           </p>
-          <h3 className="font-serif text-xl md:text-2xl text-gray-900 leading-tight">
+          <h3 className="font-display font-extrabold text-2xl text-[var(--black)] leading-tight">
             On respecte votre choix
           </h3>
         </div>
 
         {/* Corps */}
-        <div className="px-6 sm:px-8 pt-6 pb-7">
-          <p className="font-serif italic text-[13px] md:text-[14px] text-gray-600 leading-relaxed text-center mb-6 max-w-md mx-auto">
+        <div className="px-6 sm:px-8 pt-6 pb-7 bg-white">
+          <p className="text-[13px] md:text-[14px] font-semibold text-[var(--black)]/70 leading-relaxed text-center mb-6 max-w-md mx-auto">
             Ce site utilise quelques cookies pour assurer le panier, votre connexion et,
             si vous l&apos;acceptez, mesurer la fréquentation de manière anonyme.
           </p>
@@ -130,40 +130,31 @@ export default function CookieConsent() {
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row items-stretch gap-2.5">
-            <button
-              onClick={acceptAll}
-              className="flex-1 bg-[var(--brand-gold)] text-white py-3.5 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition"
-            >
+            <button onClick={acceptAll} className="btn-rosa flex-1">
               Tout accepter
             </button>
             {showDetails ? (
-              <button
-                onClick={savePreferences}
-                className="flex-1 border border-[var(--brand-gold)]/40 text-[var(--brand-gold)] py-3.5 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-cream)] transition"
-              >
+              <button onClick={savePreferences} className="btn-rosa-outline flex-1">
                 Enregistrer
               </button>
             ) : (
-              <button
-                onClick={() => setShowDetails(true)}
-                className="flex-1 border border-[var(--brand-gold)]/40 text-[var(--brand-gold)] py-3.5 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-cream)] transition"
-              >
+              <button onClick={() => setShowDetails(true)} className="btn-rosa-outline flex-1">
                 Personnaliser
               </button>
             )}
           </div>
 
-          <div className="mt-5 flex items-center justify-center gap-4 text-[11px]">
+          <div className="mt-5 flex items-center justify-center gap-4 text-[12px] font-bold">
             <button
               onClick={rejectAll}
-              className="text-gray-500 hover:text-[var(--brand-gold)] transition border-b border-transparent hover:border-[var(--brand-gold)]/40 pb-0.5"
+              className="text-[var(--black)]/55 hover:text-[var(--orange)] transition"
             >
               Refuser tout
             </button>
-            <span className="text-[var(--brand-gold)]/40">·</span>
+            <span className="text-[var(--black)]/25">·</span>
             <Link
               href="/pages/politique-confidentialite"
-              className="text-gray-500 hover:text-[var(--brand-gold)] transition border-b border-transparent hover:border-[var(--brand-gold)]/40 pb-0.5"
+              className="text-[var(--black)]/55 hover:text-[var(--orange)] transition"
             >
               En savoir plus
             </Link>
@@ -189,22 +180,24 @@ function ConsentRow({
 }) {
   return (
     <label
-      className={`flex items-center justify-between gap-4 px-4 py-3 border border-[var(--brand-gold)]/15 transition ${
-        disabled ? "bg-[var(--brand-cream)]/40 cursor-not-allowed" : "cursor-pointer hover:border-[var(--brand-gold)]/40"
+      className={`flex items-center justify-between gap-4 px-4 py-3 rounded-2xl border-2 transition ${
+        disabled
+          ? "bg-[var(--cream)]/60 border-[var(--black)]/10 cursor-not-allowed"
+          : "border-[var(--black)]/15 cursor-pointer hover:border-[var(--black)]"
       }`}
     >
       <div className="min-w-0 flex-1">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-gray-900 font-medium">
+        <p className="text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--black)]">
           {label}
         </p>
-        <p className="font-serif italic text-[12px] text-gray-500 mt-1">{description}</p>
+        <p className="text-[12px] font-semibold text-[var(--black)]/55 mt-0.5">{description}</p>
       </div>
       <input
         type="checkbox"
         checked={checked}
         disabled={disabled}
         onChange={(e) => onChange?.(e.target.checked)}
-        className="w-4 h-4 accent-[var(--brand-gold)] shrink-0"
+        className="w-4 h-4 accent-[var(--orange)] shrink-0"
       />
     </label>
   );
