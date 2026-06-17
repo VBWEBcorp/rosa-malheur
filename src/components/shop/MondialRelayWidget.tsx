@@ -204,12 +204,12 @@ export default function MondialRelayWidget({
   return (
     <div className="space-y-2">
       {loading && !error && (
-        <div className="p-4 text-sm text-gray-500">
+        <div className="p-4 text-sm font-semibold text-[var(--black)]/55">
           Chargement de la carte des points relais…
         </div>
       )}
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+        <div className="p-4 rounded-2xl border-2 border-[var(--orange)] bg-[var(--orange)]/10 text-sm font-semibold text-[var(--orange)]">
           {error}
         </div>
       )}
@@ -217,7 +217,7 @@ export default function MondialRelayWidget({
         id="MR-Widget-Container"
         ref={containerRef}
         style={{ minHeight: 500 }}
-        className="max-w-full overflow-x-auto border border-gray-200"
+        className="max-w-full overflow-x-auto rounded-2xl border-2 border-[var(--black)]/15"
       />
       <input type="hidden" id="MR-Widget-Result" />
     </div>

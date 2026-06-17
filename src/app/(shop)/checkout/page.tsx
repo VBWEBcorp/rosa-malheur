@@ -11,6 +11,7 @@ import MondialRelayPicker from "@/components/shop/MondialRelayPicker";
 import { MondialRelayPoint } from "@/components/shop/MondialRelayWidget";
 import GiftCardInput, { type AppliedGiftCard } from "@/components/shop/GiftCardInput";
 import PromoCodeInput, { type AppliedPromo } from "@/components/shop/PromoCodeInput";
+import RetroStar from "@/components/shop/RetroStar";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { loadStripe, type Stripe, type StripeElementsOptions } from "@stripe/stripe-js";
 
@@ -128,10 +129,6 @@ export default function CheckoutPage() {
   // l'autorité — ici c'est uniquement l'affichage indicatif).
   const giftCardAmount = giftCard ? Math.min(giftCard.balance, total) : 0;
   const amountDue = Math.max(0, total - giftCardAmount);
-
-  // Pas de pré-remplissage automatique : un compte admin (ex. Viji en train
-  // de tester) verrait son nom et son email s'écrire dans la commande, ce qui
-  // n'est pas souhaitable. Le client tape ses propres informations.
 
   useEffect(() => {
     // Guest checkout : pas de redirect vers /login.
@@ -275,8 +272,8 @@ export default function CheckoutPage() {
   // ── Loading state ─────────────────────────────────────────────
   if (status === "loading") {
     return (
-      <div className="bg-[var(--brand-cream)]/30 min-h-[80vh] flex items-center justify-center">
-        <p className="font-serif italic text-gray-500">Chargement…</p>
+      <div className="bg-[var(--cream)] min-h-[80vh] flex items-center justify-center">
+        <p className="font-display font-extrabold text-[var(--black)]/60">Chargement…</p>
       </div>
     );
   }
@@ -284,29 +281,31 @@ export default function CheckoutPage() {
   // ── Confirmation state ────────────────────────────────────────
   if (step === "confirmation") {
     return (
-      <div className="bg-[var(--brand-cream)]/30 min-h-[80vh] py-20 md:py-28 px-4">
-        <div className="max-w-lg mx-auto text-center">
-          <div className="w-16 h-16 rounded-full border border-[var(--brand-gold)]/40 text-[var(--brand-gold)] flex items-center justify-center mx-auto mb-7">
-            <Check size={22} strokeWidth={1.5} />
+      <div className="bg-[var(--cream)] min-h-[80vh] py-20 md:py-28 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <RetroStar points={8} className="absolute top-16 left-[12%] w-12 h-12 text-[var(--orange)] hidden sm:block" />
+          <RetroStar points={10} className="absolute bottom-20 right-[14%] w-14 h-14 text-[var(--pink-dark)] hidden sm:block" />
+        </div>
+        <div className="relative z-10 max-w-lg mx-auto text-center">
+          <div className="w-16 h-16 rounded-full border-2 border-[var(--black)] bg-[var(--pink)] text-[var(--black)] flex items-center justify-center mx-auto mb-7">
+            <Check size={26} strokeWidth={2.5} />
           </div>
-          <p className="text-[10px] uppercase tracking-[0.45em] text-[var(--brand-gold)] mb-4">
+          <span className="inline-block pill-rosa bg-[var(--orange)] text-white px-4 py-1.5 text-[11px] font-display font-extrabold uppercase tracking-wide">
             Merci
-          </p>
-          <h1 className="font-serif text-4xl md:text-5xl text-gray-900 leading-[1.05] mb-6">
-            Commande{" "}
-            <span className="italic text-[var(--brand-gold)]">confirmée</span>
+          </span>
+          <h1 className="mt-5 font-display font-extrabold text-4xl md:text-5xl text-[var(--black)] leading-[0.95]">
+            Commande <span className="text-[var(--orange)]">confirmée</span>
           </h1>
-          <div className="w-12 h-px bg-[var(--brand-gold)]/40 mx-auto mb-7" />
-          <p className="font-serif italic text-[15px] text-gray-600 leading-relaxed mb-10 max-w-md mx-auto">
+          <p className="mt-6 text-[15px] text-[var(--black)]/75 leading-relaxed mb-10 max-w-md mx-auto font-semibold">
             {paidOrderNumber ? (
-              <>Commande <span className="not-italic font-medium text-gray-900">{paidOrderNumber}</span> enregistrée. Vous recevrez un email avec les détails dans quelques instants.</>
+              <>Commande <span className="font-display font-extrabold text-[var(--black)]">{paidOrderNumber}</span> enregistrée. Vous recevrez un email avec les détails dans quelques instants.</>
             ) : (
               <>Vous recevrez un email avec les détails de votre commande dans quelques instants.</>
             )}
             {accountReadyForLogin && (
               <>
                 <br />
-                <span className="text-[var(--brand-gold)] not-italic">Votre espace client est prêt, vous y êtes déjà connecté.</span>
+                <span className="text-[var(--orange)] font-extrabold">Votre espace client est prêt, vous y êtes déjà connecté.</span>
               </>
             )}
             {!accountReadyForLogin && createdNewAccount && (
@@ -318,22 +317,16 @@ export default function CheckoutPage() {
             {!accountReadyForLogin && !createdNewAccount && !session?.user && (
               <>
                 <br />
-                Cette adresse a déjà un espace client. <Link href="/login" className="text-[var(--brand-gold)] not-italic underline">Connectez-vous</Link> pour suivre votre commande.
+                Cette adresse a déjà un espace client. <Link href="/login" className="text-[var(--orange)] font-extrabold underline">Connectez-vous</Link> pour suivre votre commande.
               </>
             )}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/account/orders"
-              className="inline-flex items-center gap-3 bg-[var(--brand-gold)] text-white px-7 py-3.5 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition"
-            >
+            <Link href="/account/orders" className="btn-rosa text-[15px]">
               Mes commandes
-              <ArrowRight size={13} />
+              <ArrowRight size={16} strokeWidth={2.5} />
             </Link>
-            <Link
-              href="/"
-              className="text-[11px] uppercase tracking-[0.3em] text-[var(--brand-gold)] border-b border-[var(--brand-gold)]/40 pb-1 hover:border-[var(--brand-gold)] transition"
-            >
+            <Link href="/" className="btn-rosa-outline text-[15px]">
               Retour à la boutique
             </Link>
           </div>
@@ -344,42 +337,41 @@ export default function CheckoutPage() {
 
   // ── Main checkout flow ────────────────────────────────────────
   return (
-    <div className="bg-[var(--brand-cream)]/30 min-h-[80vh] py-12 md:py-16">
+    <div className="bg-[var(--cream)] min-h-[80vh] py-12 md:py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Back link */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-gray-500 hover:text-[var(--brand-gold)] transition mb-10"
+          className="inline-flex items-center gap-2 text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--black)]/55 hover:text-[var(--orange)] transition mb-8"
         >
-          <ArrowLeft size={13} /> Continuer mes achats
+          <ArrowLeft size={15} strokeWidth={2.5} /> Continuer mes achats
         </Link>
 
         {/* Header */}
-        <div className="mb-12">
-          <p className="text-[10px] uppercase tracking-[0.45em] text-gray-400 mb-4">
+        <div className="mb-10">
+          <span className="inline-block pill-rosa bg-[var(--pink)] text-[var(--black)] px-4 py-1.5 text-[11px] font-display font-extrabold uppercase tracking-wide">
             Finalisation
-          </p>
-          <h1 className="font-serif text-4xl md:text-5xl text-gray-900 leading-[1.05]">
-            Votre <span className="italic text-[var(--brand-gold)]">commande</span>
+          </span>
+          <h1 className="mt-4 font-display font-extrabold text-4xl md:text-5xl text-[var(--black)] leading-[0.95]">
+            Votre <span className="text-[var(--orange)]">commande</span>
           </h1>
-          <div className="w-12 h-px bg-[var(--brand-gold)]/40 mt-7" />
         </div>
 
         {/* Steps indicator */}
-        <div className="flex items-center gap-5 mb-12 max-w-md">
+        <div className="flex items-center gap-4 mb-10 max-w-md">
           <StepDot label="Livraison" active={step === "shipping"} done={step === "payment"} number={1} />
-          <span className={`flex-1 h-px transition-colors ${step === "payment" ? "bg-[var(--brand-gold)]/40" : "bg-gray-200"}`} />
+          <span className={`flex-1 h-1 rounded-full transition-colors ${step === "payment" ? "bg-[var(--orange)]" : "bg-[var(--black)]/15"}`} />
           <StepDot label="Paiement" active={step === "payment"} done={false} number={2} />
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+        <div className="grid lg:grid-cols-3 gap-8 lg:gap-10">
           {/* Main column */}
           <div className="lg:col-span-2 space-y-6 min-w-0">
             {step === "shipping" && (
               <>
                 {/* Coordonnées + adresse */}
                 <Card eyebrow="Vous concernant" title="Vos coordonnées">
-                  <div className="space-y-6">
+                  <div className="space-y-5">
                     <Field
                       label="Nom complet"
                       required
@@ -403,7 +395,7 @@ export default function CheckoutPage() {
                           value={password}
                           onChange={setPassword}
                         />
-                        <p className="font-serif italic text-[12px] text-gray-400 mt-2">
+                        <p className="text-[12px] text-[var(--black)]/50 mt-2 leading-relaxed">
                           Optionnel. Si vous le renseignez, votre espace client est créé immédiatement et vous y êtes connecté après le paiement. Sinon, un email vous sera envoyé pour le configurer plus tard.
                         </p>
                       </div>
@@ -422,7 +414,7 @@ export default function CheckoutPage() {
                       value={shippingAddress.street}
                       onChange={(v) => setShippingAddress({ ...shippingAddress, street: v })}
                     />
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                       <Field
                         label="Code postal"
                         required
@@ -441,14 +433,14 @@ export default function CheckoutPage() {
                       </div>
                     </div>
 
-                    <label className="flex items-start gap-3 pt-3 cursor-pointer group">
+                    <label className="flex items-start gap-3 pt-1 cursor-pointer group">
                       <input
                         type="checkbox"
                         checked={differentBilling}
                         onChange={(e) => setDifferentBilling(e.target.checked)}
-                        className="w-4 h-4 mt-0.5 accent-[var(--brand-gold)]"
+                        className="w-4 h-4 mt-0.5 accent-[var(--orange)]"
                       />
-                      <span className="font-serif italic text-[13px] text-gray-600 group-hover:text-gray-900 transition">
+                      <span className="text-[13px] font-semibold text-[var(--black)]/70 group-hover:text-[var(--black)] transition">
                         Utiliser une adresse de facturation différente
                       </span>
                     </label>
@@ -458,10 +450,10 @@ export default function CheckoutPage() {
                 {/* Adresse de facturation (conditionnelle) */}
                 {differentBilling && (
                   <Card eyebrow="Pour la facture" title="Adresse de facturation">
-                    <p className="font-serif italic text-[13px] text-gray-500 mb-6">
+                    <p className="text-[13px] text-[var(--black)]/55 mb-6">
                       Cette adresse figurera sur votre facture. Indispensable pour la TVA en cas d&apos;achat professionnel.
                     </p>
-                    <div className="space-y-6">
+                    <div className="space-y-5">
                       <Field
                         label="Adresse"
                         required
@@ -469,7 +461,7 @@ export default function CheckoutPage() {
                         value={billingAddress.street}
                         onChange={(v) => setBillingAddress({ ...billingAddress, street: v })}
                       />
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <Field
                           label="Code postal"
                           required
@@ -493,8 +485,8 @@ export default function CheckoutPage() {
 
                 {/* Sélecteur point relais Mondial Relay (gratuit) */}
                 <Card eyebrow="Retrait" title="Choisissez votre point relais">
-                  <p className="font-serif italic text-[13px] text-gray-500 mb-6">
-                    Toutes les commandes sont expédiées gratuitement via Mondial Relay. Choisissez le point relais où récupérer votre commande.
+                  <p className="text-[13px] text-[var(--black)]/55 mb-6">
+                    Toutes les commandes sont expédiées via Mondial Relay. Choisissez le point relais où récupérer votre commande.
                   </p>
 
                   <MondialRelayPicker
@@ -541,9 +533,9 @@ export default function CheckoutPage() {
                     }
                     void handleCreateOrder();
                   }}
-                  className="w-full inline-flex items-center justify-center gap-3 bg-[var(--brand-gold)] text-white py-4 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="btn-rosa w-full text-[15px] disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {loading ? "Préparation du paiement…" : <>Continuer vers le paiement <ArrowRight size={13} /></>}
+                  {loading ? "Préparation du paiement…" : <>Continuer vers le paiement <ArrowRight size={16} strokeWidth={2.5} /></>}
                 </button>
               </>
             )}
@@ -554,16 +546,16 @@ export default function CheckoutPage() {
                 {pickupPoint && (
                   <Card eyebrow="Retrait" title="Votre point relais">
                     <div className="flex items-start gap-3">
-                      <span className="w-10 h-10 rounded-full border border-[var(--brand-gold)]/30 text-[var(--brand-gold)] flex items-center justify-center shrink-0">
-                        <MapPin size={16} strokeWidth={1.5} />
+                      <span className="w-11 h-11 rounded-full border-2 border-[var(--black)] bg-[var(--pink)] text-[var(--black)] flex items-center justify-center shrink-0">
+                        <MapPin size={17} strokeWidth={2} />
                       </span>
                       <div className="text-[14px] leading-relaxed">
-                        <p className="font-serif text-gray-900">{pickupPoint.Nom}</p>
-                        <p className="text-gray-600 mt-0.5">
+                        <p className="font-display font-extrabold text-[var(--black)]">{pickupPoint.Nom}</p>
+                        <p className="text-[var(--black)]/65 mt-0.5">
                           {pickupPoint.Adresse1}
                           {pickupPoint.Adresse2 ? `, ${pickupPoint.Adresse2}` : ""}
                         </p>
-                        <p className="text-gray-600">
+                        <p className="text-[var(--black)]/65">
                           {pickupPoint.CP} {pickupPoint.Ville}
                         </p>
                       </div>
@@ -574,9 +566,9 @@ export default function CheckoutPage() {
                 {/* Stripe Elements : carte bancaire */}
                 <Card eyebrow="Sécurisé" title="Paiement par carte">
                   {!stripePromise && (
-                    <p className="font-serif italic text-[13px] text-red-600">
+                    <p className="text-[13px] font-bold text-[var(--orange)]">
                       Clé publique Stripe manquante (NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY).
-                      Vérifiez votre fichier .env.local.
+                      Vérifiez votre configuration.
                     </p>
                   )}
                   {stripePromise && clientSecret && (
@@ -588,28 +580,27 @@ export default function CheckoutPage() {
                           appearance: {
                             theme: "flat",
                             variables: {
-                              colorPrimary: "#b08438",
+                              colorPrimary: "#DC480F",
                               colorBackground: "#ffffff",
-                              colorText: "#111827",
-                              colorDanger: "#b91c1c",
-                              fontFamily: "ui-sans-serif, system-ui, sans-serif",
-                              borderRadius: "0px",
+                              colorText: "#0E0D0D",
+                              colorDanger: "#DC480F",
+                              fontFamily: "var(--font-nunito), system-ui, sans-serif",
+                              borderRadius: "14px",
                               spacingUnit: "4px",
                             },
                             rules: {
                               ".Input": {
-                                border: "1px solid #e5e7eb",
-                                padding: "10px 12px",
+                                border: "2px solid rgba(14,13,13,0.15)",
+                                padding: "12px 14px",
                               },
                               ".Input:focus": {
-                                border: "1px solid #b08438",
+                                border: "2px solid #DC480F",
                                 boxShadow: "none",
                               },
                               ".Label": {
-                                fontSize: "10px",
-                                textTransform: "uppercase",
-                                letterSpacing: "0.3em",
-                                color: "#6b7280",
+                                fontSize: "12px",
+                                fontWeight: "700",
+                                color: "#0E0D0D",
                               },
                             },
                           },
@@ -639,7 +630,7 @@ export default function CheckoutPage() {
                       />
                     </Elements>
                   )}
-                  <p className="font-serif italic text-[12px] text-gray-400 mt-6 text-center">
+                  <p className="text-[12px] text-[var(--black)]/45 mt-6 text-center">
                     Carte de test Stripe : 4242 4242 4242 4242 · n&apos;importe quelle date future · n&apos;importe quel CVC.
                   </p>
                 </Card>
@@ -649,33 +640,33 @@ export default function CheckoutPage() {
 
           {/* Récapitulatif sticky */}
           <aside className="lg:col-span-1 min-w-0">
-            <div className="bg-white border border-[var(--brand-gold)]/15 px-6 sm:px-7 py-7 lg:sticky lg:top-28">
-              <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-2">
+            <div className="card-rosa bg-white px-6 sm:px-7 py-7 lg:sticky lg:top-28" style={{ boxShadow: "6px 6px 0 0 var(--black)" }}>
+              <p className="text-[11px] font-display font-extrabold uppercase tracking-wide text-[var(--orange)] mb-1.5">
                 Votre sélection
               </p>
-              <h2 className="font-serif text-2xl text-gray-900 leading-none mb-7">
+              <h2 className="font-display font-extrabold text-2xl text-[var(--black)] leading-none mb-6">
                 Récapitulatif
               </h2>
 
-              <div className="divide-y divide-[var(--brand-gold)]/10">
+              <div className="divide-y-2 divide-[var(--black)]/8">
                 {cartItems.map((item) => (
                   <div key={item._id} className="flex justify-between items-start gap-3 py-3 first:pt-0">
                     <div className="min-w-0 flex-1">
-                      <p className="font-serif text-[14px] text-gray-900 leading-tight truncate">
+                      <p className="font-display font-extrabold text-[14px] text-[var(--black)] leading-tight truncate">
                         {item.product.name}
                       </p>
-                      <p className="text-[11px] uppercase tracking-[0.25em] text-[var(--brand-gold)] mt-1">
+                      <p className="text-[11px] font-bold uppercase tracking-wide text-[var(--orange)] mt-1">
                         × {item.quantity}
                       </p>
                     </div>
-                    <span className="font-serif text-[14px] text-gray-900 shrink-0">
+                    <span className="font-display font-extrabold text-[14px] text-[var(--black)] shrink-0">
                       {formatPrice(item.subtotal)}
                     </span>
                   </div>
                 ))}
               </div>
 
-              <div className="border-t border-[var(--brand-gold)]/15 mt-5 pt-5 space-y-3">
+              <div className="border-t-2 border-[var(--black)]/10 mt-5 pt-5 space-y-3">
                 <SummaryRow
                   label={`Sous-total${taxConfig.pricesIncludeTax ? " TTC" : " HT"}`}
                   value={formatPrice(cartTotal)}
@@ -683,14 +674,14 @@ export default function CheckoutPage() {
                 {discount > 0 && (
                   <SummaryRow
                     label={`Réduction${promo ? ` (${promo.code})` : ""}`}
-                    value={<span className="text-[var(--brand-gold)]">-{formatPrice(discount)}</span>}
+                    value={<span className="text-[var(--orange)] font-extrabold">-{formatPrice(discount)}</span>}
                   />
                 )}
                 <SummaryRow
                   label="Livraison"
                   value={
                     shippingCost === 0 ? (
-                      <span className="font-serif italic text-[var(--brand-gold)]">Offerte</span>
+                      <span className="text-[var(--orange)] font-extrabold">Offerte</span>
                     ) : (
                       formatPrice(shippingCost)
                     )
@@ -705,18 +696,18 @@ export default function CheckoutPage() {
                 )}
               </div>
 
-              <div className="border-t border-[var(--brand-gold)]/15 mt-5 pt-5 flex items-end justify-between">
-                <span className="text-[10px] uppercase tracking-[0.4em] text-gray-400">
+              <div className="border-t-2 border-[var(--black)]/10 mt-5 pt-5 flex items-end justify-between">
+                <span className="text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--black)]/50">
                   Total TTC
                 </span>
-                <span className="font-serif text-2xl text-gray-900">
+                <span className="font-display font-extrabold text-3xl text-[var(--black)]">
                   {formatPrice(total)}
                 </span>
               </div>
 
               {/* Code promo */}
-              <div className="border-t border-[var(--brand-gold)]/15 mt-5 pt-5">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-3">
+              <div className="border-t-2 border-[var(--black)]/10 mt-5 pt-5">
+                <p className="text-[11px] font-display font-extrabold uppercase tracking-wide text-[var(--black)]/50 mb-3">
                   Code promo
                 </p>
                 <PromoCodeInput
@@ -729,8 +720,8 @@ export default function CheckoutPage() {
               </div>
 
               {/* Carte cadeau */}
-              <div className="border-t border-[var(--brand-gold)]/15 mt-5 pt-5">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-3">
+              <div className="border-t-2 border-[var(--black)]/10 mt-5 pt-5">
+                <p className="text-[11px] font-display font-extrabold uppercase tracking-wide text-[var(--black)]/50 mb-3">
                   Carte cadeau
                 </p>
                 <GiftCardInput
@@ -743,13 +734,13 @@ export default function CheckoutPage() {
                   <div className="mt-4 space-y-2">
                     <SummaryRow
                       label="Carte cadeau"
-                      value={<span className="text-[var(--brand-gold)]">-{formatPrice(giftCardAmount)}</span>}
+                      value={<span className="text-[var(--orange)] font-extrabold">-{formatPrice(giftCardAmount)}</span>}
                     />
-                    <div className="flex items-end justify-between pt-2 border-t border-[var(--brand-gold)]/10">
-                      <span className="text-[10px] uppercase tracking-[0.4em] text-gray-400">
+                    <div className="flex items-end justify-between pt-2 border-t-2 border-[var(--black)]/8">
+                      <span className="text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--black)]/50">
                         Reste à payer
                       </span>
-                      <span className="font-serif text-xl text-gray-900">
+                      <span className="font-display font-extrabold text-xl text-[var(--black)]">
                         {formatPrice(amountDue)}
                       </span>
                     </div>
@@ -758,7 +749,7 @@ export default function CheckoutPage() {
               </div>
 
               {session?.user?.email && (
-                <p className="font-serif italic text-[11px] text-gray-400 mt-6 text-center truncate">
+                <p className="text-[11px] text-[var(--black)]/45 mt-6 text-center truncate font-semibold">
                   Connecté en tant que {session.user.email}
                 </p>
               )}
@@ -783,25 +774,24 @@ function StepDot({
   done: boolean;
   number: number;
 }) {
-  const colorClass = active
-    ? "text-[var(--brand-gold)]"
-    : done
-    ? "text-[var(--brand-gold)]/60"
-    : "text-gray-400";
   const dotClass = active
-    ? "bg-[var(--brand-gold)] text-white border-[var(--brand-gold)]"
+    ? "bg-[var(--orange)] text-white border-[var(--black)]"
     : done
-    ? "bg-white text-[var(--brand-gold)] border-[var(--brand-gold)]"
-    : "bg-white text-gray-400 border-gray-200";
+    ? "bg-[var(--pink)] text-[var(--black)] border-[var(--black)]"
+    : "bg-white text-[var(--black)]/40 border-[var(--black)]/20";
 
   return (
-    <div className={`flex items-center gap-3 ${colorClass} transition`}>
+    <div className="flex items-center gap-3">
       <span
-        className={`w-7 h-7 rounded-full border flex items-center justify-center text-[12px] font-serif ${dotClass}`}
+        className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-[13px] font-display font-extrabold ${dotClass}`}
       >
-        {done ? <Check size={12} strokeWidth={2} /> : number}
+        {done ? <Check size={14} strokeWidth={2.5} /> : number}
       </span>
-      <span className="text-[11px] uppercase tracking-[0.3em] font-medium hidden sm:inline">
+      <span
+        className={`text-[12px] font-display font-extrabold uppercase tracking-wide hidden sm:inline ${
+          active ? "text-[var(--black)]" : "text-[var(--black)]/45"
+        }`}
+      >
         {label}
       </span>
     </div>
@@ -818,12 +808,12 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-white border border-[var(--brand-gold)]/15 px-6 sm:px-8 py-7">
-      <div className="mb-7">
-        <p className="text-[10px] uppercase tracking-[0.4em] text-[var(--brand-gold)] mb-2">
+    <div className="card-rosa bg-white px-6 sm:px-8 py-7" style={{ boxShadow: "5px 5px 0 0 var(--black)" }}>
+      <div className="mb-6">
+        <p className="text-[11px] font-display font-extrabold uppercase tracking-wide text-[var(--orange)] mb-1.5">
           {eyebrow}
         </p>
-        <h2 className="font-serif text-2xl text-gray-900 leading-none">{title}</h2>
+        <h2 className="font-display font-extrabold text-2xl text-[var(--black)] leading-none">{title}</h2>
       </div>
       {children}
     </div>
@@ -847,9 +837,9 @@ function Field({
 }) {
   return (
     <div>
-      <label className="block text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-2">
+      <label className="block text-[12px] font-display font-extrabold uppercase tracking-wide text-[var(--black)] mb-2">
         {label}
-        {required && <span className="text-[var(--brand-gold)] ml-1">*</span>}
+        {required && <span className="text-[var(--orange)] ml-1">*</span>}
       </label>
       <input
         type={type}
@@ -857,7 +847,7 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         required={required}
         placeholder={placeholder}
-        className="w-full px-0 py-2.5 bg-transparent border-0 border-b border-gray-200 text-[14px] text-gray-900 focus:border-[var(--brand-gold)] focus:ring-0 outline-none transition placeholder:text-gray-300"
+        className="w-full px-4 py-3 bg-white border-2 border-[var(--black)]/15 rounded-2xl text-[14px] text-[var(--black)] focus:border-[var(--orange)] focus:ring-0 outline-none transition placeholder:text-[var(--black)]/30"
       />
     </div>
   );
@@ -873,9 +863,9 @@ function SummaryRow({
   subdued?: boolean;
 }) {
   return (
-    <div className={`flex justify-between text-[13px] ${subdued ? "text-gray-400" : "text-gray-700"}`}>
+    <div className={`flex justify-between text-[13px] font-semibold ${subdued ? "text-[var(--black)]/40" : "text-[var(--black)]/70"}`}>
       <span>{label}</span>
-      <span className={subdued ? "" : "text-gray-900"}>{value}</span>
+      <span className={subdued ? "" : "text-[var(--black)] font-display font-extrabold"}>{value}</span>
     </div>
   );
 }
@@ -928,24 +918,23 @@ function PaymentForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <PaymentElement />
-      {error && (
-        <p className="text-[13px] text-red-600 font-serif italic">{error}</p>
-      )}
-      <div className="flex items-center gap-4 pt-2">
+      {error && <p className="text-[13px] text-[var(--orange)] font-bold">{error}</p>}
+      <div className="flex items-center gap-3 pt-2">
         <button
           type="button"
           onClick={onBack}
           disabled={submitting}
-          className="px-5 py-4 border border-[var(--brand-gold)]/30 text-[var(--brand-gold)] text-[11px] uppercase tracking-[0.3em] hover:bg-[var(--brand-gold)]/5 transition disabled:opacity-60"
+          className="btn-rosa-outline px-5 disabled:opacity-60"
+          aria-label="Retour"
         >
-          <ArrowLeft size={14} />
+          <ArrowLeft size={16} strokeWidth={2.5} />
         </button>
         <button
           type="submit"
           disabled={!stripe || submitting}
-          className="flex-1 inline-flex items-center justify-center gap-3 bg-[var(--brand-gold)] text-white py-4 text-[11px] uppercase tracking-[0.3em] font-medium hover:bg-[var(--brand-gold-dark)] transition disabled:opacity-60 disabled:cursor-not-allowed"
+          className="btn-rosa flex-1 text-[15px] disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {submitting ? "Paiement en cours…" : <>Payer {formatPrice(total)} <ArrowRight size={13} /></>}
+          {submitting ? "Paiement en cours…" : <>Payer {formatPrice(total)} <ArrowRight size={16} strokeWidth={2.5} /></>}
         </button>
       </div>
     </form>
