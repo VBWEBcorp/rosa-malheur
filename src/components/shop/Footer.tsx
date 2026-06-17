@@ -29,11 +29,13 @@ export default async function Footer() {
 
   return (
     <footer className="mt-auto bg-[var(--black)] text-[var(--cream)] relative overflow-hidden">
-      {/* Étoiles décoratives */}
-      <RetroStar points={8} className="absolute -top-6 right-10 w-20 h-20 text-[var(--orange)] opacity-90" />
-      <RetroStar points={10} className="absolute top-24 left-6 w-12 h-12 text-[var(--pink)] opacity-80 hidden sm:block" />
+      {/* Étoiles décoratives (calque arrière-plan, derrière le texte) */}
+      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+        <RetroStar points={8} className="absolute -top-6 right-10 w-20 h-20 text-[var(--orange)] opacity-90" />
+        <RetroStar points={10} className="absolute top-24 left-6 w-12 h-12 text-[var(--pink)] opacity-80 hidden sm:block" />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 md:pt-20 pb-12 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 md:pt-20 pb-12 relative z-10">
         {/* Marque + accroche */}
         <div className="max-w-2xl">
           <p className="font-display font-extrabold text-4xl md:text-5xl leading-none">

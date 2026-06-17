@@ -16,9 +16,11 @@ export default function AboutPage() {
     <div className="bg-[var(--cream)]">
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-b-[2.5px] border-[var(--black)] py-16 md:py-24">
-        <RetroStar points={8} className="absolute top-10 left-[8%] w-12 h-12 text-[var(--orange)] hidden sm:block" />
-        <RetroStar points={10} className="absolute bottom-12 right-[10%] w-14 h-14 text-[var(--pink-dark)] hidden sm:block" />
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <RetroStar points={8} className="absolute top-10 left-[8%] w-12 h-12 text-[var(--orange)] hidden sm:block" />
+          <RetroStar points={10} className="absolute bottom-12 right-[10%] w-14 h-14 text-[var(--pink-dark)] hidden sm:block" />
+        </div>
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <span className="inline-flex items-center gap-2 pill-rosa bg-[var(--pink)] text-[var(--black)] px-5 py-2 text-[12px] font-display font-extrabold uppercase tracking-wide">
             L&apos;histoire
           </span>
@@ -69,9 +71,11 @@ export default function AboutPage() {
 
       {/* ── CITATION ──────────────────────────────────────────── */}
       <section className="bg-[var(--black)] py-16 md:py-20 relative overflow-hidden">
-        <RetroStar points={8} className="absolute top-8 right-[12%] w-12 h-12 text-[var(--orange)] opacity-90" />
-        <RetroStar points={10} className="absolute bottom-8 left-[10%] w-10 h-10 text-[var(--pink)] opacity-80 hidden sm:block" />
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative">
+        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <RetroStar points={8} className="absolute top-8 right-[12%] w-12 h-12 text-[var(--orange)] opacity-90" />
+          <RetroStar points={10} className="absolute bottom-8 left-[10%] w-10 h-10 text-[var(--pink)] opacity-80 hidden sm:block" />
+        </div>
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <p className="font-display font-extrabold text-2xl md:text-4xl text-[var(--cream)] leading-[1.2]">
             Une corde qui a assuré des grimpeurs en falaise mérite mieux que la benne.{" "}
             <span className="text-[var(--orange)]">Elle devient la laisse qui accompagne votre chien.</span>

@@ -26,9 +26,11 @@ export default function ContactPage() {
     <div className="bg-[var(--cream)]">
       {/* Hero */}
       <section className="relative overflow-hidden border-b-[2.5px] border-[var(--black)] py-14 md:py-20">
-        <RetroStar points={8} className="absolute top-8 left-[8%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
-        <RetroStar points={8} className="absolute bottom-8 right-[10%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <RetroStar points={8} className="absolute top-8 left-[8%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
+          <RetroStar points={8} className="absolute bottom-8 right-[10%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
+        </div>
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <span className="inline-flex items-center gap-2 pill-rosa bg-[var(--pink)] text-[var(--black)] px-5 py-2 text-[12px] font-display font-extrabold uppercase tracking-wide">
             Nous contacter
           </span>

@@ -13,13 +13,15 @@ export default function ComingSoonPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[var(--cream)] flex flex-col items-center justify-center text-center px-5 py-16">
-      {/* Étoiles décoratives */}
-      <RetroStar points={8} className="absolute top-10 left-[6%] w-12 h-12 md:w-16 md:h-16 text-[var(--black)]" />
-      <RetroStar points={8} className="absolute top-16 right-[8%] w-9 h-9 md:w-14 md:h-14 text-[var(--orange)]" />
-      <RetroStar points={10} className="absolute bottom-24 left-[12%] w-10 h-10 text-[var(--pink-dark)] hidden sm:block" />
-      <RetroStar points={8} className="absolute bottom-16 right-[14%] w-7 h-7 md:w-10 md:h-10 text-[var(--black)] hidden sm:block" />
+      {/* Étoiles décoratives (calque arrière-plan, derrière le texte) */}
+      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+        <RetroStar points={8} className="absolute top-10 left-[6%] w-12 h-12 md:w-16 md:h-16 text-[var(--black)]" />
+        <RetroStar points={8} className="absolute top-16 right-[8%] w-9 h-9 md:w-14 md:h-14 text-[var(--orange)]" />
+        <RetroStar points={10} className="absolute bottom-24 left-[12%] w-10 h-10 text-[var(--pink-dark)] hidden sm:block" />
+        <RetroStar points={8} className="absolute bottom-16 right-[14%] w-7 h-7 md:w-10 md:h-10 text-[var(--black)] hidden sm:block" />
+      </div>
 
-      <div className="relative max-w-2xl w-full">
+      <div className="relative z-10 max-w-2xl w-full">
         {/* Eyebrow */}
         <span className="inline-flex items-center gap-2 pill-rosa bg-white text-[var(--black)] px-5 py-2 text-[12px] md:text-[13px] font-display font-extrabold uppercase tracking-wide">
           <RetroStar points={8} className="w-3.5 h-3.5 text-[var(--orange)]" />

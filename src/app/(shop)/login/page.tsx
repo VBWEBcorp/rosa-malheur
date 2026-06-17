@@ -64,8 +64,10 @@ export default function LoginPage() {
 
   return (
     <div className="bg-[var(--cream)] min-h-[85vh] py-16 md:py-24 px-4 relative overflow-hidden">
-      <RetroStar points={8} className="absolute top-12 left-[10%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
-      <RetroStar points={10} className="absolute bottom-16 right-[12%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
+      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+        <RetroStar points={8} className="absolute top-12 left-[10%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
+        <RetroStar points={10} className="absolute bottom-16 right-[12%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
+      </div>
 
       <div className="max-w-md mx-auto relative">
         {/* Header */}

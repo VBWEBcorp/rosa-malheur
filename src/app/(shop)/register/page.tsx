@@ -53,10 +53,12 @@ export default function RegisterPage() {
 
   return (
     <div className="bg-[var(--cream)] min-h-[85vh] py-16 md:py-24 px-4 relative overflow-hidden">
-      <RetroStar points={8} className="absolute top-12 right-[10%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
-      <RetroStar points={10} className="absolute bottom-16 left-[12%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
+      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+        <RetroStar points={8} className="absolute top-12 right-[10%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
+        <RetroStar points={10} className="absolute bottom-16 left-[12%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
+      </div>
 
-      <div className="max-w-md mx-auto relative">
+      <div className="max-w-md mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-9">
           <span className="inline-flex items-center gap-2 pill-rosa bg-[var(--pink)] text-[var(--black)] px-4 py-1.5 text-[11px] font-display font-extrabold uppercase tracking-wide">

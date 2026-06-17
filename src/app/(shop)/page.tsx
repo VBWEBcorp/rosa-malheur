@@ -107,9 +107,11 @@ export default async function HomePage() {
 
       {/* ── PRODUIT EN VEDETTE ──────────────────────────────────── */}
       <section className="py-16 md:py-24 bg-[var(--black)] relative overflow-hidden">
-        <RetroStar points={8} className="absolute top-10 right-[10%] w-16 h-16 text-[var(--orange)] opacity-90" />
-        <RetroStar points={10} className="absolute bottom-10 left-[8%] w-10 h-10 text-[var(--pink)] opacity-80" />
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center relative">
+        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <RetroStar points={8} className="absolute top-10 right-[10%] w-16 h-16 text-[var(--orange)] opacity-90" />
+          <RetroStar points={10} className="absolute bottom-10 left-[8%] w-10 h-10 text-[var(--pink)] opacity-80" />
+        </div>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center relative z-10">
           {/* Visuel */}
           <div className="order-1">
             <div className="blob bg-[var(--pink)] border-[2.5px] border-[var(--cream)] aspect-square relative overflow-hidden">
@@ -171,9 +173,11 @@ export default async function HomePage() {
 
       {/* ── L'HISTOIRE / FABRICATION ────────────────────────────── */}
       <section className="py-20 md:py-28 relative overflow-hidden">
-        <RetroStar points={8} className="absolute top-12 left-[8%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
-        <RetroStar points={8} className="absolute bottom-12 right-[10%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <RetroStar points={8} className="absolute top-12 left-[8%] w-10 h-10 text-[var(--orange)] hidden sm:block" />
+          <RetroStar points={8} className="absolute bottom-12 right-[10%] w-12 h-12 text-[var(--pink-dark)] hidden sm:block" />
+        </div>
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <span className="inline-flex items-center gap-2 pill-rosa bg-[var(--orange)] text-white px-5 py-2 text-[12px] font-display font-extrabold uppercase tracking-wide">
             {t("home_matiere_eyebrow")}
           </span>

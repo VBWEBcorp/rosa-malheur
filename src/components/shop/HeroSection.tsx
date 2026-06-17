@@ -14,13 +14,15 @@ export default async function HeroSection() {
 
   return (
     <section className="relative overflow-hidden bg-[var(--cream)]">
-      {/* Étoiles décoratives */}
-      <RetroStar points={8} className="absolute top-10 left-[5%] w-10 h-10 md:w-14 md:h-14 text-[var(--black)]" />
-      <RetroStar points={8} className="absolute top-20 right-[7%] w-8 h-8 md:w-12 md:h-12 text-[var(--orange)]" />
-      <RetroStar points={10} className="absolute bottom-20 left-[10%] w-9 h-9 text-[var(--pink-dark)] hidden sm:block" />
-      <RetroStar points={8} className="absolute bottom-28 right-[12%] w-6 h-6 text-[var(--black)] hidden sm:block" />
+      {/* Étoiles décoratives (calque arrière-plan, derrière le texte) */}
+      <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+        <RetroStar points={8} className="absolute top-10 left-[5%] w-10 h-10 md:w-14 md:h-14 text-[var(--black)]" />
+        <RetroStar points={8} className="absolute top-20 right-[7%] w-8 h-8 md:w-12 md:h-12 text-[var(--orange)]" />
+        <RetroStar points={10} className="absolute bottom-20 left-[10%] w-9 h-9 text-[var(--pink-dark)] hidden sm:block" />
+        <RetroStar points={8} className="absolute bottom-28 right-[12%] w-6 h-6 text-[var(--black)] hidden sm:block" />
+      </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-12 md:pt-16 pb-20 md:pb-24 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-12 md:pt-16 pb-20 md:pb-24 text-center">
         {/* Eyebrow */}
         <span className="inline-flex items-center gap-2 pill-rosa bg-[var(--cream)] text-[var(--black)] px-5 py-2 text-[12px] md:text-[13px] font-display font-extrabold uppercase tracking-wide">
           <RetroStar points={8} className="w-3.5 h-3.5 text-[var(--orange)]" />
