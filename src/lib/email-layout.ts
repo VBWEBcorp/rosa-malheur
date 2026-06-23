@@ -1,33 +1,46 @@
 /**
- * Charte graphique commune à tous les emails transactionnels.
- * Identité "Entre Maman et Moi" : doré / crème / serif Georgia.
+ * Charte graphique commune à TOUS les emails transactionnels — identité
+ * "Rosa Malheur" : affiche sérigraphiée 70s (crème, noir, orange, rose),
+ * cartes "sticker" à grosse bordure noire arrondie, étoiles rétro, logo en
+ * en-tête, titres en Baloo 2.
  *
  * Tous les styles sont inline (compatibilité Gmail/Outlook/Apple Mail) ; le
- * bloc <style> du shell n'ajoute que le responsive et reste optionnel.
- * `color-scheme: light only` empêche l'inversion automatique en mode sombre
- * (qui rendait certains textes illisibles).
+ * bloc <style> n'ajoute que l'import de police (best-effort) + le responsive.
+ * `color-scheme: light only` empêche l'inversion en mode sombre.
+ *
+ * NB : les variables gardent leurs noms historiques (`gold`…) pour ne pas
+ * casser les appelants ; seules leurs valeurs suivent la charte Rosa Malheur.
  */
+import { SITE_URL } from "./seo";
 
-export const SHOP_NAME = "Entre Maman et Moi";
-export const SHOP_TAGLINE = "Box culinaires indiennes & ateliers";
+export const SHOP_NAME = "Rosa Malheur";
+export const SHOP_TAGLINE = "Laisses pour chien en corde d'escalade recyclée";
+
+/** Logo détouré servi par le site. URL absolue obligatoire dans un email.
+ *  En local, on pointe sur l'URL de dev pour que l'aperçu affiche le logo ;
+ *  en prod, NEXT_PUBLIC_APP_URL = le vrai domaine (sinon repli sur SITE_URL). */
+export const LOGO_URL = `${process.env.NEXT_PUBLIC_APP_URL || SITE_URL}/brand/rosa-malheur.png`;
 
 export const EMAIL_COLORS = {
-  gold: "#b08438",
-  goldDark: "#9c7a2e",
-  goldLight: "#d8b46a",
-  cream: "#faf6ee",
-  softCream: "#f7f1e6",
-  ink: "#1f1d1a",
-  body: "#57514a",
-  muted: "#9b948a",
-  border: "#ece4d6",
-  hairline: "#f0e9dc",
+  gold: "#DC480F", // orange sérigraphie (accent principal)
+  goldDark: "#B23A0C",
+  goldLight: "#E9692F",
+  cream: "#F4D9BC", // fond extérieur
+  softCream: "#FBEEDD",
+  pink: "#EBA0A4",
+  pinkSoft: "#F9DEDF", // fond des encadrés
+  ink: "#0E0D0D", // noir charte
+  body: "#4A443E",
+  muted: "#8C8478",
+  border: "#EAD3B6",
+  hairline: "#F2E2CE",
   white: "#ffffff",
 };
 
 const C = EMAIL_COLORS;
-const SANS = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
-const SERIF = "Georgia,'Times New Roman',serif";
+const SANS = "'Nunito','Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+// Baloo 2 si dispo (Apple Mail, iOS), sinon repli arrondi puis sans-serif.
+const DISPLAY = "'Baloo 2','Trebuchet MS','Segoe UI',Helvetica,Arial,sans-serif";
 
 export function esc(s: unknown): string {
   return String(s ?? "").replace(/[&<>"']/g, (c) =>
@@ -35,14 +48,14 @@ export function esc(s: unknown): string {
   );
 }
 
-/** Petit intitulé doré en majuscules espacées, au-dessus du titre. */
+/** Petit intitulé orange en majuscules, étoile rétro en préfixe. */
 export function emailEyebrow(text: string): string {
-  return `<p style="font-family:${SANS}; font-size:11px; letter-spacing:0.4em; text-transform:uppercase; color:${C.gold}; margin:0 0 14px;">${text}</p>`;
+  return `<p style="font-family:${DISPLAY}; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:${C.gold}; font-weight:800; margin:0 0 14px;"><span style="color:${C.pink};">&#10038;</span>&nbsp;${text}</p>`;
 }
 
-/** Titre principal en serif. Accepte du HTML simple (ex. <br>). */
+/** Titre principal en Baloo 2, gras, noir. Accepte du HTML simple (<br>). */
 export function emailHeading(html: string): string {
-  return `<h1 class="emm-h1" style="font-family:${SERIF}; font-size:27px; line-height:1.25; font-weight:normal; color:${C.ink}; margin:0 0 18px;">${html}</h1>`;
+  return `<h1 class="rm-h1" style="font-family:${DISPLAY}; font-size:30px; line-height:1.08; font-weight:800; color:${C.ink}; margin:0 0 18px;">${html}</h1>`;
 }
 
 /** Paragraphe de corps de texte. Accepte du HTML simple. */
@@ -50,24 +63,24 @@ export function emailParagraph(html: string): string {
   return `<p style="font-family:${SANS}; font-size:15px; line-height:1.7; color:${C.body}; margin:0 0 16px;">${html}</p>`;
 }
 
-/** Bouton d'action doré. */
+/** Bouton pilule orange à bordure noire (style sticker). */
 export function emailButton(href: string, label: string): string {
-  return `<a href="${href}" class="emm-btn" style="display:inline-block; background-color:${C.gold}; background-image:linear-gradient(135deg, ${C.goldLight} 0%, ${C.gold} 55%, ${C.goldDark} 100%); color:#ffffff; font-family:${SANS}; font-size:12px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; padding:15px 34px; border-radius:10px;">${label}</a>`;
+  return `<a href="${href}" class="rm-btn" style="display:inline-block; background-color:${C.gold}; color:#ffffff !important; font-family:${DISPLAY}; font-size:13px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; padding:15px 36px; border-radius:999px; border:2px solid ${C.ink};">${label}</a>`;
 }
 
-/** Encadré crème avec liseré doré à gauche (adresse, note, etc.). */
+/** Encadré rose pâle à grosse bordure noire arrondie (adresse, relais, note). */
 export function emailInfoBox(innerHtml: string): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 4px;">
-    <tr><td style="background:${C.softCream}; border-left:3px solid ${C.gold}; border-radius:6px; padding:18px 20px;">${innerHtml}</td></tr>
+    <tr><td style="background:${C.pinkSoft}; border:2px solid ${C.ink}; border-radius:16px; padding:18px 20px;">${innerHtml}</td></tr>
   </table>`;
 }
 
-/** Filet de séparation fin. */
+/** Séparateur : trois étoiles rétro centrées. */
 export function emailDivider(): string {
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-top:1px solid ${C.hairline}; font-size:0; line-height:0; height:0;">&nbsp;</td></tr></table>`;
+  return `<p style="text-align:center; font-size:16px; letter-spacing:0.5em; color:${C.pink}; margin:26px 0;"><span style="color:${C.gold};">&#10038;</span> &#10038; <span style="color:${C.gold};">&#10038;</span></p>`;
 }
 
-/** Enveloppe complète : en-tête doré, carte blanche, pied de page. */
+/** Enveloppe complète : logo en en-tête, carte sticker, pied de page. */
 export function emailShell({
   title,
   preheader,
@@ -87,36 +100,46 @@ export function emailShell({
 <meta name="supported-color-schemes" content="light only">
 <title>${esc(title)}</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap');
   body { margin:0; padding:0; width:100% !important; background:${C.cream}; }
-  img { border:0; line-height:100%; outline:none; text-decoration:none; }
+  img { border:0; line-height:100%; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic; }
+  a { text-decoration:none; }
   @media only screen and (max-width:620px) {
-    .emm-card-pad { padding:30px 22px 26px !important; }
-    .emm-h1 { font-size:23px !important; }
-    .emm-btn { display:block !important; text-align:center !important; padding-left:0 !important; padding-right:0 !important; }
+    .rm-card-pad { padding:32px 24px 28px !important; }
+    .rm-h1 { font-size:25px !important; }
+    .rm-logo { width:148px !important; }
+    .rm-btn { display:block !important; text-align:center !important; }
   }
 </style>
 </head>
 <body style="margin:0; padding:0; background:${C.cream};">
   <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; opacity:0; color:transparent;">${esc(preheader || "")}</div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${C.cream};">
-    <tr><td align="center" style="padding:34px 16px 42px;">
+    <tr><td align="center" style="padding:30px 16px 40px;">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px;">
-        <tr><td align="center" style="padding:2px 0 26px;">
-          <p style="font-family:${SERIF}; font-size:12px; letter-spacing:0.5em; text-transform:uppercase; color:${C.gold}; margin:0;">${SHOP_NAME}</p>
+
+        <!-- En-tête : logo -->
+        <tr><td align="center" style="padding:6px 0 22px;">
+          <img src="${LOGO_URL}" alt="${esc(SHOP_NAME)}" width="172" class="rm-logo" style="display:block; width:172px; max-width:172px; height:auto;">
         </td></tr>
-        <tr><td style="background:${C.white}; border:1px solid ${C.border}; border-radius:16px; overflow:hidden;">
+
+        <!-- Carte sticker -->
+        <tr><td style="background:${C.white}; border:2px solid ${C.ink}; border-radius:22px;">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-            <tr><td style="height:4px; line-height:4px; font-size:0; background-color:${C.gold}; background-image:linear-gradient(90deg, ${C.goldLight}, ${C.gold} 50%, ${C.goldDark});">&nbsp;</td></tr>
-            <tr><td class="emm-card-pad" style="padding:44px 44px 38px;">
+            <tr><td class="rm-card-pad" style="padding:42px 44px 38px;">
               ${content}
             </td></tr>
           </table>
         </td></tr>
-        <tr><td align="center" style="padding:30px 24px 6px;">
-          <p style="font-family:${SERIF}; font-size:11px; letter-spacing:0.4em; text-transform:uppercase; color:${C.gold}; margin:0 0 8px;">${SHOP_NAME}</p>
+
+        <!-- Étoiles + pied de page -->
+        <tr><td align="center" style="padding:26px 24px 6px;">
+          <p style="font-size:15px; letter-spacing:0.5em; color:${C.pink}; margin:0 0 16px;"><span style="color:${C.gold};">&#10038;</span> &#10038; <span style="color:${C.gold};">&#10038;</span></p>
+          <p style="font-family:${DISPLAY}; font-size:15px; font-weight:800; letter-spacing:0.04em; color:${C.ink}; margin:0 0 4px;">${SHOP_NAME}</p>
           <p style="font-family:${SANS}; font-size:12px; color:${C.muted}; margin:0;">${SHOP_TAGLINE}</p>
-          <p style="font-family:${SANS}; font-size:11px; color:${C.muted}; margin:10px 0 0;">© ${new Date().getFullYear()} ${SHOP_NAME}. Tous droits réservés.</p>
+          <p style="font-family:${SANS}; font-size:11px; color:${C.muted}; margin:12px 0 0;">© ${new Date().getFullYear()} ${SHOP_NAME}. Fait main en France.</p>
         </td></tr>
+
       </table>
     </td></tr>
   </table>

@@ -3,7 +3,7 @@ import { Recycle, PawPrint, Hand } from "lucide-react";
 /**
  * Bandeau de réassurance : 3 atouts présentés avec une icône cerclée
  * (style sticker de la charte) plutôt qu'avec des emojis.
- * Réutilisé par le hero d'accueil et la page coming soon.
+ * Réutilisé par le hero d'accueil.
  */
 const ITEMS = [
   { Icon: Recycle, label: "Cordes recyclées" },

@@ -3,8 +3,10 @@ import Cart from "@/models/Cart";
 import Product from "@/models/Product";
 import PromoCode from "@/models/PromoCode";
 import User from "@/models/User";
+import SiteSettings from "@/models/SiteSettings";
 import { sendEmail } from "@/lib/resend";
 import { generateOrderConfirmationEmail } from "@/components/emails/OrderConfirmation";
+import { generateNewOrderAdminEmail } from "@/components/emails/NewOrderAdmin";
 import { redeemForOrder } from "@/lib/giftcard";
 
 /**
@@ -59,9 +61,10 @@ export async function fulfillPaidOrder(orderId: string): Promise<void> {
   // Vider le panier
   await Cart.findOneAndDelete({ user: order.user });
 
-  // Email de confirmation (best-effort)
+  // Emails (best-effort) : confirmation au client + notification à la boutique.
+  const customer = await User.findById(order.user).select("email").lean();
+
   try {
-    const customer = await User.findById(order.user).select("email").lean();
     if (customer?.email) {
       await sendEmail({
         to: customer.email,
@@ -91,5 +94,47 @@ export async function fulfillPaidOrder(orderId: string): Promise<void> {
     }
   } catch (err) {
     console.error("Order confirmation email failed:", err);
+  }
+
+  // Notification à la commerçante : elle reçoit un email à chaque commande payée,
+  // avec les coordonnées du client et le point relais à expédier.
+  try {
+    const settings = await SiteSettings.findOne().select("contactEmail").lean();
+    const ownerEmail =
+      settings?.contactEmail ||
+      process.env.CONTACT_TO_EMAIL ||
+      process.env.ADMIN_EMAIL;
+
+    if (ownerEmail) {
+      const base = process.env.NEXT_PUBLIC_APP_URL || "https://rosamalheur.fr";
+      await sendEmail({
+        to: ownerEmail,
+        subject: `Nouvelle commande ${order.orderNumber}`,
+        replyTo: customer?.email || undefined,
+        html: generateNewOrderAdminEmail({
+          orderNumber: order.orderNumber,
+          customerName: order.shippingAddress.name,
+          customerEmail: customer?.email || "",
+          customerPhone: order.shippingAddress.phone,
+          items: order.items.map((i) => ({
+            name: i.name,
+            quantity: i.quantity,
+            unitPrice: i.unitPrice,
+          })),
+          total: order.total,
+          pickupPoint: order.pickupPoint
+            ? {
+                name: order.pickupPoint.name,
+                street: order.pickupPoint.street,
+                zip: order.pickupPoint.zip,
+                city: order.pickupPoint.city,
+              }
+            : null,
+          adminUrl: `${base}/admin/orders`,
+        }),
+      });
+    }
+  } catch (err) {
+    console.error("New-order admin notification failed:", err);
   }
 }

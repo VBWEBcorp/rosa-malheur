@@ -7,7 +7,7 @@ import { formatPrice } from "@/lib/utils";
 import { ArrowLeft, ArrowRight, Check, MapPin } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import MondialRelayPicker from "@/components/shop/MondialRelayPicker";
+import RelayPicker from "@/components/shop/RelayPicker";
 import { MondialRelayPoint } from "@/components/shop/MondialRelayWidget";
 import GiftCardInput, { type AppliedGiftCard } from "@/components/shop/GiftCardInput";
 import PromoCodeInput, { type AppliedPromo } from "@/components/shop/PromoCodeInput";
@@ -73,9 +73,10 @@ export default function CheckoutPage() {
   });
 
   const [pickupPoint, setPickupPoint] = useState<MondialRelayPoint | null>(null);
-  // Code Enseigne Mondial Relay (utilisé uniquement par le widget de carte côté client).
-  // Lu depuis NEXT_PUBLIC_MONDIAL_RELAY_BRAND, sinon code de démonstration officiel
-  // BDTEST13, ou écrasé par les réglages admin (apiKeys.mondialRelayBrandCode) si configuré.
+  // Code Enseigne Mondial Relay : pilote la carte interactive (widget). Code de
+  // démonstration par défaut (BDTEST13) tant que la boutique n'a pas de compte
+  // pro ; écrasé par les réglages admin (apiKeys.mondialRelayBrandCode) si fourni.
+  // La saisie manuelle, elle, fonctionne sans aucun code.
   const [mondialRelayBrandCode, setMondialRelayBrandCode] = useState<string>(
     process.env.NEXT_PUBLIC_MONDIAL_RELAY_BRAND || "BDTEST13"
   );
@@ -143,7 +144,7 @@ export default function CheckoutPage() {
     fetch("/api/settings")
       .then((r) => r.json())
       .then((data) => {
-        // Use the merchant's brand code if configured, otherwise stay on the test code.
+        // Code Enseigne du marchand si configuré, sinon on reste sur le code de démo.
         if (data?.apiKeys?.mondialRelayBrandCode) {
           setMondialRelayBrandCode(data.apiKeys.mondialRelayBrandCode);
         }
@@ -483,13 +484,13 @@ export default function CheckoutPage() {
                   </Card>
                 )}
 
-                {/* Sélecteur point relais Mondial Relay (gratuit) */}
+                {/* Sélecteur point relais Mondial Relay (carte + secours manuel) */}
                 <Card eyebrow="Retrait" title="Choisissez votre point relais">
                   <p className="text-[13px] text-[var(--black)]/55 mb-6">
                     Toutes les commandes sont expédiées via Mondial Relay. Choisissez le point relais où récupérer votre commande.
                   </p>
 
-                  <MondialRelayPicker
+                  <RelayPicker
                     brandCode={mondialRelayBrandCode}
                     postCode={shippingAddress.zip}
                     value={pickupPoint}
@@ -528,7 +529,7 @@ export default function CheckoutPage() {
                       return;
                     }
                     if (!pickupPoint) {
-                      toast.error("Veuillez choisir un point relais sur la carte");
+                      toast.error("Veuillez renseigner votre point relais");
                       return;
                     }
                     void handleCreateOrder();

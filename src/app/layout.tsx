@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Baloo_2, Nunito } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Baloo_2, Nunito, Bagel_Fat_One } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/shop/Providers";
 import Analytics from "@/components/shop/Analytics";
@@ -17,6 +17,13 @@ const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+});
+
+// Grands titres « funky » 70s, proche du lettrage du logo (poids unique 400).
+const bagel = Bagel_Fat_One({
+  variable: "--font-bagel",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -46,6 +53,11 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#F2D0AD",
+  colorScheme: "light",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -55,7 +67,7 @@ export default function RootLayout({
     <html
       lang="fr"
       data-scroll-behavior="smooth"
-      className={`${baloo.variable} ${nunito.variable} h-full antialiased`}
+      className={`${baloo.variable} ${nunito.variable} ${bagel.variable} h-full antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://i.ibb.co" crossOrigin="" />

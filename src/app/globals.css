@@ -216,6 +216,103 @@ html { scroll-behavior: smooth; }
   animation: slide-up-fade 350ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* ── Police « funky » 70s pour les grands titres (proche du lettrage logo) ──
+   Réservée au hero / grands titres : trop chargée pour le texte courant. */
+.font-fun {
+  font-family: var(--font-bagel), "Bagel Fat One", var(--font-baloo), system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+
+/* ── Hero vivant : le logo (chat) flotte et se balance tout seul ──────────
+   Deux animations de périodes différentes (flottement + balancement) sur deux
+   éléments imbriqués → mouvement organique, « vivant », jamais synchronisé. */
+@keyframes hero-logo-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+.hero-logo-float {
+  animation: hero-logo-float 4.5s ease-in-out infinite;
+}
+@keyframes hero-logo-wiggle {
+  0%, 100% { transform: rotate(-2.6deg); }
+  50%      { transform: rotate(2.6deg); }
+}
+.hero-logo-wiggle {
+  transform-origin: bottom center;
+  animation: hero-logo-wiggle 5.5s ease-in-out infinite;
+}
+
+/* Étoiles rétro qui scintillent (pulse + légère rotation), décalées via --i. */
+@keyframes star-twinkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.85; }
+  50%      { transform: scale(1.18) rotate(14deg); opacity: 1; }
+}
+.star-twinkle {
+  animation: star-twinkle 3.6s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.45s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-logo-float,
+  .hero-logo-wiggle,
+  .star-twinkle {
+    animation: none !important;
+  }
+}
+
+/* ── Animation de lancement (splash) ─────────────────────────────────────
+   Le logo « pop » avec un léger rebond sticker, les étoiles éclatent autour,
+   puis tout le voile crème remonte et disparaît. Se joue à chaque chargement. */
+@keyframes intro-logo-pop {
+  0%   { opacity: 0; transform: scale(0.55) translateY(18px) rotate(-5deg); }
+  50%  { opacity: 1; transform: scale(1.08) translateY(0) rotate(2deg); }
+  68%  { transform: scale(0.96) rotate(-1deg); }
+  84%  { transform: scale(1.02) rotate(0.5deg); }
+  100% { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); }
+}
+.intro-logo-pop {
+  animation: intro-logo-pop 1100ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes intro-star-burst {
+  0%   { opacity: 0; transform: scale(0) rotate(-90deg); }
+  60%  { opacity: 1; transform: scale(1.18) rotate(10deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+.intro-star-burst {
+  animation: intro-star-burst 720ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(520ms + var(--i, 0) * 120ms);
+}
+
+@keyframes intro-tagline-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.intro-tagline-in {
+  animation: intro-tagline-in 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 980ms;
+}
+
+/* Sortie du voile : remonte et s'efface. */
+@keyframes intro-veil-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-10%); }
+}
+.intro-veil-out {
+  animation: intro-veil-out 750ms cubic-bezier(0.7, 0, 0.84, 0) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-logo-pop,
+  .intro-star-burst,
+  .intro-tagline-in,
+  .intro-veil-out {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
+}
+
 /* Force l'accent couleur or sur tous les <select> et leurs options
    (Firefox respecte accentColor sur le surlignement). Chrome/Safari gardent
    souvent le système bleu — c'est une limitation native, à remplacer par un

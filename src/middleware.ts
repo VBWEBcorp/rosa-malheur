@@ -9,33 +9,13 @@ const AUTH_SECRET =
     : undefined);
 
 // ─────────────────────────────────────────────────────────────
-// Mode « coming soon » : UNIQUEMENT en production (Netlify). En local
-// (npm run dev), le vrai site s'affiche toujours pour pouvoir travailler.
-// En prod, le public est renvoyé vers /coming-soon ; le back-office
-// (/admin), la connexion et l'API restent accessibles. Aperçu privé du
-// vrai site : ?preview=<COMING_SOON_BYPASS>.
-// Pour ouvrir la boutique le jour J : COMING_SOON=false sur Netlify.
+// Le site est ouvert au public. Le middleware ne sert plus qu'à
+// protéger le back-office (/admin) et l'espace client (/account)
+// via l'authentification.
 // ─────────────────────────────────────────────────────────────
-const COMING_SOON =
-  process.env.NODE_ENV === "production" && process.env.COMING_SOON !== "false";
-const BYPASS_SECRET = process.env.COMING_SOON_BYPASS || "rosamalheur";
-const BYPASS_COOKIE = "rm_preview";
-
-/** Chemins jamais masqués par le coming soon (hors /admin et /account, gérés via l'auth). */
-function isAllowedDuringComingSoon(pathname: string): boolean {
-  return (
-    pathname === "/coming-soon" ||
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/register") ||
-    pathname.startsWith("/mot-de-passe-oublie") ||
-    pathname.startsWith("/reinitialiser-mot-de-passe")
-  );
-}
-
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // 1) Zones protégées par l'authentification (inchangé).
   if (pathname.startsWith("/admin") || pathname.startsWith("/account")) {
     const secureCookie =
       process.env.NODE_ENV === "production" || req.nextUrl.protocol === "https:";
@@ -48,38 +28,12 @@ export async function middleware(req: NextRequest) {
     if (pathname.startsWith("/account") && !token) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
-    return NextResponse.next();
-  }
-
-  // 2) Mode coming soon pour le reste du site public.
-  if (COMING_SOON) {
-    // Activation de l'aperçu privé : ?preview=<secret> → pose un cookie.
-    const preview = req.nextUrl.searchParams.get("preview");
-    if (preview === BYPASS_SECRET) {
-      const url = req.nextUrl.clone();
-      url.searchParams.delete("preview");
-      const res = NextResponse.redirect(url);
-      res.cookies.set(BYPASS_COOKIE, "1", {
-        maxAge: 60 * 60 * 24 * 30,
-        path: "/",
-        sameSite: "lax",
-      });
-      return res;
-    }
-
-    const hasBypass = req.cookies.get(BYPASS_COOKIE)?.value === "1";
-    if (!hasBypass && !isAllowedDuringComingSoon(pathname)) {
-      const url = req.nextUrl.clone();
-      url.pathname = "/coming-soon";
-      url.search = "";
-      return NextResponse.rewrite(url);
-    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  // Tout sauf l'API, les internes Next et les fichiers statiques (contenant un point).
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  // Seules les zones protégées passent par le middleware.
+  matcher: ["/admin/:path*", "/account/:path*"],
 };
