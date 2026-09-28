@@ -13,6 +13,12 @@ export const SITE_DESCRIPTION =
 /** Image de partage par défaut (résolue contre metadataBase). */
 export const OG_IMAGE = "/brand/rosa-malheur.png";
 
+/**
+ * Bloc images d'Open Graph à reprendre dans toute page qui redéfinit openGraph :
+ * Next fusionne openGraph en surface, une page sans images perdrait celle du layout.
+ */
+export const OG_IMAGES = [{ url: OG_IMAGE, width: 600, height: 600, alt: "Rosa Malheur, laisses pour chien" }];
+
 /** Mots-clés principaux pour la boutique. */
 export const SITE_KEYWORDS = [
   "laisse chien",

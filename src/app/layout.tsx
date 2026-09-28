@@ -3,7 +3,7 @@ import { Baloo_2, Nunito, Bagel_Fat_One } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/shop/Providers";
 import Analytics from "@/components/shop/Analytics";
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE, SITE_KEYWORDS } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE, OG_IMAGES, SITE_KEYWORDS } from "@/lib/seo";
 
 // Titres : Baloo 2 (rond, bubble, esprit sérigraphie 70s).
 const baloo = Baloo_2({
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: "Rosa Malheur · Laisses pour chien en corde d'escalade recyclée",
     description: SITE_DESCRIPTION,
-    images: [{ url: OG_IMAGE, alt: "Rosa Malheur — laisses pour chien" }],
+    images: OG_IMAGES,
   },
   twitter: {
     card: "summary_large_image",

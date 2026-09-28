@@ -5,7 +5,7 @@ import Product from "@/models/Product";
 import ProductClientSection from "@/components/shop/ProductClientSection";
 import RetroStar from "@/components/shop/RetroStar";
 import { Recycle } from "lucide-react";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_URL, OG_IMAGES } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +21,7 @@ export const metadata = {
     url: `${SITE_URL}/produit`,
     title: "La laisse Rosa Malheur en corde d'escalade recyclée",
     description: PRODUIT_DESCRIPTION,
+    images: OG_IMAGES,
   },
 };
 
