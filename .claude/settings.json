@@ -52,7 +52,19 @@
       "Bash(grep -qE \"Compiled successfully|Failed to compile|error|Error:\" \"C:\\\\Users\\\\conta\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-conta-OneDrive-Desktop-Cursor-Viji\\\\8ca330e0-32fa-44f0-b16f-19ddbc97ea4e\\\\tasks\\\\bw792pu3f.output\")",
       "Bash(break)",
       "Bash(grep -nE \"^\\\\s*[┌├└][^ ]* \\(/|/blog\\)\\( |$\\)|Route \\\\\\(app\\\\\\)|○|●|ƒ\" \"C:\\\\Users\\\\conta\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-conta-OneDrive-Desktop-Cursor-Viji\\\\8ca330e0-32fa-44f0-b16f-19ddbc97ea4e\\\\tasks\\\\bw792pu3f.output\")",
-      "Bash(echo \"===EXIT $?===\")"
+      "Bash(echo \"===EXIT $?===\")",
+      "Bash(ls -la src/app/icon.png src/app/apple-icon.png public/brand/)",
+      "Bash(file src/app/icon.png)",
+      "Bash(node -e \"console.log\\('next', require\\('next/package.json'\\).version\\)\")",
+      "Bash(node -e \"const sharp=require\\('sharp'\\); sharp\\('public/brand/rosa-malheur.png'\\).metadata\\(\\).then\\(m=>console.log\\('hasAlpha:',m.hasAlpha,'channels:',m.channels,m.width+'x'+m.height\\)\\);\")",
+      "Bash(node -e ' *)",
+      "Bash(mv -f src/app/icon.png.tmp src/app/icon.png)",
+      "Bash(mv -f src/app/apple-icon.png.tmp src/app/apple-icon.png)",
+      "Bash(node -e \"const s=require\\('./package.json'\\).scripts; console.log\\(JSON.stringify\\(s,null,2\\)\\)\")",
+      "Bash(echo \"=== tsc exit: $? ===\")",
+      "Bash(git restore *)",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{try{const s=JSON.parse\\(d\\);const m=s.filter\\(x=>/rosa|malheur/i.test\\(\\(x.name||''\\)+' '+\\(\\(x.build_settings&&x.build_settings.repo_url\\)||''\\)\\)\\);console.log\\('sites trouvés:',m.length\\);m.forEach\\(x=>console.log\\(JSON.stringify\\({name:x.name,url:x.ssl_url||x.url,repo:x.build_settings&&x.build_settings.repo_url,id:x.id}\\)\\)\\);}catch\\(e\\){console.log\\('parse err',e.message\\)}}\\)\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{try{const a=JSON.parse\\(d\\);a.slice\\(0,3\\).forEach\\(x=>console.log\\(JSON.stringify\\({state:x.state,branch:x.branch,commit:\\(x.commit_ref||''\\).slice\\(0,7\\),title:x.title,created:x.created_at}\\)\\)\\);}catch\\(e\\){console.log\\('parse err',e.message,d.slice\\(0,200\\)\\)}}\\)\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\conta\\OneDrive\\Desktop\\Cursor\\Viji\\src\\app\\(shop)\\box"
